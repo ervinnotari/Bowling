@@ -7,9 +7,7 @@
 @inject BowlingService BowlingService
 
 @if (painel == null)
-{
-    <p><em>Loading...</em></p>
-}
+{<p><em>Loading...</em></p>}
 else
 {
     <table class="table">
@@ -20,6 +18,7 @@ else
                 {
                     <th>@i</th>
                 }
+                <th>Total</th>
             </tr>
         </thead>
         <tbody>
@@ -31,6 +30,7 @@ else
                     {
                         <td>@{ DrawFrame(__builder, player, i); }</td>
                     }
+                    <td>@player.Frames.LastOrDefault()?.Score</td>
                 </tr>
             }
         </tbody>
@@ -43,9 +43,10 @@ else
     public string Alley { get; set; } = "01";
     private Painel painel;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         painel = await BowlingService.GetScoreAsync(Alley);
+        this.StateHasChanged();
         BowlingService.AfterPlay += RefrashOnPlay;
     }
 

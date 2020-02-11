@@ -19,7 +19,7 @@
         @foreach (var alley in Alleys)
         {
             <li class="nav-item px-3">
-                <NavLink class="nav-link" href="@($"painel/{alley}")" Match="NavLinkMatch.Prefix">
+                <NavLink class="nav-link" href="@($"painel/{alley}")">
                     <span class="oi oi-eye" aria-hidden="true"></span> @alley
                 </NavLink>
             </li>
@@ -28,7 +28,7 @@
 </div>
 
 @code {
-    private bool collapseNavMenu = true;
+    private bool collapseNavMenu = false;
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
     private List<string> Alleys = new List<string>();
 
@@ -39,14 +39,19 @@
 
     protected override Task OnInitializedAsync()
     {
+        MenuRefresh();
         bolingService.AfterPlay += BowlingServiceAfterPlay;
         return base.OnInitializedAsync();
     }
 
     private void BowlingServiceAfterPlay(Play play)
     {
-        InvokeAsync(() =>
-        {
+        MenuRefresh();
+    }
+
+    private void MenuRefresh()
+    {
+        InvokeAsync(() => {
             if (bolingService.Bowling.Scores.Count == Alleys.Count) return;
             Alleys = bolingService.Bowling.Scores.Keys.ToList();
             this.StateHasChanged();
