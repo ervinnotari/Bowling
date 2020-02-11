@@ -1,0 +1,104 @@
+﻿@page "/painel"
+@page "/painel/{alley}"
+
+@using BowlingPainelOnBlazor.Data
+@using BowlingGame
+@using Microsoft.AspNetCore.Components.Rendering
+@inject BowlingService BowlingService
+
+@if (painel == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                @for (int i = 1; i <= 10; i++)
+                {
+                    <th>@i</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var player in painel.Players)
+            {
+                <tr>
+                    <td>@player.Name</td>
+                    @for (int i = 0; i < 10; i++)
+                    {
+                        <td>@{ DrawFrame(__builder, player, i); }</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    [Parameter]
+    public string Alley { get; set; } = "01";
+    private Painel painel;
+
+    protected override async Task OnInitializedAsync()
+    {
+        painel = await BowlingService.GetScoreAsync(Alley);
+        BowlingService.AfterPlay += RefrashOnPlay;
+    }
+
+    private void RefrashOnPlay(Play p)
+    {
+        InvokeAsync(async () =>
+        {
+            painel = await BowlingService.GetScoreAsync(Alley);
+            this.StateHasChanged();
+        });
+    }
+
+    private void DrawFrame(RenderTreeBuilder __builder, Player player, int id)
+    {
+        var frame = player.Frames.ElementAtOrDefault(id);
+        @if (frame != null)
+        {
+            var att1 = frame.Balls.ElementAtOrDefault(0);
+            var att2 = frame.Balls.ElementAtOrDefault(1);
+            var att3 = frame.Balls.ElementAtOrDefault(2);
+            <div>
+                @if (att1 == 10)
+                {<span>X</span>}
+                else if (att1 == 0)
+                {<span>-</span>}
+                else
+                {<span>@att1</span>}
+
+                @if (frame.Balls.Count > 1)
+                {
+                    @if (att2 == 10)
+                    {<span>X</span>}
+                    else if (att2 == 0)
+                    {<span>-</span>}
+                    else if ((att1 + att2) == 10)
+                    {<span>/</span>}
+                    else
+                    {<span>@att2</span>}
+                }
+
+                @if (frame.Balls.Count > 2)
+                {
+                    @if (att3 == 10)
+                    {<span>X</span>}
+                    else if (att3 == 0)
+                    {<span>-</span>}
+                    else if ((att2 + att3) == 10)
+                    {<span>/</span>}
+                    else
+                    {<span>@att3</span>}
+                }
+            </div>
+            <p><span>@frame.Score</span></p>
+        }
+    }
+}

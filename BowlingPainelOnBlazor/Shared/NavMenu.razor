@@ -1,0 +1,55 @@
+﻿@using Microsoft.AspNetCore.Components.Rendering
+@using BowlingGame
+@inject BowlingPainelOnBlazor.Data.BowlingService bolingService;
+
+<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">Bowling Painel On Blazor</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </li>
+        @foreach (var alley in Alleys)
+        {
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="@($"painel/{alley}")" Match="NavLinkMatch.Prefix">
+                    <span class="oi oi-eye" aria-hidden="true"></span> @alley
+                </NavLink>
+            </li>
+        }
+    </ul>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private List<string> Alleys = new List<string>();
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+    protected override Task OnInitializedAsync()
+    {
+        bolingService.AfterPlay += BowlingServiceAfterPlay;
+        return base.OnInitializedAsync();
+    }
+
+    private void BowlingServiceAfterPlay(Play play)
+    {
+        InvokeAsync(() =>
+        {
+            if (bolingService.Bowling.Scores.Count == Alleys.Count) return;
+            Alleys = bolingService.Bowling.Scores.Keys.ToList();
+            this.StateHasChanged();
+        });
+    }
+}
