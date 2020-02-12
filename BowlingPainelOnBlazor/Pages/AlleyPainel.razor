@@ -13,24 +13,24 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Nome</th>
+                <th width="20">Nome</th>
                 @for (int i = 1; i <= 10; i++)
                 {
-                    <th>@i</th>
+                    <th width="7">@i</th>
                 }
-                <th>Total</th>
+                <th width="10">Total</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var player in painel.Players)
             {
                 <tr>
-                    <td>@player.Name</td>
+                    <td align="left">@player.Name</td>
                     @for (int i = 0; i < 10; i++)
                     {
-                        <td>@{ DrawFrame(__builder, player, i); }</td>
+                        <td align="center">@{ DrawFrame(__builder, player, i); }</td>
                     }
-                    <td>@player.Frames.LastOrDefault()?.Score</td>
+                    <td align="right">@player.Frames.LastOrDefault()?.Score</td>
                 </tr>
             }
         </tbody>
@@ -47,10 +47,10 @@ else
     {
         painel = await BowlingService.GetScoreAsync(Alley);
         this.StateHasChanged();
-        BowlingService.AfterPlay += RefrashOnPlay;
+        BowlingService.AfterChange += RefrashOnChange;
     }
 
-    private void RefrashOnPlay(Play p)
+    private void RefrashOnChange()
     {
         InvokeAsync(async () =>
         {

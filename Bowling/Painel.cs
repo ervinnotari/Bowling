@@ -14,5 +14,8 @@ namespace BowlingGame
             Alley = alley;
             BeginGame = beginGame;
         }
+
+        public void Clear() => Players.Clear();
+
     }
 }
