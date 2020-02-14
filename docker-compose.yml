@@ -7,6 +7,8 @@ services:
     build:
       context: .
       dockerfile: BowlingPainelOnBlazor/Dockerfile
+    depends_on:
+        - activemq
     environment:
       NMSCONFIGURATIONS_URI: activemq:tcp://activemq:61616?wireFormat.tightEncodingEnabled=true
       NMSCONFIGURATIONS_USERNAME: user-amq
@@ -19,3 +21,19 @@ services:
       ARTEMIS_PASSWORD: password-amq
     ports:
       - 61616:61616
+      
+  bowlingplayworkerservice:
+    image: ${DOCKER_REGISTRY-}bowlingplayworkerservice
+    build:
+      context: .
+      dockerfile: BowlingPlayWorkerService/Dockerfile
+    depends_on:
+        - bowlingpainelonblazor
+        - activemq
+    environment:
+      NMSCONFIGURATIONS_URI: activemq:tcp://activemq:61616?wireFormat.tightEncodingEnabled=true
+      NMSCONFIGURATIONS_USERNAME: user-amq
+      NMSCONFIGURATIONS_PASSWORD: password-amq
+      BOWLING_DELAY : 1000
+      BOWLING_PLAYENAME: João
+      BOWLING_ALLEY: 01
