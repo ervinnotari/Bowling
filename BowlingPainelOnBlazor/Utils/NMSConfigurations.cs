@@ -10,8 +10,8 @@ namespace BowlingPainelOnBlazor.Utils
     public class NMSConfigurations
     {
         public Uri Uri { get; set; }
-        public string Username { get; set; } = Environment.GetEnvironmentVariable("NMSCONFIGURATIONS_PASSWORD");
-        public string Password { get; set; } = Environment.GetEnvironmentVariable("NMSCONFIGURATIONS_USERNAME");
+        public string Username { get; set; } = Environment.GetEnvironmentVariable("NMSCONFIGURATIONS_USERNAME");
+        public string Password { get; set; } = Environment.GetEnvironmentVariable("NMSCONFIGURATIONS_PASSWORD");
         public string Topic { get; set; } = Environment.GetEnvironmentVariable("NMSCONFIGURATIONS_TOPIC") ?? "Bowling.play.Topic";
 
         internal bool IsEnabled() => Uri != null;

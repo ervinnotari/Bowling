@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+
+  bowlingpainelonblazor:
+    image: ${DOCKER_REGISTRY-}bowlingpainelonblazor
+    build:
+      context: .
+      dockerfile: BowlingPainelOnBlazor/Dockerfile
+    environment:
+      NMSCONFIGURATIONS_URI: activemq:tcp://activemq:61616?wireFormat.tightEncodingEnabled=true
+      NMSCONFIGURATIONS_USERNAME: user-amq
+      NMSCONFIGURATIONS_PASSWORD: password-amq
+
+  activemq:
+    image: vromero/activemq-artemis:latest-alpine
+    environment:
+      ARTEMIS_USERNAME: user-amq
+      ARTEMIS_PASSWORD: password-amq
+    ports:
+      - 61616:61616

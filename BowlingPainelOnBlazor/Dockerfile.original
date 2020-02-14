@@ -8,7 +8,6 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["BowlingPainelOnBlazor/BowlingPainelOnBlazor.csproj", "BowlingPainelOnBlazor/"]
-COPY ["Bowling/Bowling.csproj", "Bowling/"]
 RUN dotnet restore "BowlingPainelOnBlazor/BowlingPainelOnBlazor.csproj"
 COPY . .
 WORKDIR "/src/BowlingPainelOnBlazor"
