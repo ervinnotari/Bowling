@@ -1,5 +1,40 @@
 ﻿@page "/"
 
-<h1>Hello, world!</h1>
+@using BowlingPainelOnBlazor.Data
+@using Microsoft.AspNetCore.Components.Rendering
+@inject BowlingService BowlingService
 
-Welcome to your new app.
+
+<h1>Bem vindo ao painel do Boliche!</h1>
+
+<strong>AMQP</strong> @{IsAMQPEnable(__builder);}
+
+@code {
+
+    protected override Task OnInitializedAsync()
+    {
+        BowlingService.OnStatusChange += () => InvokeAsync(StateHasChanged);
+        return base.OnInitializedAsync();
+    }
+
+    private void IsAMQPEnable(RenderTreeBuilder __builder)
+    {
+        switch (BowlingService.GetStatus())
+        {
+            case ConnectionStatus.CONECTING:
+                <span>Conectando...</span>
+                break;
+            case ConnectionStatus.CONNECTED:
+                <span>Conectado</span>
+                break;
+            case ConnectionStatus.ERROR:
+                <span>@BowlingService.GetError().Message</span>
+                break;
+            default:
+            case ConnectionStatus.NOT_CONFIGURED:
+                <span>Desabilitado</span>
+                break;
+        }
+    }
+
+}

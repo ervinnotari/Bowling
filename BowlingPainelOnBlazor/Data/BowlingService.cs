@@ -1,52 +1,38 @@
 using BowlingGame;
-using System;
-using System.Linq;
 using System.Threading.Tasks;
+using System;
 
 namespace BowlingPainelOnBlazor.Data
 {
     public delegate void PlayEventHandler(Play play);
     public delegate void VoidEventHandler();
-    public class BowlingService
+    public class BowlingService : IBowlingService
     {
+        private readonly NMSBowlingService _nMSBowlingService;
         public Bowling Bowling { get; } = new Bowling();
 
         public event PlayEventHandler BeforePlay;
         public event PlayEventHandler AfterPlay;
         public event VoidEventHandler BeforeChange;
         public event VoidEventHandler AfterChange;
+        public event VoidEventHandler OnStatusChange;
 
-        /*       public BowlingService()
-               {
-                   var t = new System.Timers.Timer(1000);
-                   t.Elapsed += ProgramedPlays;
-                   t.AutoReset = true;
-                   t.Start();
-               }
+        public Exception GetError() => _nMSBowlingService.Error;
+        public ConnectionStatus GetStatus() => _nMSBowlingService.GetConnectionStatus();
 
-               static int[] plays1 = new int[] { 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10 };
-               int plays1Idx = 0;
-               static int[] plays2 = new int[] { 1, 4, 4, 5, 6, 4, 5, 5, 10, 0, 1, 7, 3, 6, 4, 10, 2, 8, 6 };
-               int plays2Idx = 0;
-               static int playCount = 0;
-               private void ProgramedPlays(object sender, System.Timers.ElapsedEventArgs e)
-               {
-                   try
-                   {
-                       var playerIdx = playCount % 2;
-                       var play = default(Play);
-                       if (playerIdx == 0 && plays1Idx < plays1.Length)
-                           play = new Play("Teste", plays1.ElementAtOrDefault(plays1Idx++), "01", DateTime.Now);
-                       else if (playerIdx == 1 && plays2Idx < plays2.Length)
-                           play = new Play("Teste1", plays2.ElementAtOrDefault(plays2Idx++), "02", DateTime.Now);
-                       if (play != null)
-                           AddPlay(play);
-                       playCount++;
-                   }
-                   catch (Exception)
-                   {
-                   }
-               }*/
+        public BowlingService(NMSBowlingService nMSService)
+        {
+            _nMSBowlingService = nMSService;
+            _nMSBowlingService.OnConnectionSucess += AfterNMSConnectionSucess;
+            _nMSBowlingService.OnStatusChange += NMSBowlingServiceOnStatusChange;
+        }
+
+        private void NMSBowlingServiceOnStatusChange() => OnStatusChange?.Invoke();
+
+        private void AfterNMSConnectionSucess(Apache.NMS.IConnection conn)
+        {
+            _nMSBowlingService.OnObjectReciver<Play>(AddPlay);
+        }
 
         internal void Clear(string alley)
         {
@@ -60,11 +46,15 @@ namespace BowlingPainelOnBlazor.Data
         }
         internal void AddPlay(Play play)
         {
-            BeforePlay?.Invoke(play);
-            BeforeChange?.Invoke();
-            Bowling.AddPlay(play);
-            AfterChange?.Invoke();
-            AfterPlay?.Invoke(play);
+            try
+            {
+                BeforePlay?.Invoke(play);
+                BeforeChange?.Invoke();
+                Bowling.AddPlay(play);
+                AfterChange?.Invoke();
+                AfterPlay?.Invoke(play);
+            }
+            catch (Exception) { }
         }
         internal Task<Painel> GetScoreAsync(string alley)
         {
@@ -72,4 +62,5 @@ namespace BowlingPainelOnBlazor.Data
             return Task.FromResult(painel);
         }
     }
+
 }
