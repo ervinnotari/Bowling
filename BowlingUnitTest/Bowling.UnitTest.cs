@@ -1,4 +1,4 @@
-using BowlingGame.Entities;
+using Bowling.Domain.Game.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
@@ -11,7 +11,7 @@ namespace BowlingUnitTest
         private const string PLAYER = "José";
         private const string ALLEY = "2";
 
-        public static void SequencialPlaysMake(Bowling b, int[] plays)
+        public static void SequencialPlaysMake(Game b, int[] plays)
         {
             plays.ToList().ForEach(p =>
             {
@@ -22,7 +22,7 @@ namespace BowlingUnitTest
         [TestMethod]
         public void PlaySimulate1()
         {
-            var bowling = new Bowling();
+            var bowling = new Game();
             //turn 1
             SequencialPlaysMake(bowling, new int[] { 1, 4 });
             Assert.AreEqual(5, bowling.GetScore(ALLEY, PLAYER), "1º Turno");
@@ -62,7 +62,7 @@ namespace BowlingUnitTest
         [TestMethod]
         public void PlaySimulate2()
         {
-            var bowling = new Bowling();
+            var bowling = new Game();
             //turn 1
             SequencialPlaysMake(bowling, new int[] { 10 });
             Assert.AreEqual(10, bowling.GetScore(ALLEY, PLAYER), "1º Turno");
@@ -101,7 +101,7 @@ namespace BowlingUnitTest
         [TestMethod]
         public void PlaySimulate3()
         {
-            var b = new Bowling();
+            var b = new Game();
             var plays = new int[] { 10, 10, 8, 2, 8, 2, 9, 1, 10, 8, 1, 9, 0, 8, 1, 10, 9, 1 };
             SequencialPlaysMake(b, plays);
             Assert.AreEqual(171, b.GetScore(ALLEY, PLAYER), "BONUS Turno");
@@ -110,7 +110,7 @@ namespace BowlingUnitTest
         [TestMethod]
         public void PlaySimulate4()
         {
-            var b = new Bowling();
+            var b = new Game();
             var plays = new int[] { 9, 1, 8, 2, 9, 1, 6, 3, 8, 2, 10, 10, 10, 10, 10, 9, 1 };
             SequencialPlaysMake(b, plays);
             Assert.AreEqual(221, b.GetScore(ALLEY, PLAYER), "BONUS Turno");
@@ -119,7 +119,7 @@ namespace BowlingUnitTest
         [TestMethod]
         public void PlaySimulate5()
         {
-            var b = new Bowling();
+            var b = new Game();
             var plays = new int[] { 10, 9, 1, 8, 2, 10, 7, 1, 10, 8, 2, 10, 10, 10, 8, 1 };
             SequencialPlaysMake(b, plays);
             Assert.AreEqual(201, b.GetScore(ALLEY, PLAYER), "BONUS Turno");
@@ -128,7 +128,7 @@ namespace BowlingUnitTest
         [TestMethod]
         public void PainelScoreTest()
         {
-            var b = new Bowling();
+            var b = new Game();
             var beginGame = DateTime.Now.AddMinutes(-10);
             b.AddPlay(new Play(PLAYER, 10, ALLEY, beginGame));
             System.Threading.Thread.Sleep(500);

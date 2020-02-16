@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace BowlingGame.Entities
+namespace Bowling.Domain.Game.Entities
 {
     public class Players : List<Player>
     {

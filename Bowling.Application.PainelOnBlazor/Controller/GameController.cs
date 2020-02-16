@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Net;
 using Newtonsoft.Json;
-using BowlingGame.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using BowlingPainelOnBlazor.Data;
+using Bowling.Domain.Game.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace BowlingPainelOnBlazor.Controller
@@ -89,7 +89,7 @@ namespace BowlingPainelOnBlazor.Controller
             }
         }
 
-        public class Play : BowlingGame.Entities.Play
+        public class Play : Bowling.Domain.Game.Entities.Play
         {
             [Required]
             new public string Name

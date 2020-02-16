@@ -1,4 +1,4 @@
-using BowlingGame.Entities;
+using Bowling.Domain.Game.Entities;
 using System.Threading.Tasks;
 using System;
 
@@ -9,7 +9,7 @@ namespace BowlingPainelOnBlazor.Data
     public class BowlingService : IBowlingService
     {
         private readonly NMSBowlingService _nMSBowlingService;
-        public Bowling Bowling { get; } = new Bowling();
+        public Game Bowling { get; } = new Game();
 
         public event PlayEventHandler BeforePlay;
         public event PlayEventHandler AfterPlay;

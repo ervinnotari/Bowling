@@ -3,8 +3,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:50465",
-      "sslPort": 44370
+      "applicationUrl": "http://localhost:62445",
+      "sslPort": 44386
     }
   },
   "profiles": {
@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "BowlingPainelOnBlazor": {
+    "Bowling.Application.PainelOnBlazor": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
@@ -27,11 +27,6 @@
       "commandName": "Docker",
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
-      "environmentVariables": {
-        "NMSCONFIGURATIONS_URI": "activemq:tcp://activemq:61616?wireFormat.tightEncodingEnabled=true",
-        "NMSCONFIGURATIONS_USERNAME": "user-amq",
-        "NMSCONFIGURATIONS_PASSWORD": "password-amq"
-      },
       "publishAllPorts": true,
       "useSSL": true
     }

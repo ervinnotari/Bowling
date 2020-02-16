@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace BowlingGame.Entities
+namespace Bowling.Domain.Game.Entities
 {
-    public class Bowling
+    public class Game
     {
         public List<Play> Plays { get; set; } = new List<Play>();
         public Dictionary<string, Painel> Scores { get; private set; } = new Dictionary<string, Painel>();

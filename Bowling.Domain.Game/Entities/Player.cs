@@ -1,4 +1,4 @@
-﻿namespace BowlingGame.Entities
+﻿namespace Bowling.Domain.Game.Entities
 {
     public class Player
     {

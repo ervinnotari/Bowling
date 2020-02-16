@@ -6,7 +6,7 @@ using Microsoft.Extensions.Hosting;
 using BowlingPainelOnBlazor.Utils;
 using Microsoft.Extensions.Logging;
 
-namespace BowlingPainelOnBlazor
+namespace Bowling.Application.PainelOnBlazor
 {
     public class Startup
     {
