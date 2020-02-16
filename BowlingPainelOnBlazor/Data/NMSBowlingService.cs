@@ -1,4 +1,4 @@
-using BowlingGame;
+using BowlingGame.Entities;
 using BowlingPainelOnBlazor.Utils;
 using Apache.NMS;
 using Microsoft.Extensions.Options;

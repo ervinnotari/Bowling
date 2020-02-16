@@ -1,4 +1,5 @@
-using BowlingGame;
+using BowlingGame.Entities;
+using BowlingGame.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;

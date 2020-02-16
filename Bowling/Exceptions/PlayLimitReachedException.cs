@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BowlingGame
+namespace BowlingGame.Exceptions
 {
     public class PlayLimitReachedException : SystemException
     {

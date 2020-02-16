@@ -1,4 +1,4 @@
-using BowlingGame;
+using BowlingGame.Entities;
 using System.Threading.Tasks;
 using System;
 

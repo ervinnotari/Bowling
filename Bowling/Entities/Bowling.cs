@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace BowlingGame
+namespace BowlingGame.Entities
 {
     public class Bowling
     {

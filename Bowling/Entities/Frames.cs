@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using BowlingGame.Exceptions;
+using System.Collections.Generic;
 using System.Linq;
 
-namespace BowlingGame
+namespace BowlingGame.Entities
 {
     public class Frames : List<Frame>
     {

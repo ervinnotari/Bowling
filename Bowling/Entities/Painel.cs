@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BowlingGame
+namespace BowlingGame.Entities
 {
     public class Painel
     {
