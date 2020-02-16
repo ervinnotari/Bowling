@@ -3,10 +3,10 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>15a76170-031c-4176-ba60-b81da04ac7c9</ProjectGuid>
+    <ProjectGuid>a01f297b-b248-4ba9-bd37-d3625ecb839f</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
-    <DockerServiceName>bowlingpainelonblazor</DockerServiceName>
+    <DockerServiceName>bowling.application.painelonblazor</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

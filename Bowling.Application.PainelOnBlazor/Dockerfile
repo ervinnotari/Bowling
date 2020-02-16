@@ -7,10 +7,11 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["../Bowling.Application.PainelOnBlazor/Bowling.Application.PainelOnBlazor.csproj", "../Bowling.Application.PainelOnBlazor/"]
-RUN dotnet restore "../Bowling.Application.PainelOnBlazor/Bowling.Application.PainelOnBlazor.csproj"
+COPY ["Bowling.Application.PainelOnBlazor/Bowling.Application.PainelOnBlazor.csproj", "Bowling.Application.PainelOnBlazor/"]
+COPY ["Bowling.Domain.Game/Bowling.Domain.Game.csproj", "Bowling.Domain.Game/"]
+RUN dotnet restore "Bowling.Application.PainelOnBlazor/Bowling.Application.PainelOnBlazor.csproj"
 COPY . .
-WORKDIR "/src/../Bowling.Application.PainelOnBlazor"
+WORKDIR "/src/Bowling.Application.PainelOnBlazor"
 RUN dotnet build "Bowling.Application.PainelOnBlazor.csproj" -c Release -o /app/build
 
 FROM build AS publish

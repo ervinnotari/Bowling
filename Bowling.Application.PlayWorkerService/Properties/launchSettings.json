@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "BowlingPlayWorkerService": {
+    "Bowling.Application.PlayWorkerService": {
       "commandName": "Project",
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development"

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>dotnet-BowlingPlayWorkerService-457B2416-DB11-45F5-8FE0-3AD8C5AA2196</UserSecretsId>
+    <UserSecretsId>dotnet-Bowling.Application.PlayWorkerService-2E0CD62E-C478-4188-8FA0-1DAE52133124</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
@@ -12,5 +12,9 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.10" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Bowling.Domain.Game\Bowling.Domain.Game.csproj" />
   </ItemGroup>
 </Project>

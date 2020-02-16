@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using BowlingGame;
+using Bowling.Domain.Game.Entities;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace BowlingPlayWorkerService
+namespace Bowling.Application.PlayWorkerService
 {
     public class Worker : BackgroundService
     {
@@ -28,7 +28,7 @@ namespace BowlingPlayWorkerService
 
         private void _nMSBowlingService_OnStatusChange()
         {
-            _logger.LogInformation($"NMS Status: {_nMSBowlingService.GetConnectionStatus().ToString()}") ;
+            _logger.LogInformation($"NMS Status: {_nMSBowlingService.GetConnectionStatus().ToString()}");
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)

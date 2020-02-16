@@ -2,7 +2,7 @@
 using System;
 using Apache.NMS.ActiveMQ;
 
-namespace BowlingPlayWorkerService
+namespace Bowling.Application.PlayWorkerService
 {
     public class NMSConfigurations
     {

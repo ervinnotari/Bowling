@@ -9,13 +9,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{31C03E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{DD931112-A65E-4E8F-859F-367F9ADDCBCA}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{15A76170-031C-4176-BA60-B81DA04AC7C9}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BowlingPlayWorkerService", "BowlingPlayWorkerService\BowlingPlayWorkerService.csproj", "{24D8F754-F2C2-4484-AAA4-0D4F49E6DEC9}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bowling.Domain.Game", "Bowling.Domain.Game\Bowling.Domain.Game.csproj", "{D26F8038-474A-4EE4-839D-6003357EE424}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bowling.Application.PainelOnBlazor", "Bowling.Application.PainelOnBlazor\Bowling.Application.PainelOnBlazor.csproj", "{D038F2A9-78E1-4DFF-A5B8-804FC3F72B04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bowling.Application.PlayWorkerService", "Bowling.Application.PlayWorkerService\Bowling.Application.PlayWorkerService.csproj", "{F0E4CA28-C04C-46D2-A254-AB8CACB4325B}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{A01F297B-B248-4BA9-BD37-D3625ECB839F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,14 +27,6 @@ Global
 		{BFED09B5-B5E3-46E8-8B9A-39E3F518F6CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFED09B5-B5E3-46E8-8B9A-39E3F518F6CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFED09B5-B5E3-46E8-8B9A-39E3F518F6CF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{15A76170-031C-4176-BA60-B81DA04AC7C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{15A76170-031C-4176-BA60-B81DA04AC7C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{15A76170-031C-4176-BA60-B81DA04AC7C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{15A76170-031C-4176-BA60-B81DA04AC7C9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{24D8F754-F2C2-4484-AAA4-0D4F49E6DEC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{24D8F754-F2C2-4484-AAA4-0D4F49E6DEC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{24D8F754-F2C2-4484-AAA4-0D4F49E6DEC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{24D8F754-F2C2-4484-AAA4-0D4F49E6DEC9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D26F8038-474A-4EE4-839D-6003357EE424}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D26F8038-474A-4EE4-839D-6003357EE424}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D26F8038-474A-4EE4-839D-6003357EE424}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -43,15 +35,23 @@ Global
 		{D038F2A9-78E1-4DFF-A5B8-804FC3F72B04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D038F2A9-78E1-4DFF-A5B8-804FC3F72B04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D038F2A9-78E1-4DFF-A5B8-804FC3F72B04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0E4CA28-C04C-46D2-A254-AB8CACB4325B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0E4CA28-C04C-46D2-A254-AB8CACB4325B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0E4CA28-C04C-46D2-A254-AB8CACB4325B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0E4CA28-C04C-46D2-A254-AB8CACB4325B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A01F297B-B248-4BA9-BD37-D3625ECB839F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A01F297B-B248-4BA9-BD37-D3625ECB839F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A01F297B-B248-4BA9-BD37-D3625ECB839F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A01F297B-B248-4BA9-BD37-D3625ECB839F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{BFED09B5-B5E3-46E8-8B9A-39E3F518F6CF} = {31C03EAD-C85E-4E4A-A342-67161B1C4793}
-		{24D8F754-F2C2-4484-AAA4-0D4F49E6DEC9} = {DD931112-A65E-4E8F-859F-367F9ADDCBCA}
 		{D26F8038-474A-4EE4-839D-6003357EE424} = {31C03EAD-C85E-4E4A-A342-67161B1C4793}
 		{D038F2A9-78E1-4DFF-A5B8-804FC3F72B04} = {DD931112-A65E-4E8F-859F-367F9ADDCBCA}
+		{F0E4CA28-C04C-46D2-A254-AB8CACB4325B} = {DD931112-A65E-4E8F-859F-367F9ADDCBCA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6AE0CD2E-2643-472E-86D5-887682AA733E}

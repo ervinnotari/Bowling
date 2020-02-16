@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 
-namespace BowlingPlayWorkerService
+namespace Bowling.Application.PlayWorkerService
 {
     public delegate void MessageListener<T>(T obj);
     public delegate void ConnectionEventHandler(IConnection conn);
