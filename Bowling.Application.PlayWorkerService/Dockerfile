@@ -6,6 +6,7 @@ WORKDIR /app
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["Bowling.Application.PlayWorkerService/Bowling.Application.PlayWorkerService.csproj", "Bowling.Application.PlayWorkerService/"]
+COPY ["Bowling.Domain.Game/Bowling.Domain.Game.csproj", "Bowling.Domain.Game/"]
 RUN dotnet restore "Bowling.Application.PlayWorkerService/Bowling.Application.PlayWorkerService.csproj"
 COPY . .
 WORKDIR "/src/Bowling.Application.PlayWorkerService"

@@ -23,7 +23,7 @@ namespace BowlingPainelOnBlazor.Utils
     {
         public static void AddAllApplicationServices(this IServiceCollection services)
         {
-            AppDomain.CurrentDomain.GetAssemblies().SelectMany(s => s.GetTypes()).Where(p => typeof(IBowlingService).IsAssignableFrom(p)).ToList().ForEach(clazz =>
+            AppDomain.CurrentDomain.GetAssemblies().SelectMany(s => s.GetTypes()).Where(p => typeof(IService).IsAssignableFrom(p)).ToList().ForEach(clazz =>
             {
                 if (!clazz.IsInterface) services.AddSingleton(clazz);
             });

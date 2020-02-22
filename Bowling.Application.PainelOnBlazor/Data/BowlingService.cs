@@ -1,21 +1,15 @@
 using Bowling.Domain.Game.Entities;
-using System.Threading.Tasks;
 using System;
+using System.Linq;
+using Bowling.Service;
 
 namespace BowlingPainelOnBlazor.Data
 {
-    public delegate void PlayEventHandler(Play play);
-    public delegate void VoidEventHandler();
-    public class BowlingService : IBowlingService
-    {
-        private readonly NMSBowlingService _nMSBowlingService;
-        public Game Bowling { get; } = new Game();
 
-        public event PlayEventHandler BeforePlay;
-        public event PlayEventHandler AfterPlay;
-        public event VoidEventHandler BeforeChange;
-        public event VoidEventHandler AfterChange;
-        public event VoidEventHandler OnStatusChange;
+    public class BowlingService : GameService, IService
+    {
+        public event EventHandler OnNMSStatusChange;
+        private readonly NMSBowlingService _nMSBowlingService;
 
         public Exception GetError() => _nMSBowlingService.Error;
         public ConnectionStatus GetStatus() => _nMSBowlingService.GetConnectionStatus();
@@ -24,42 +18,18 @@ namespace BowlingPainelOnBlazor.Data
         {
             _nMSBowlingService = nMSService;
             _nMSBowlingService.OnConnectionSucess += AfterNMSConnectionSucess;
-            _nMSBowlingService.OnStatusChange += NMSBowlingServiceOnStatusChange;
+            _nMSBowlingService.OnStatusChange += (s, e) => OnNMSStatusChange?.Invoke(s, e);
+#if DEBUG
+            var plays = new int[] { 1, 4, 4, 5, 6, 4, 5, 5, 10, 0, 1, 7, 3, 6, 4, 10, 2, 8, 6 };
+            plays.ToList().ForEach(p => AddPlay(new Play("Exemple A", p, "Debug", DateTime.Now)));
+            plays = new int[] { 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10 };
+            plays.ToList().ForEach(p => AddPlay(new Play("Exemple B", p, "Debug", DateTime.Now)));
+#endif
         }
-
-        private void NMSBowlingServiceOnStatusChange() => OnStatusChange?.Invoke();
 
         private void AfterNMSConnectionSucess(Apache.NMS.IConnection conn)
         {
             _nMSBowlingService.OnObjectReciver<Play>(AddPlay);
-        }
-
-        internal void Clear(string alley)
-        {
-            BeforeChange?.Invoke();
-            Bowling.GetPainel(alley).Clear();
-            AfterChange?.Invoke();
-        }
-        internal Painel GetPainel(string alley)
-        {
-            return Bowling.GetPainel(alley);
-        }
-        internal void AddPlay(Play play)
-        {
-            try
-            {
-                BeforePlay?.Invoke(play);
-                BeforeChange?.Invoke();
-                Bowling.AddPlay(play);
-                AfterChange?.Invoke();
-                AfterPlay?.Invoke(play);
-            }
-            catch (Exception) { }
-        }
-        internal Task<Painel> GetScoreAsync(string alley)
-        {
-            var painel = Bowling.GetPainel(alley);
-            return Task.FromResult(painel);
         }
     }
 

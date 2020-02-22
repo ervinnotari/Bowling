@@ -45,11 +45,11 @@
     protected override Task OnInitializedAsync()
     {
         MenuRefresh();
-        bolingService.AfterPlay += BowlingServiceAfterPlay;
+        bolingService.OnChange += BowlingServiceOnChange;
         return base.OnInitializedAsync();
     }
 
-    private void BowlingServiceAfterPlay(Play play)
+    private void BowlingServiceOnChange(object o, EventArgs e)
     {
         MenuRefresh();
     }
@@ -58,8 +58,8 @@
     {
         InvokeAsync(() =>
         {
-            if (bolingService.Bowling.Scores.Count == Alleys.Count) return;
-            Alleys = bolingService.Bowling.Scores.Keys.ToList();
+            if (bolingService.GetAlleysName().Count == Alleys.Count) return;
+            Alleys = bolingService.GetAlleysName();
             this.StateHasChanged();
         });
     }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace BowlingPainelOnBlazor.Data
 {
-    interface IBowlingService
+    interface IService
     {
     }
 }

@@ -13,7 +13,7 @@
 
     protected override Task OnInitializedAsync()
     {
-        BowlingService.OnStatusChange += () => InvokeAsync(StateHasChanged);
+        BowlingService.OnChange += (o,e) => InvokeAsync(StateHasChanged);
         return base.OnInitializedAsync();
     }
 

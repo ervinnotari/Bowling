@@ -1,25 +1,15 @@
 version: '3.4'
 
 services:
-  
-  activemq:
-    image: vromero/activemq-artemis:latest-alpine
-    container_name: activemq
-    environment:
-      ARTEMIS_USERNAME: user-amq
-      ARTEMIS_PASSWORD: password-amq
-
   bowling.application.painelonblazor:
     image: ${DOCKER_REGISTRY-}bowlingapplicationpainelonblazor
     build:
-      context: .bowling.application.painelonblazor
+      context: .
       dockerfile: Bowling.Application.PainelOnBlazor/Dockerfile
     environment:
       NMSCONFIGURATIONS_URI: activemq:tcp://activemq:61616?wireFormat.tightEncodingEnabled=true
       NMSCONFIGURATIONS_USERNAME: user-amq
       NMSCONFIGURATIONS_PASSWORD: password-amq
-    depends_on:
-      - activemq
 
   bowling.application.playworkerservice:
     image: ${DOCKER_REGISTRY-}bowlingapplicationplayworkerservice
@@ -32,7 +22,11 @@ services:
       NMSCONFIGURATIONS_PASSWORD: password-amq
       BOWLING_DELAY : 1000
       BOWLING_PLAYENAME: Maria
-      BOWLING_ALLEY: 01
-    depends_on:
-      - activemq
-      - bowling.application.painelonblazor
+      BOWLING_ALLEY: "Worker Test"
+
+  activemq:
+    image: vromero/activemq-artemis:latest-alpine
+    container_name: activemq
+    environment:
+      ARTEMIS_USERNAME: user-amq
+      ARTEMIS_PASSWORD: password-amq

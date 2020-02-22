@@ -3,7 +3,7 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>a01f297b-b248-4ba9-bd37-d3625ecb839f</ProjectGuid>
+    <ProjectGuid>abf19bda-1de0-46ca-8f4e-44e5f0a8d8ad</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
     <DockerServiceName>bowling.application.painelonblazor</DockerServiceName>

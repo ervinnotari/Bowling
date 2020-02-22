@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Bowling.Domain.Game\Bowling.Domain.Game.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -11,11 +11,11 @@ namespace BowlingPainelOnBlazor.Data
     public delegate void MessageListener<T>(T obj);
     public delegate void ConnectionEventHandler(IConnection conn);
     public enum ConnectionStatus { NOT_CONFIGURED, CONNECTED, CONECTING, ERROR }
-    public class NMSBowlingService : IBowlingService
+    public class NMSBowlingService : IService
     {
         public event MessageListener OnMessageReciver;
         public event ConnectionEventHandler OnConnectionSucess;
-        public event VoidEventHandler OnStatusChange;
+        public event EventHandler OnStatusChange;
 
         public NMSConfigurations Configurations { get; private set; }
         public IDestination Destination { get; private set; }
@@ -48,7 +48,7 @@ namespace BowlingPainelOnBlazor.Data
                     Error = ex;
                 }
             }
-            OnStatusChange?.Invoke();
+            OnStatusChange?.Invoke(GetConnectionStatus(), EventArgs.Empty);
         }
 
         internal ConnectionStatus GetConnectionStatus()
