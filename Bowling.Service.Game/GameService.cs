@@ -9,17 +9,17 @@ namespace Bowling.Service
 {
     public class GameService : IGameService
     {
-        public event PlayEventHandler OnPlay;
+        public event Func<Play, Play> OnPlay;
         public event EventHandler OnChange;
         protected readonly Domain.Game.Entities.Game Game = new Domain.Game.Entities.Game();
 
-        public void AddPlay(Play play)
+        public virtual void AddPlay(Play play)
         {
             Game.AddPlay(OnPlay?.Invoke(play) ?? play);
             OnChange?.Invoke(play, EventArgs.Empty);
         }
 
-        public void Clear(string alley)
+        public virtual void Clear(string alley)
         {
             var args = new GameCleanEventArgs();
             OnChange?.Invoke(alley, args);

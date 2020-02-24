@@ -30,3 +30,5 @@ services:
     environment:
       ARTEMIS_USERNAME: user-amq
       ARTEMIS_PASSWORD: password-amq
+    ports:
+      - 61616:61616

@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Bowling.Domain.Game\Bowling.Domain.Game.csproj" />
+    <ProjectReference Include="..\Bowling.Service.NMS\Bowling.Service.NMS.csproj" />
   </ItemGroup>
 
 </Project>

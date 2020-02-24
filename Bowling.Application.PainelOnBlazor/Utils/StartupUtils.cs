@@ -1,21 +1,19 @@
-﻿using BowlingPainelOnBlazor.Data;
+﻿using Bowling.Service.NMS;
+using BowlingPainelOnBlazor.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Server.IIS;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace BowlingPainelOnBlazor.Utils
 {
@@ -31,7 +29,7 @@ namespace BowlingPainelOnBlazor.Utils
 
         public static void AddAllApplicationOptions(this IServiceCollection services, IConfiguration Configuration)
         {
-            services.Configure<NMSConfigurations>(Configuration.GetSection(nameof(NMSConfigurations)));
+            services.Configure<NmsConfigurations>(Configuration.GetSection(nameof(NmsConfigurations)));
         }
 
         public static void AddSwagger(this IServiceCollection services)

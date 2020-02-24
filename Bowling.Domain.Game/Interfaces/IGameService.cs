@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Bowling.Domain.Game.Interfaces
 {
-    public delegate Play PlayEventHandler(Play play);
     public interface IGameService
     {
-        public event PlayEventHandler OnPlay;
+        public event Func<Play, Play> OnPlay;
         public event EventHandler OnChange;
 
         public void Clear(string alley);

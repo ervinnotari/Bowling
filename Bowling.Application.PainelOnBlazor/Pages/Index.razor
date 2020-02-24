@@ -2,8 +2,9 @@
 
 @using BowlingPainelOnBlazor.Data
 @using Microsoft.AspNetCore.Components.Rendering
+@using Bowling.Domain.Game.Interfaces
 @inject BowlingService BowlingService
-
+@inject ToastService toastService
 
 <h1>Bem vindo ao painel do Boliche!</h1>
 
@@ -13,7 +14,7 @@
 
     protected override Task OnInitializedAsync()
     {
-        BowlingService.OnChange += (o,e) => InvokeAsync(StateHasChanged);
+        BowlingService.OnChange += (o, e) => InvokeAsync(StateHasChanged);
         return base.OnInitializedAsync();
     }
 
@@ -21,17 +22,17 @@
     {
         switch (BowlingService.GetStatus())
         {
-            case ConnectionStatus.CONECTING:
+            case IAmqpService.ConnectionStatus.CONECTING:
                 <span>Conectando...</span>
                 break;
-            case ConnectionStatus.CONNECTED:
+            case IAmqpService.ConnectionStatus.CONNECTED:
                 <span>Conectado</span>
                 break;
-            case ConnectionStatus.ERROR:
+            case IAmqpService.ConnectionStatus.ERROR:
                 <span>@BowlingService.GetError().Message</span>
                 break;
             default:
-            case ConnectionStatus.NOT_CONFIGURED:
+            case IAmqpService.ConnectionStatus.DISABLED:
                 <span>Desabilitado</span>
                 break;
         }
