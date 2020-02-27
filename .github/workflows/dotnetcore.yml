@@ -1,10 +1,13 @@
-name: .NET Core
+name: .NET Core CI
 
 on: [push]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build_and_test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macOS-latest, ubuntu-latest, windows-latest]
 
     steps:
     - uses: actions/checkout@v2
