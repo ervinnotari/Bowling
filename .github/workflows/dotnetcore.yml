@@ -22,3 +22,12 @@ jobs:
       run: dotnet build Bowling.sln --configuration Release 
     - name: Test Bowling
       run: dotnet test Bowling.sln --configuration Release
+      
+    - name: Heroku Deploy
+      if: matrix.os == 'ubuntu-latest'
+    - uses: akhileshns/heroku-deploy@v3.0.0
+      with: 
+        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+        heroku_app_name: "bowling-painel-on-blazor"
+        heroku_email: "ervinnotari@hotmail.com"
+        usedocker: true
