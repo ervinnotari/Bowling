@@ -32,4 +32,4 @@ jobs:
         buildpack: "Bowling.Application.PainelOnBlazor"
         #branch: "YOUR_BRANCH" #OPTIONAL and DEFAULT - 'HEAD' (a.k.a your current branch)
         #dontuseforce: true
-        #usedocker: true
+        usedocker: true
