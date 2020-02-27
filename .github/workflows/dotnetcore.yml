@@ -35,4 +35,4 @@ jobs:
         docker login --username=_ --password=$(heroku auth:token) registry.heroku.com
         docker tag painel:lasted registry.heroku.com/bowling-painel-on-blazor/web
         docker push registry.heroku.com/bowling-painel-on-blazor/web
-        heroku container:release web release
+        heroku container:release -a bowling-painel-on-blazor web release
