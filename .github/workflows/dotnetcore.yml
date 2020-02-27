@@ -13,15 +13,15 @@ jobs:
       matrix:
         os: [ubuntu-latest] #, macOS-latest, windows-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1.4.0
-      with:
-        dotnet-version: 3.1.100
-    - name: Build Bowling
-      run: dotnet build Bowling.sln --configuration Release 
-    - name: Test Bowling
-      run: dotnet test Bowling.sln --configuration Release
+#    - uses: actions/checkout@v2
+#    - name: Setup .NET Core
+#      uses: actions/setup-dotnet@v1.4.0
+#      with:
+#        dotnet-version: 3.1.100
+#    - name: Build Bowling
+#      run: dotnet build Bowling.sln --configuration Release 
+#    - name: Test Bowling
+#      run: dotnet test Bowling.sln --configuration Release
 
     #- name: Heroku Deploy
     - uses: akhileshns/heroku-deploy@v3.0.0
@@ -31,5 +31,5 @@ jobs:
         heroku_email: "ervinnotari@hotmail.com"
         #buildpack: "SOME BUILDPACK" #OPTIONAL
         #branch: "YOUR_BRANCH" #OPTIONAL and DEFAULT - 'HEAD' (a.k.a your current branch)
-        dontuseforce: true #OPTIONAL and DEFAULT - false
-        #usedocker: false #OPTIONAL and DEFAULT - false
+        dontuseforce: true
+        usedocker: true
