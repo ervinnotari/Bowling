@@ -1,4 +1,4 @@
-name: CI for Bowling in .NET Core
+name: CI/CD plan .NET Core
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 jobs:
   build_and_test:
     runs-on: ${{ matrix.os }}
-    name: CI plan for Bowling
+    name: CI plan
     strategy:
       matrix:
         os: [ubuntu-latest, macOS-latest, windows-latest]
@@ -18,15 +18,14 @@ jobs:
       uses: actions/setup-dotnet@v1.4.0
       with:
         dotnet-version: 3.1.100
-
     - name: Build Bowling
       run: dotnet build Bowling.sln --configuration Release 
     - name: Test Bowling
       run: dotnet test Bowling.sln --configuration Release
-
+  
   deploy:
     runs-on: ubuntu-latest
-    name: CD plan for Bowling
+    name: CD plan
     needs: [build_and_test]
     steps:
       - uses: actions/checkout@v2
