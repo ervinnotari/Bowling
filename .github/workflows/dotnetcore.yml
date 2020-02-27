@@ -22,13 +22,11 @@ jobs:
 #      run: dotnet build Bowling.sln --configuration Release 
 #    - name: Test Bowling
 #      run: dotnet test Bowling.sln --configuration Release
-       
+     
     - name: Docker build
       if: matrix.os == 'ubuntu-latest'
-      run: |
-        ls $(pwd)
-        docker build -t painel:lasted .
-          
+      run: docker build -f Bowling.Application.PainelOnBlazor/ . -t registry.heroku.com/bowling-painel-on-blazor/web
+
     - name: Heroku Container login
       if: matrix.os == 'ubuntu-latest'
       env: 
@@ -36,6 +34,6 @@ jobs:
       run: |
         heroku container:login
         docker login --username=_ --password=$(heroku auth:token) registry.heroku.com
-        docker tag painel:lasted registry.heroku.com/bowling-painel-on-blazor/web
+        docker push registry.heroku.com/bowling-painel-on-blazor/web
 #        heroku container:push --context-path=Bowling.Application.PainelOnBlazor/Dockerfile -a bowling-painel-on-blazor web
 #        heroku container:release -a bowling-painel-on-blazor web
