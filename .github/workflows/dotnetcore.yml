@@ -24,3 +24,6 @@ jobs:
     - name: "Build: PlayWorkerService"
       working-directory: Bowling.Application.PlayWorkerService/
       run: dotnet build --configuration Release
+      
+    - name: Test with dotnet
+      run: dotnet test ./src/Bowling.sln --configuration Release
