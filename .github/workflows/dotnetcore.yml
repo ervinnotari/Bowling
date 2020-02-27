@@ -11,7 +11,7 @@ jobs:
     name: CI plan for Bowling
     strategy:
       matrix:
-        os: [ubuntu-latest] #, macOS-latest, windows-latest
+        os: [ubuntu-latest, macOS-latest, windows-latest]
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
@@ -24,7 +24,7 @@ jobs:
     - name: Test Bowling
       run: dotnet test Bowling.sln --configuration Release
 
-    - name: Heroku Container login
+    - name: Heroku container publish
       if: matrix.os == 'ubuntu-latest' && success()
       env: 
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
@@ -34,5 +34,3 @@ jobs:
         docker login --username=_ --password=$(heroku auth:token) registry.heroku.com
         docker tag painel:lasted registry.heroku.com/bowling-painel-on-blazor/web
         docker push registry.heroku.com/bowling-painel-on-blazor/web
-        #heroku container:push -a bowling-painel-on-blazor web
-        #heroku container:release -a bowling-painel-on-blazor web
