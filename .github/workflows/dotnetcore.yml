@@ -1,4 +1,4 @@
-name: CI/CD plan .NET Core
+name: CI/CD plan .NET Core 
 
 on:
   push:
