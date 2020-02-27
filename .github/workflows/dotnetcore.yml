@@ -18,13 +18,14 @@ jobs:
       uses: actions/setup-dotnet@v1.4.0
       with:
         dotnet-version: 3.1.100
-#    - name: Build Bowling
-#      run: dotnet build Bowling.sln --configuration Release 
-#    - name: Test Bowling
-#      run: dotnet test Bowling.sln --configuration Release
+
+    - name: Build Bowling
+      run: dotnet build Bowling.sln --configuration Release 
+    - name: Test Bowling
+      run: dotnet test Bowling.sln --configuration Release
 
     - name: Heroku Container login
-      if: matrix.os == 'ubuntu-latest'
+      if: matrix.os == 'ubuntu-latest' && success()
       working-directory: Bowling.Application.PainelOnBlazor/
       env: 
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
