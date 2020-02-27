@@ -24,11 +24,11 @@ jobs:
       run: dotnet test Bowling.sln --configuration Release
 
     #- name: Heroku Deploy
-    #- uses: akhileshns/heroku-deploy@v3.0.0
-      #with:
-        #heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-        #heroku_app_name: "bowling-painel-on-blazor"
-        #heroku_email: "ervinnotari@hotmail.com"
+    - uses: akhileshns/heroku-deploy@v3.0.0
+      with:
+        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+        heroku_app_name: "bowling-painel-on-blazor"
+        heroku_email: "ervinnotari@hotmail.com"
         #buildpack: "SOME BUILDPACK" #OPTIONAL
         #branch: "YOUR_BRANCH" #OPTIONAL and DEFAULT - 'HEAD' (a.k.a your current branch)
         #dontuseforce: false #OPTIONAL and DEFAULT - false
