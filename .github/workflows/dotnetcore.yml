@@ -29,6 +29,5 @@ jobs:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       run: |
         heroku container:login
-        cd Bowling.Application.PainelOnBlazor/
-        heroku container:push -a bowling-painel-on-blazor web
+        heroku container:push --context-path=Bowling.Application.PainelOnBlazor -a bowling-painel-on-blazor web
         heroku container:release -a bowling-painel-on-blazor web
