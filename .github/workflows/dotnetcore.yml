@@ -24,7 +24,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     name: "CD: Automated Heroku publish"
-    needs: [build_and_test]
+    needs: [build]
     steps: 
       - uses: actions/checkout@v2
       - name: Setup .NET Core
