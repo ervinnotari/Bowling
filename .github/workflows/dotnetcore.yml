@@ -1,32 +1,21 @@
-name: .NET Core CI
+name: CI for Bowling in .NET Core
 
 on: [push]
 
 jobs:
   build_and_test:
     runs-on: ${{ matrix.os }}
+    name: CI plan for Bowling
     strategy:
       matrix:
         os: [macOS-latest, ubuntu-latest, windows-latest]
-
     steps:
     - uses: actions/checkout@v2
-
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1.4.0
       with:
         dotnet-version: 3.1.100
-
-    - name: Test with dotnet
-      run: dotnet build Bowling.sln --configuration Release
-
-#    - name: "Build: PainelOnBlazor"
-#      working-directory: Bowling.Application.PainelOnBlazor/
-#      run: dotnet build --configuration Release
-
-#    - name: "Build: PlayWorkerService"
-#      working-directory: Bowling.Application.PlayWorkerService/
-#      run: dotnet build --configuration Release
-      
-    - name: Test with dotnet
+    - name: Build Bowling
+      run: dotnet build Bowling.sln --configuration Release 
+    - name: Test Bowling
       run: dotnet test Bowling.sln --configuration Release
