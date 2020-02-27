@@ -22,4 +22,5 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Bowling.Application.PainelOnBlazor.dll"]
-CMD ASPNETCORE_URLS=http://*:$PORT dotnet Bowling.Application.PainelOnBlazor.dll
+
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet /app/publish/Bowling.Application.PainelOnBlazor.dll
