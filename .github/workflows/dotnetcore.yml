@@ -29,5 +29,6 @@ jobs:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       run: |
         heroku container:login
-        heroku container:push --context-path=Bowling.Application.PainelOnBlazor/Dockerfile -a bowling-painel-on-blazor web
+        docker login --username=_ --password=$(heroku auth:token) registry.heroku.com
+#        heroku container:push --context-path=Bowling.Application.PainelOnBlazor/Dockerfile -a bowling-painel-on-blazor web
 #        heroku container:release -a bowling-painel-on-blazor web
