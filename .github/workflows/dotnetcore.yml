@@ -31,5 +31,5 @@ jobs:
         heroku_email: "ervinnotari@hotmail.com"
         #buildpack: "SOME BUILDPACK" #OPTIONAL
         #branch: "YOUR_BRANCH" #OPTIONAL and DEFAULT - 'HEAD' (a.k.a your current branch)
-        #dontuseforce: false #OPTIONAL and DEFAULT - false
+        dontuseforce: true #OPTIONAL and DEFAULT - false
         #usedocker: false #OPTIONAL and DEFAULT - false
