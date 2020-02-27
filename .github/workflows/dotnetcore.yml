@@ -26,7 +26,7 @@ jobs:
     - name: Docker build
       if: matrix.os == 'ubuntu-latest'
       working-directory: Bowling.Application.PainelOnBlazor
-      run: docker build . -t registry.heroku.com/bowling-painel-on-blazor/web
+      run: return 0 #docker build . -t registry.heroku.com/bowling-painel-on-blazor/web
 
     - name: Heroku Container login
       if: matrix.os == 'ubuntu-latest'
