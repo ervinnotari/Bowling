@@ -29,7 +29,7 @@ jobs:
       env: 
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       run: |
-        docker build -t painel:lasted -f Bowling.Application.PainelOnBlazor/Dockerfile .
+        docker build -t painel:lasted -f Bowling.Application.PainelOnBlazor/Dockerfile.web .
         heroku container:login
         docker login --username=_ --password=$(heroku auth:token) registry.heroku.com
         docker tag painel:lasted registry.heroku.com/bowling-painel-on-blazor/web
