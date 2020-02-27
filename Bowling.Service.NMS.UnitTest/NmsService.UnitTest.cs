@@ -19,14 +19,14 @@ namespace Bowling.Service.NMS.UnitTest
             c.Uri = new Uri("activemq:tcp://test-none:0?wireFormat.tightEncodingEnabled=true");
             s.ConnectionStart(c);
             Assert.AreEqual<ConnectionStatus>(ConnectionStatus.ERROR, s.GetConnectionStatus(), "Test Conficuration for ERROR");
-
+/*
             c.Uri = new Uri("activemq:tcp://localhost:61616?wireFormat.tightEncodingEnabled=true");
             c.Username = "user-amq";
             c.Password = "password-amq";
             c.Topic = "Bowling.Service.NMS.UnitTest";
             s.ConnectionStart(c);
             Assert.AreEqual<ConnectionStatus>(ConnectionStatus.CONNECTED, s.GetConnectionStatus(), "Test Conficuration for CONNECTED");
-            
+*/
         }
     }
 }
