@@ -25,7 +25,7 @@ jobs:
        
     - name: Docker build
       if: matrix.os == 'ubuntu-latest'
-      run: docker build -t painel:lasted -f Bowling.Application.PainelOnBlazor/Dockerfile .
+      run: docker build -t painel:lasted -f Bowling.Application.PainelOnBlazor/ .
           
     - name: Heroku Container login
       if: matrix.os == 'ubuntu-latest'
