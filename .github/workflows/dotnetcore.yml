@@ -12,6 +12,8 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macOS-latest, windows-latest]
+    env:
+      directory: ./Bowling.Application.PainelOnBlazor
     steps:
 #    - uses: actions/checkout@v2
 #    - name: Setup .NET Core
@@ -25,7 +27,7 @@ jobs:
      
     - name: Docker build
       if: matrix.os == 'ubuntu-latest'
-      #working-directory: Bowling.Application.PainelOnBlazor/
+      working-directory: ${{env.directory}}
       run: ls -R #docker build . -t registry.heroku.com/bowling-painel-on-blazor/web
 
     - name: Heroku Container login
