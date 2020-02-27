@@ -15,5 +15,5 @@ jobs:
         dotnet-version: 3.1.100
 
     - name: Build with dotnet
-      working-directory: Bowling.Application.PainelOnBlazor/
+      working-directory: Bowling.Domain.Game/
       run: dotnet build --configuration Release
