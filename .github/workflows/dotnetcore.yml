@@ -24,7 +24,6 @@ jobs:
 #      run: dotnet test Bowling.sln --configuration Release
 
     #- name: Heroku Deploy PainelOnBlazor
-    - working-directory: Bowling.Application.PainelOnBlazor/
     - uses: akhileshns/heroku-deploy@v3.0.0
       with:
         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
@@ -34,3 +33,4 @@ jobs:
         #branch: "YOUR_BRANCH" #OPTIONAL and DEFAULT - 'HEAD' (a.k.a your current branch)
         dontuseforce: true
         usedocker: true
+    - working-directory: Bowling.Application.PainelOnBlazor/
