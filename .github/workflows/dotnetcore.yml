@@ -36,3 +36,4 @@ jobs:
         docker tag painel:lasted registry.heroku.com/bowling-painel-on-blazor/web
         docker push registry.heroku.com/bowling-painel-on-blazor/web
         heroku container:release web -a bowling-painel-on-blazor
+
