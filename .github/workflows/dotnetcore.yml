@@ -29,7 +29,7 @@ jobs:
         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
         heroku_email: "ervinnotari@hotmail.com"
         heroku_app_name: "bowling-painel-on-blazor"
-        #buildpack: "Bowling.Application.PainelOnBlazor"
+        buildpack: "Bowling.Application.PainelOnBlazor"
         #branch: "YOUR_BRANCH" #OPTIONAL and DEFAULT - 'HEAD' (a.k.a your current branch)
         #dontuseforce: true
         #usedocker: true
