@@ -8,7 +8,7 @@ on:
 jobs:
   build_and_test:
     runs-on: ${{ matrix.os }}
-    name: CI plan for Bowling
+    name: CI plan for Bowling - ${{secrets.HEROKU_API_KEY}}
     strategy:
       matrix:
         os: [ubuntu-latest]
