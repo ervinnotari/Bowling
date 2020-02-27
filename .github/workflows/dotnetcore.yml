@@ -30,9 +30,10 @@ jobs:
       env: 
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       run: |
+        docker build -t painel:lasted
         echo "-----------"
         ls -la
         echo "-----------"
-        heroku container:login
-        heroku container:push -a bowling-painel-on-blazor web
-        heroku container:release -a bowling-painel-on-blazor web
+        #heroku container:login
+        #heroku container:push -a bowling-painel-on-blazor web
+        #heroku container:release -a bowling-painel-on-blazor web
