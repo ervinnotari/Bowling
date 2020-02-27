@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     name: CD plan
     needs: [build_and_test]
-    steps:
+    steps: 
       - uses: actions/checkout@v2
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1.4.0
