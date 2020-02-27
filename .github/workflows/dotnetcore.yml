@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
     - uses: actions/checkout@v2
@@ -14,6 +14,10 @@ jobs:
       with:
         dotnet-version: 3.1.100
 
-    - name: Build with dotnet
-      working-directory: Bowling.Domain.Game/
+    - name: "Build: PainelOnBlazor"
+      working-directory: Bowling.Application.PainelOnBlazor/
+      run: dotnet build --configuration Release
+
+    - name: "Build: PlayWorkerService"
+      working-directory: Bowling.Application.PlayWorkerService/
       run: dotnet build --configuration Release
