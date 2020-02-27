@@ -21,6 +21,6 @@ RUN dotnet publish "Bowling.Application.PainelOnBlazor.csproj" -c Release -o /ap
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-#ENTRYPOINT ["dotnet", "Bowling.Application.PainelOnBlazor.dll"]
+ENTRYPOINT ["dotnet", "Bowling.Application.PainelOnBlazor.dll"]
 # heroku uses the following
-CMD ASPNETCORE_URLS=http://*:$PORT dotnet Bowling.Application.PainelOnBlazor.dll
+#CMD ASPNETCORE_URLS=http://*:$PORT dotnet Bowling.Application.PainelOnBlazor.dll
