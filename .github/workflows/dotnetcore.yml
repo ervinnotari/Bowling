@@ -9,9 +9,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1.4.0
       with:
         dotnet-version: 3.1.100
+
     - name: Build with dotnet
-      run: dotnet publish /Bowling.Application.PainelOnBlazor/Bowling.Application.PainelOnBlazor.csproj build --configuration Release
+      run: dotnet build --configuration Release
