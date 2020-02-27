@@ -30,11 +30,8 @@ jobs:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         APP_NAME: ${{'bowling-painel-on-blazor'}}
       run: |
-        cd ./Bowling.Application.PainelOnBlazor
-        #docker build -t painel:lasted -f Bowling.Application.PainelOnBlazor/Dockerfile .
+        docker build -t painel:lasted -f Bowling.Application.PainelOnBlazor/Dockerfile .
         heroku container:login
         docker login --username=_ --password=$(heroku auth:token) registry.heroku.com
-        #docker tag painel:lasted registry.heroku.com/bowling-painel-on-blazor/web
-        #docker push registry.heroku.com/bowling-painel-on-blazor/web
-        heroku container:push web -a $APP_NAME
-        heroku container:release web -a $APP_NAME
+        docker tag painel:lasted registry.heroku.com/bowling-painel-on-blazor/web
+        docker push registry.heroku.com/bowling-painel-on-blazor/web
