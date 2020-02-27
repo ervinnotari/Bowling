@@ -23,13 +23,24 @@ jobs:
 #    - name: Test Bowling
 #      run: dotnet test Bowling.sln --configuration Release
 
-#    - name: Heroku Deploy PainelOnBlazor
-    - uses: akhileshns/heroku-deploy@v3.0.0
-      with:
-        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-        heroku_email: "ervinnotari@hotmail.com"
-        heroku_app_name: "bowling-painel-on-blazor"
-        buildpack: "Bowling.Application.PainelOnBlazor"
-        #branch: "YOUR_BRANCH" #OPTIONAL and DEFAULT - 'HEAD' (a.k.a your current branch)
-        #dontuseforce: true
-        usedocker: true
+     #- name: Deploy to Heroku
+       #env:
+       #  HEROKU_API_TOKEN: ${{ secrets.HEROKU_API_TOKEN }}
+       #  HEROKU_APP_NAME: "bowling-painel-on-blazor"
+       #if: github.ref == 'refs/heads/master' && job.status == 'success'
+       #run: git push https://heroku:$HEROKU_API_TOKEN@git.heroku.com/$HEROKU_APP_NAME.git origin/master:master
+       
+    - name: Login to Heroku Container registry
+      env: 
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:login 
+    - name: Build and push
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        HEROKU_APP_NAME: "bowling-painel-on-blazor"
+      run: heroku container:push -a $HEROKU_APP_NAME web 
+    - name: Release
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        HEROKU_APP_NAME: "bowling-painel-on-blazor"
+      run: heroku container:release -a $HEROKU_APP_NAME web 
