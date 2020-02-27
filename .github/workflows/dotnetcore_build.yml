@@ -1,0 +1,22 @@
+name: CI/CD plan .NET Core 
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build_and_test:
+    runs-on: ${{ matrix.os }}
+    name: CI plan
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1.4.0
+      with:
+        dotnet-version: 3.1.100
+    - name: Build Bowling
+      run: dotnet build Bowling.sln --configuration Release
