@@ -9,8 +9,6 @@ jobs:
   build_and_test:
     runs-on: ${{ matrix.os }}
     name: CI plan for Bowling
-    env:
-      directory: ./Bowling.Application.PainelOnBlazor
     strategy:
       matrix:
         os: [ubuntu-latest] #, macOS-latest, windows-latest
@@ -29,7 +27,7 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       #working-directory: ./
       run: |
-        echo ${{env.directory}}
+        echo $(pwd)
         ls -la #docker build . -t registry.heroku.com/bowling-painel-on-blazor/web
 
     - name: Heroku Container login
