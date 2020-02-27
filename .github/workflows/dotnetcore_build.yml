@@ -1,4 +1,4 @@
-name: CI/CD plan .NET Core 
+name: .NET Core Build
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 jobs:
   build_and_test:
     runs-on: ${{ matrix.os }}
-    name: CI plan
+    name: "CI: Automated building" 
     strategy:
       matrix:
         os: [ubuntu-latest, macOS-latest, windows-latest]
