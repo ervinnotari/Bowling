@@ -14,12 +14,6 @@ jobs:
         os: [ubuntu-latest]
     steps:
     - uses: actions/checkout@v2
-    - uses: akhileshns/heroku-deploy@v3.0.0 # This is the action
-      with:
-        heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-        heroku_app_name: "bowling-painel-on-blazor"
-        heroku_email: "ervinnotari@hotmail.com"
-        usedocker: true
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1.4.0
       with:
@@ -28,3 +22,9 @@ jobs:
       run: dotnet build Bowling.sln --configuration Release 
     - name: Test Bowling
       run: dotnet test Bowling.sln --configuration Release
+    - uses: akhileshns/heroku-deploy@v3.0.0 # This is the action
+      with:
+        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+        heroku_app_name: "bowling-painel-on-blazor"
+        heroku_email: "ervinnotari@hotmail.com"
+        usedocker: true
