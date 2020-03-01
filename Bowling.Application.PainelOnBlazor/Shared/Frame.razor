@@ -1,0 +1,22 @@
+﻿@inherits FrameBase
+
+@if (Frame != null)
+{
+    <div class="row">
+        @if (Attempt3 == null)
+        {
+            <span class="col-6">@Attempt1</span>
+            @if (Attempt2 != null)
+            {<span class="col-6">@Attempt2</span>}
+        }
+        else
+        {
+            <div class="col-12">
+                <span class="pr-2">@Attempt1</span>
+                <span>@Attempt2</span>
+                <span class="pl-2">@Attempt3</span>
+            </div>
+        }
+        <span class="col-12">@Score</span>
+    </div>
+}

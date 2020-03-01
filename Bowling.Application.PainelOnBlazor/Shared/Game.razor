@@ -1,0 +1,60 @@
+﻿@inherits GameBase
+
+<h3>@Alley</h3>
+
+@if (Painel == null)
+{
+    <p><small>Loading...</small></p>
+}
+else
+{
+    <style>
+        th.name, td.name {
+            width: 15%;
+            text-align: left;
+            vertical-align: middle !important;
+        }
+
+        th.turn, td.turn {
+            width: 7%;
+            text-align: center;
+        }
+
+        th.total, td.total {
+            width: 10%;
+            vertical-align: middle !important;
+            text-align: right;
+        }
+
+        .frame {
+            margin: 5px 0px;
+            padding: 2px 5px;
+            border: 1px solid;
+        }
+    </style>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th class="name" width="20">Jogador</th>
+                @for (int i = 1; i <= 10; i++)
+                {
+                    <th class="turn" align="center" width="7">@i</th>
+                }
+                <th class="total" align="right" width="10">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var player in Painel.Players)
+            {
+                <tr>
+                    <td class="name" align="left">@player.Name</td>
+                    @for (int i = 0; i < 10; i++)
+                    {
+                        <td class="turn" align="center"><Frame Player="@player" FrameId="@i" /></td>
+                    }
+                    <td class="total" align="right">@player.Frames.LastOrDefault()?.Score</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
