@@ -43,4 +43,8 @@ jobs:
           docker tag painel:lasted registry.heroku.com/bowling-painel-on-blazor/web
           docker push registry.heroku.com/bowling-painel-on-blazor/web
           heroku container:release web -a bowling-painel-on-blazor
-
+      - name: Telegram Notify
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
