@@ -48,6 +48,6 @@ jobs:
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }} 
-          message: "Bowling new version runing on Heroku -> http://bowling-painel-on-blazor.herokuapp.com/"
+          message: "Bowling new version runing on Heroku\n-> http://bowling-painel-on-blazor.herokuapp.com/"
           photo: tests/github.png
           document: tests/gophercolor.png
