@@ -1,4 +1,4 @@
-name: .NET Core Build and Deploy
+name: Bowling Actions
 
 on:
   push:
