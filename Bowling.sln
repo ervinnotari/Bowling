@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bowling.Service.Game", "Bow
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{ABF19BDA-1DE0-46CA-8F4E-44E5F0A8D8AD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bowling.Domain.UnitTest.Game", "Bowling.Domain.UnitTest.Game\Bowling.Domain.UnitTest.Game.csproj", "{36424DCE-8090-448F-ABCF-D890D98ECABC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bowling.Domain.UnitTest.Game", "Bowling.Domain.Game.UnitTest\Bowling.Domain.Game.UnitTest.csproj", "{36424DCE-8090-448F-ABCF-D890D98ECABC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bowling.Service.NMS", "Bowling.Service.NMS\Bowling.Service.NMS.csproj", "{3716CC7E-790F-4E50-9735-E569DEAACB25}"
 EndProject
