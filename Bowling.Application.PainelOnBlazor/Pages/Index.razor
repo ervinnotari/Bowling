@@ -3,7 +3,7 @@
 @using BowlingPainelOnBlazor.Data
 @using Microsoft.AspNetCore.Components.Rendering
 @using Bowling.Domain.Game.Interfaces
-@inject BowlingService BowlingService
+@*@inject BowlingService BowlingService*@
 @inject ToastService toastService
 
 <h1>Bem vindo ao painel do Boliche!</h1>
@@ -14,28 +14,28 @@
 
     protected override Task OnInitializedAsync()
     {
-        BowlingService.OnChange += (o, e) => InvokeAsync(StateHasChanged);
+        //BowlingService.OnChange += (o, e) => InvokeAsync(StateHasChanged);
         return base.OnInitializedAsync();
     }
 
     private void IsAMQPEnable(RenderTreeBuilder __builder)
     {
-        switch (BowlingService.GetStatus())
+        @*switch (BowlingService.GetStatus())
         {
-            case IAmqpService.ConnectionStatus.CONECTING:
+            case IBusService.ConnectionStatus.CONECTING:
                 <span>Conectando...</span>
                 break;
-            case IAmqpService.ConnectionStatus.CONNECTED:
+            case IBusService.ConnectionStatus.CONNECTED:
                 <span>Conectado</span>
                 break;
-            case IAmqpService.ConnectionStatus.ERROR:
+            case IBusService.ConnectionStatus.ERROR:
                 <span>@BowlingService.GetError().Message</span>
                 break;
             default:
-            case IAmqpService.ConnectionStatus.DISABLED:
+            case IBusService.ConnectionStatus.DISABLED:
                 <span>Desabilitado</span>
                 break;
-        }
+        }*@
     }
 
 }

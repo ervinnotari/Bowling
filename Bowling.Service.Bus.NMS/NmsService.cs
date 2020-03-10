@@ -1,31 +1,37 @@
 ﻿using Apache.NMS;
 using Apache.NMS.ActiveMQ;
 using Bowling.Domain.Game.Interfaces;
+using Bowling.Domain.Game.Utils;
 using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 
 namespace Bowling.Service.NMS
 {
-    public class NmsService : IAmqpService
+    public class NmsService : IBusService
     {
         public Exception Error { get; protected set; }
-        public NmsConfigurations Configurations { get; set; } = new NmsConfigurations();
         protected IConnection Connection { get; private set; }
         protected ISession Session { get; private set; }
         protected IDestination Destination { get; private set; }
+        public BusConfiguration Configuration { get; set; }
+
+        public NmsService(BusConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
 
         public event Action<object> OnMessageReciver;
         public event Action<object> OnConnection;
-        public event Action<IAmqpService.ConnectionStatus> OnStatusChange;
+        public event Action<IBusService.ConnectionStatus> OnStatusChange;
 
-        public IAmqpService.ConnectionStatus GetConnectionStatus()
+        public IBusService.ConnectionStatus GetConnectionStatus()
         {
-            if (Error != null) return IAmqpService.ConnectionStatus.ERROR;
-            else if (Connection == null) return IAmqpService.ConnectionStatus.DISABLED;
-            else if (!Connection.IsStarted && Session == null) return IAmqpService.ConnectionStatus.CONECTING;
-            else if (Connection.IsStarted && Session != null) return IAmqpService.ConnectionStatus.CONNECTED;
-            else return IAmqpService.ConnectionStatus.DISABLED;
+            if (Error != null) return IBusService.ConnectionStatus.ERROR;
+            else if (Connection == null) return IBusService.ConnectionStatus.DISABLED;
+            else if (!Connection.IsStarted && Session == null) return IBusService.ConnectionStatus.CONECTING;
+            else if (Connection.IsStarted && Session != null) return IBusService.ConnectionStatus.CONNECTED;
+            else return IBusService.ConnectionStatus.DISABLED;
         }
         public void OnObjectReciver<T>(Action<T> listener)
         {
@@ -58,19 +64,19 @@ namespace Bowling.Service.NMS
         public void ConnectionStart()
         {
 
-            if (Configurations.Uri != null)
+            if (Configuration.Uri != null)
             {
                 try
                 {
-                    var factory = new ConnectionFactory(Configurations.Uri);
-                    if (Configurations.Username != null && Configurations.Password != null)
-                        Connection = factory.CreateConnection(Configurations.Username, Configurations.Password);
+                    var factory = new ConnectionFactory(Configuration.Uri);
+                    if (Configuration.Username != null && Configuration.Password != null)
+                        Connection = factory.CreateConnection(Configuration.Username, Configuration.Password);
                     else
                         Connection = factory.CreateConnection();
 
                     Connection.Start();
                     Session = Connection.CreateSession();
-                    Destination = Session.GetTopic(Configurations.Topic);
+                    Destination = Session.GetTopic(Configuration.Topic);
                     IMessageConsumer consumer = Session.CreateConsumer(Destination);
                     consumer.Listener += (IMessage message) => OnMessageReciver?.Invoke(message);
                     OnConnection?.Invoke(Connection);

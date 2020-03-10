@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Worker">
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -16,5 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Bowling.Domain.Game\Bowling.Domain.Game.csproj" />
+    <ProjectReference Include="..\Bowling.Service.Bus.NMS\Bowling.Service.Bus.NMS.csproj" />
   </ItemGroup>
 </Project>

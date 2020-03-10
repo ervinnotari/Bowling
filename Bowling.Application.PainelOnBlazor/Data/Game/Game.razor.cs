@@ -13,7 +13,7 @@ namespace Microsoft.AspNetCore.Components.Web
 
         protected override Task OnParametersSetAsync()
         {
-            BowlingService.OnChange += BowlingService_OnChange;
+            BowlingService.Game.OnChange += BowlingService_OnChange;
             BowlingService_OnChange(null, EventArgs.Empty);
             return base.OnParametersSetAsync();
         }
@@ -22,13 +22,13 @@ namespace Microsoft.AspNetCore.Components.Web
 
         private async void RefrashOnChange()
         {
-            Painel = await BowlingService.GetScoreAsync(Alley);
+            Painel = await BowlingService.Game.GetScoreAsync(Alley);
             StateHasChanged();
         }
 
         public void Dispose()
         {
-            BowlingService.OnChange -= BowlingService_OnChange;
+            BowlingService.Game.OnChange -= BowlingService_OnChange;
         }
     }
 }

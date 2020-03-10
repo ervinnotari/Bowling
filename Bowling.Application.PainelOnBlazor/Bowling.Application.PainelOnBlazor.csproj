@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -17,8 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Bowling.Domain.Game\Bowling.Domain.Game.csproj" />
-    <ProjectReference Include="..\Bowling.Service.Game\Bowling.Service.Game.csproj" />
-    <ProjectReference Include="..\Bowling.Service.NMS\Bowling.Service.NMS.csproj" />
+    <ProjectReference Include="..\Bowling.Infra.CrossCuting.IoC\Bowling.Infra.CrossCuting.IoC.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

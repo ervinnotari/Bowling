@@ -39,7 +39,7 @@ namespace BowlingPainelOnBlazor.Controller
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public void ClearAlley(string alley)
         {
-            if (BowlingService.IsExistsAlley(alley)) BowlingService.Clear(alley);
+            if (BowlingService.Game.IsExistsAlley(alley)) BowlingService.Game.Clear(alley);
             else throw new HttpListenerException(StatusCodes.Status417ExpectationFailed, "Alley not found");
         }
 
@@ -59,7 +59,7 @@ namespace BowlingPainelOnBlazor.Controller
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public Painel GetScore(string alley)
         {
-            if (BowlingService.IsExistsAlley(alley)) return BowlingService.GetPainel(alley);
+            if (BowlingService.Game.IsExistsAlley(alley)) return BowlingService.Game.GetPainel(alley);
             else throw new HttpListenerException(StatusCodes.Status417ExpectationFailed, "Alley not found");
         }
 

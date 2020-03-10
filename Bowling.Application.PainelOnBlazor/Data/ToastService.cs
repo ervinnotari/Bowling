@@ -5,7 +5,7 @@ using System.Timers;
 namespace BowlingPainelOnBlazor.Data
 {
 
-    public class ToastService : IDisposable, IService
+    public class ToastService : IDisposable
     {
         public event Action<string, ToastLevel> OnShow;
         public event Action OnHide;

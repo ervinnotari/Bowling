@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Components.Rendering
 @using Bowling.Domain.Game.Entities
-@inject BowlingPainelOnBlazor.Data.BowlingService bolingService;
+@using BowlingPainelOnBlazor.Data;
+@inject BowlingService bolingService;
 
 <div class="top-row pl-4 navbar navbar-dark">
     <a class="navbar-brand" href="">Bowling Painel On Blazor</a>
@@ -45,7 +46,7 @@
     protected override Task OnInitializedAsync()
     {
         MenuRefresh();
-        bolingService.OnChange += BowlingServiceOnChange;
+        bolingService.Game.OnChange += BowlingServiceOnChange;
         return base.OnInitializedAsync();
     }
 
@@ -55,8 +56,8 @@
     {
         InvokeAsync(() =>
         {
-            if (bolingService.GetAlleysName().Count == Alleys.Count) return;
-            Alleys = bolingService.GetAlleysName();
+            if (bolingService.Game.GetAlleysName().Count == Alleys.Count) return;
+            Alleys = bolingService.Game.GetAlleysName();
             this.StateHasChanged();
         });
     }

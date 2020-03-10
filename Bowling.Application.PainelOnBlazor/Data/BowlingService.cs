@@ -1,28 +1,29 @@
 using Bowling.Domain.Game.Entities;
 using Bowling.Domain.Game.Interfaces;
-using Bowling.Service;
 using System;
 using System.Linq;
 
 namespace BowlingPainelOnBlazor.Data
 {
 
-    public class BowlingService : GameService, IService
+    public class BowlingService
     {
-        public event Action<IAmqpService.ConnectionStatus> OnAmqpStatusChange;
-        public readonly IAmqpService AmqpService;
+        public event Action<IBusService.ConnectionStatus> OnAmqpStatusChange;
+        public readonly IBusService BusService;
+        public readonly IGameService Game;
         public readonly ToastService ToastService;
 
-        public Exception GetError() => AmqpService.GetError();
-        public IAmqpService.ConnectionStatus GetStatus() => AmqpService.GetConnectionStatus();
+        public Exception GetError() => BusService.GetError();
+        public IBusService.ConnectionStatus GetStatus() => BusService.GetConnectionStatus();
 
-        public BowlingService(AmqpBowlingService amqpService, ToastService toastService)
+        public BowlingService(IBusService busService, IGameService gameService, ToastService toastService)
         {
             ToastService = toastService;
-            AmqpService = amqpService;
-            AmqpService.OnConnection += (c) => AmqpService.OnObjectReciver<Play>(AddPlay);
-            AmqpService.OnStatusChange += AmqpService_OnStatusChange;
-            AmqpService.ConnectionStartAsync();
+            Game = gameService;
+            BusService = busService;
+            BusService.OnConnection += (c) => BusService.OnObjectReciver<Play>(AddPlay);
+            BusService.OnStatusChange += AmqpService_OnStatusChange;
+            BusService.ConnectionStartAsync();
 #if DEBUG
             var plays = new int[] { 1, 4, 4, 5, 6, 4, 5, 5, 10, 0, 1, 7, 3, 6, 4, 10, 2, 8, 6 };
             plays.ToList().ForEach(p => AddPlay(new Play("Exemple A", p, "Debug", DateTime.Now)));
@@ -31,11 +32,11 @@ namespace BowlingPainelOnBlazor.Data
 #endif
         }
 
-        public override void AddPlay(Play play)
+        public void AddPlay(Play play)
         {
             try
             {
-                base.AddPlay(play);
+                Game.AddPlay(play);
             }
             catch (Exception e)
             {
@@ -43,9 +44,9 @@ namespace BowlingPainelOnBlazor.Data
             }
         }
 
-        private void AmqpService_OnStatusChange(IAmqpService.ConnectionStatus obj)
+        private void AmqpService_OnStatusChange(IBusService.ConnectionStatus obj)
         {
-            if (obj.Equals(IAmqpService.ConnectionStatus.ERROR))
+            if (obj.Equals(IBusService.ConnectionStatus.ERROR))
                 ToastService.ShowToast($"Erro: {GetError().Message}", Microsoft.AspNetCore.Components.Web.ToastLevel.Error);
             OnAmqpStatusChange?.Invoke(obj);
         }
