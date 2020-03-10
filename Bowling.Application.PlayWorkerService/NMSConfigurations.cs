@@ -1,6 +1,6 @@
 ﻿using Apache.NMS;
-using System;
 using Apache.NMS.ActiveMQ;
+using System;
 
 namespace Bowling.Application.PlayWorkerService
 {
@@ -15,7 +15,7 @@ namespace Bowling.Application.PlayWorkerService
         public NMSConfigurations()
         {
             var uriEnv = Environment.GetEnvironmentVariable("NMSCONFIGURATIONS_URI");
-            if(uriEnv != null) Uri = new Uri(uriEnv);
+            if (uriEnv != null) Uri = new Uri(uriEnv);
         }
         internal IConnection GetConnection()
         {

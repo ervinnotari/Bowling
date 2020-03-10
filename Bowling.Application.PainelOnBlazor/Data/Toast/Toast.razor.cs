@@ -1,6 +1,5 @@
-﻿using System;
-using BowlingPainelOnBlazor.Data;
-using Microsoft.AspNetCore.Components;
+﻿using BowlingPainelOnBlazor.Data;
+using System;
 
 namespace Microsoft.AspNetCore.Components.Web
 {

@@ -1,11 +1,11 @@
-﻿using System;
-using System.Net;
-using Newtonsoft.Json;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
+﻿using Bowling.Domain.Game.Entities;
 using BowlingPainelOnBlazor.Data;
-using Bowling.Domain.Game.Entities;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 
 namespace BowlingPainelOnBlazor.Controller
 {
