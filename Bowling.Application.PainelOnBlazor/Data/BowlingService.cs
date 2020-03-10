@@ -1,9 +1,8 @@
 using Bowling.Domain.Game.Entities;
+using Bowling.Domain.Game.Interfaces;
+using Bowling.Service;
 using System;
 using System.Linq;
-using Bowling.Service;
-using Bowling.Domain.Game.Interfaces;
-using Bowling.Service.NMS;
 
 namespace BowlingPainelOnBlazor.Data
 {

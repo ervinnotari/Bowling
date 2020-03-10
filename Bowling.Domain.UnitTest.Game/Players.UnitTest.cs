@@ -1,7 +1,6 @@
 using Bowling.Domain.Game.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Linq;
 
 namespace BowlingUnitTest
 {
