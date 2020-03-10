@@ -1,11 +1,27 @@
-name: .NET Core Build and Deploy
+name: Bowling Actions
 
 on:
   push:
     branches:
       - master
 
-jobs:
+jobs: 
+  
+  test:
+    runs-on: ${{ matrix.os }}
+    name: "CI: Automated Testing"
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1.4.0
+      with:
+        dotnet-version: 3.1.100
+    - name: Test Bowling
+      run: dotnet test Bowling.sln --configuration Release
+      
   build:
     runs-on: ${{ matrix.os }}
     name: "CI: Automated Build"
@@ -19,7 +35,7 @@ jobs:
       with:
         dotnet-version: 3.1.100
     - name: Build Bowling
-      run: dotnet build Bowling.sln --configuration Release 
+      run: dotnet build Bowling.sln --configuration Release
 
   deploy:
     runs-on: ubuntu-latest
@@ -43,4 +59,11 @@ jobs:
           docker tag painel:lasted registry.heroku.com/bowling-painel-on-blazor/web
           docker push registry.heroku.com/bowling-painel-on-blazor/web
           heroku container:release web -a bowling-painel-on-blazor
-
+      - name: Telegram Notify
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }} 
+          message: "Bowling new version runing on Heroku\n-> http://bowling-painel-on-blazor.herokuapp.com/"
+          photo: tests/github.png
+          document: tests/gophercolor.png
