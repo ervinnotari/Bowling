@@ -1,13 +1,10 @@
-﻿using Bowling.Domain.Game.Utils;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace Bowling.Domain.Game.Interfaces
 {
     public interface IBusService
     {
-        public BusConfiguration Configuration { get; set; }
-
         public event Action<object> OnMessageReciver;
         public event Action<object> OnConnection;
         public event Action<IBusService.ConnectionStatus> OnStatusChange;

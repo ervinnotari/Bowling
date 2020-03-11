@@ -2,29 +2,29 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Bowling.Domain.Game.Utils
+namespace Bowling.Service.Bus.MQTT
 {
-    public class BusConfiguration
+    public class MqttConfiguration
     {
-        public const string BUS_CONFIGURATIONS_USERNAME = "NMSCONFIGURATIONS_USERNAME";
-        public const string BUS_CONFIGURATIONS_PASSWORD = "NMSCONFIGURATIONS_PASSWORD";
-        public const string BUS_CONFIGURATIONS_TOPIC = "NMSCONFIGURATIONS_TOPIC";
-        public const string BUS_CONFIGURATIONS_URI = "NMSCONFIGURATIONS_URI";
+        public const string BUS_CONFIGURATIONS_USERNAME = "BUS_CONFIGURATIONS_USERNAME";
+        public const string BUS_CONFIGURATIONS_PASSWORD = "BUS_CONFIGURATIONS_PASSWORD";
+        public const string BUS_CONFIGURATIONS_TOPIC = "BUS_CONFIGURATIONS_TOPIC";
+        public const string BUS_CONFIGURATIONS_URI = "BUS_CONFIGURATIONS_URI";
 
         public Uri Uri { get; set; }
         public string Username { get; set; } = Environment.GetEnvironmentVariable(BUS_CONFIGURATIONS_USERNAME);
         public string Password { get; set; } = Environment.GetEnvironmentVariable(BUS_CONFIGURATIONS_PASSWORD);
-        public string Topic { get; set; } = Environment.GetEnvironmentVariable(BUS_CONFIGURATIONS_TOPIC) ?? "Bowling/play";
+        public string Topic { get; set; } = Environment.GetEnvironmentVariable(BUS_CONFIGURATIONS_TOPIC) ?? "bowling/play";
 
         internal virtual bool IsEnabled() => Uri != null;
 
-        public BusConfiguration()
+        public MqttConfiguration()
         {
             var uriEnv = Environment.GetEnvironmentVariable(BUS_CONFIGURATIONS_URI);
             if (uriEnv != null) Uri = new Uri(uriEnv);
         }
 
-        public BusConfiguration(Uri uri, string username, string password, string topic)
+        public MqttConfiguration(Uri uri, string username, string password, string topic)
         {
             Uri = uri;
             Username = username;

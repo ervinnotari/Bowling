@@ -1,12 +1,11 @@
 ﻿using Apache.NMS;
 using Apache.NMS.ActiveMQ;
 using Bowling.Domain.Game.Interfaces;
-using Bowling.Domain.Game.Utils;
 using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 
-namespace Bowling.Service.NMS
+namespace Bowling.Service.Bus.NMS
 {
     public class NmsService : IBusService
     {
@@ -14,9 +13,9 @@ namespace Bowling.Service.NMS
         protected IConnection Connection { get; private set; }
         protected ISession Session { get; private set; }
         protected IDestination Destination { get; private set; }
-        public BusConfiguration Configuration { get; set; }
+        public NmsConfiguration Configuration { get; set; }
 
-        public NmsService(BusConfiguration configuration)
+        public NmsService(NmsConfiguration configuration)
         {
             Configuration = configuration;
         }

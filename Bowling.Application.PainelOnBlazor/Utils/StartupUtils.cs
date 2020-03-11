@@ -1,5 +1,4 @@
-﻿using Bowling.Domain.Game.Utils;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Bowling.Infra.CrossCuting.IoC;
+using Bowling.Infra.CrossCutting.IoC;
 using Newtonsoft.Json;
 using System;
 using System.IO;
@@ -20,11 +19,6 @@ namespace BowlingPainelOnBlazor.Utils
     {
         public static void AddBowlingConfigurations(this IServiceCollection services, IConfiguration Configuration)
         {
-            //services.Configure<BusConfiguration>(Configuration.GetSection(nameof(BusConfiguration)));
-            //services.Configure<BusConfiguration>(nameof(BusConfiguration), (bus) =>
-            //{
-            //    services.AddAllApplicationServices(bus);
-            //});
             services.AddSingleton<BowlingPainelOnBlazor.Data.ToastService>();
             services.AddSingleton<BowlingPainelOnBlazor.Data.BowlingService>();
             services.AddAllApplicationServices();

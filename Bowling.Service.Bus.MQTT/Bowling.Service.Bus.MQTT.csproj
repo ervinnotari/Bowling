@@ -8,4 +8,8 @@
     <ProjectReference Include="..\Bowling.Domain.Game\Bowling.Domain.Game.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MQTTnet.Extensions.ManagedClient" Version="3.0.9-rc1" />
+  </ItemGroup>
+
 </Project>
