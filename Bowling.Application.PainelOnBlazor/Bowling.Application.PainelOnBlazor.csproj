@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Bowling.Domain.Game\Bowling.Domain.Game.csproj" />
-    <ProjectReference Include="..\Bowling.Infra.CrossCuting.IoC\Bowling.Infra.CrossCuting.IoC.csproj" />
+    <ProjectReference Include="..\Bowling.Infra.CrossCutting.IoC\Bowling.Infra.CrossCutting.IoC.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
