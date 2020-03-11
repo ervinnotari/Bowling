@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Bowling.Domain.Game.Utils
 {
-    public abstract class BusConfiguration
+    public class BusConfiguration
     {
         public const string BUS_CONFIGURATIONS_USERNAME = "NMSCONFIGURATIONS_USERNAME";
         public const string BUS_CONFIGURATIONS_PASSWORD = "NMSCONFIGURATIONS_PASSWORD";

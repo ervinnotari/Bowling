@@ -5,7 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Bowling.Infra.CrossCuting.IoC;
 
 namespace Bowling.Application.PainelOnBlazor
 {
@@ -26,11 +25,7 @@ namespace Bowling.Application.PainelOnBlazor
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
-            services.AddSingleton<BowlingPainelOnBlazor.Data.ToastService>();
-            services.AddSingleton<BowlingPainelOnBlazor.Data.BowlingService>();
-
-            services.AddAllApplicationOptions(Configuration);
-            services.AddAllApplicationServices();
+            services.AddBowlingConfigurations(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

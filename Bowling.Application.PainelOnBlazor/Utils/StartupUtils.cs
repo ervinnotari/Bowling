@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Bowling.Infra.CrossCuting.IoC;
 using Newtonsoft.Json;
 using System;
 using System.IO;
@@ -17,9 +18,16 @@ namespace BowlingPainelOnBlazor.Utils
 {
     public static class StartupUtils
     {
-        public static void AddAllApplicationOptions(this IServiceCollection services, IConfiguration Configuration)
+        public static void AddBowlingConfigurations(this IServiceCollection services, IConfiguration Configuration)
         {
-            services.Configure<BusConfiguration>(Configuration.GetSection(nameof(BusConfiguration)));
+            //services.Configure<BusConfiguration>(Configuration.GetSection(nameof(BusConfiguration)));
+            //services.Configure<BusConfiguration>(nameof(BusConfiguration), (bus) =>
+            //{
+            //    services.AddAllApplicationServices(bus);
+            //});
+            services.AddSingleton<BowlingPainelOnBlazor.Data.ToastService>();
+            services.AddSingleton<BowlingPainelOnBlazor.Data.BowlingService>();
+            services.AddAllApplicationServices();
         }
 
         public static void AddSwagger(this IServiceCollection services)
