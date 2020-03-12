@@ -17,11 +17,11 @@ namespace BowlingPainelOnBlazor.Utils
 {
     public static class StartupUtils
     {
-        public static void AddBowlingConfigurations(this IServiceCollection services, IConfiguration Configuration)
+        public static void AddBowlingConfigurations(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddSingleton<BowlingPainelOnBlazor.Data.ToastService>();
             services.AddSingleton<BowlingPainelOnBlazor.Data.BowlingService>();
-            services.AddAllApplicationServices();
+            services.AddAllApplicationServices(configuration);
         }
 
         public static void AddSwagger(this IServiceCollection services)

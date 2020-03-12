@@ -1,23 +1,31 @@
 ﻿using Bowling.Domain.Game.Interfaces;
 using System;
+using System.Drawing;
 using System.Text;
 using System.Threading.Tasks;
-using MQTTnet;
-using MQTTnet.Client.Options;
-using MQTTnet.Extensions.ManagedClient;
+using M2Mqtt;
+using M2Mqtt.Messages;
+using Microsoft.Extensions.Configuration;
 
 namespace Bowling.Service.Bus.MQTT
 {
     public class MqttService : IBusService, IDisposable
     {
-        private IManagedMqttClient _client;
         public event Action<object> OnMessageReciver;
         public event Action<object> OnConnection;
         public event Action<IBusService.ConnectionStatus> OnStatusChange;
+        private MqttClient _client;
+        private Exception _error;
+        private IConfiguration _configuration;
+
+        public MqttService(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
 
         public IBusService.ConnectionStatus GetConnectionStatus()
         {
-            throw new NotImplementedException();
+            return IBusService.ConnectionStatus.ERROR;
         }
 
         public void OnObjectReciver<T>(Action<T> listener)
@@ -26,13 +34,9 @@ namespace Bowling.Service.Bus.MQTT
 
         public void SendText(string message)
         {
-            _client.PublishAsync(new MqttApplicationMessageBuilder()
-                    .WithTopic(MqttConfiguration.Topic)
-                    .WithPayload(message)
-                    .WithQualityOfServiceLevel((MQTTnet.Protocol.MqttQualityOfServiceLevel) 2)
-                    .WithRetainFlag(false)
-                    .Build())
-                .Wait();
+            var payload = Encoding.UTF8.GetBytes(message);
+            const byte qos = MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE;
+            var msgId = _client.Publish(MqttConfiguration.Topic, payload, qos, true);
         }
 
         public void SendObject(object obj)
@@ -46,71 +50,23 @@ namespace Bowling.Service.Bus.MQTT
 
         public async Task ConnectionStartAsync()
         {
-            var mqttUrl = MqttConfiguration.Host ?? "broker.mqttdashboard.com";
-            var clientId = Guid.NewGuid().ToString();
-            var mqttUser = MqttConfiguration.Username;
-            var mqttPassword = MqttConfiguration.Password;
-            var mqttPort = MqttConfiguration.Port;
-            var mqttSecure = false;
-
-            var messageBuilder = new MqttClientOptionsBuilder()
-                .WithClientId(clientId)
-                //.WithCredentials(mqttUser, mqttPassword)
-                .WithTcpServer(mqttUrl, null)
-                .WithCleanSession();
-            var options = mqttSecure
-                ? messageBuilder
-                    .WithTls()
-                    .Build()
-                : messageBuilder
-                    .Build();
-            var managedOptions = new ManagedMqttClientOptionsBuilder()
-                .WithAutoReconnectDelay(TimeSpan.FromSeconds(5))
-                .WithClientOptions(options)
-                .Build();
-            _client = new MqttFactory().CreateManagedMqttClient();
-            await _client.StartAsync(managedOptions);
-
-            _client.UseConnectedHandler(e => { Console.WriteLine("Connected successfully with MQTT Brokers."); });
-
-            await _client.SubscribeAsync(new TopicFilterBuilder()
-                .WithTopic(MqttConfiguration.Topic)
-                .WithQualityOfServiceLevel((MQTTnet.Protocol.MqttQualityOfServiceLevel) 0)
-                .Build());
-
-            _client.UseApplicationMessageReceivedHandler(e =>
+            try
             {
-                try
-                {
-                    string topic = e.ApplicationMessage.Topic;
-                    if (string.IsNullOrWhiteSpace(topic) == false)
-                    {
-                        string payload = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
-                        Console.WriteLine($"Topic: {topic}. Message Received: {payload}");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message, ex);
-                }
-            });
-
-            await _client.PublishAsync(new MqttApplicationMessageBuilder()
-                .WithTopic(MqttConfiguration.Topic)
-                .WithPayload("oi")
-                .WithQualityOfServiceLevel((MQTTnet.Protocol.MqttQualityOfServiceLevel) 2)
-                .WithRetainFlag(false)
-                .Build());
+                _client = new MqttClient(MqttConfiguration.Host) {ProtocolVersion = MqttProtocolVersion.Version_3_1};
+                var code = _client.Connect(Guid.NewGuid().ToString());
+            }
+            catch (Exception e)
+            {
+                _error = e;
+            }
         }
 
-        public Exception GetError()
-        {
-            throw new NotImplementedException();
-        }
+        public Exception GetError() => _error;
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            if (_client.IsConnected)
+                _client.Disconnect();
         }
     }
 }

@@ -7,22 +7,22 @@ namespace Bowling.Infra.Utilities
 {
     public class ConfigureHelper
     {
-        static ConfigureHelper()
+        
+        public ConfigureHelper(IConfiguration configuration)
         {
-            try
-            {
-                Configuration = new ConfigurationBuilder()
-                    .SetBasePath(ProcessDirectory)
-                    .AddJsonFile("appsettings.json")
-                    .Build();
-            }
-            catch (Exception)
-            {
-                Configuration = new ConfigurationBuilder()
-                    .SetBasePath(ProcessDirectory)
-                    .AddInMemoryCollection()
-                    .Build();
-            }
+            
+// #if DEBUG
+//             string env = "Development";
+// #else
+//             string env = "Production";
+// #endif
+//             env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? env;
+//             Configuration = new ConfigurationBuilder()
+//                 .SetBasePath(ProcessDirectory)
+//                 .AddInMemoryCollection()
+//                 .AddJsonFile($"appsettings.{env}.json", optional: true,reloadOnChange: true)
+//                 .AddJsonFile("appsettings.json", optional: true,reloadOnChange: true)
+//                 .Build();
         }
 
         public static string ProcessDirectory

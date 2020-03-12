@@ -3,39 +3,36 @@
 @using BowlingPainelOnBlazor.Data
 @using Microsoft.AspNetCore.Components.Rendering
 @using Bowling.Domain.Game.Interfaces
-@*@inject BowlingService BowlingService*@
-@inject ToastService toastService
+@inject BowlingService BowlingService
 
 <h1>Bem vindo ao painel do Boliche!</h1>
 
-<strong>AMQP</strong> @{IsAMQPEnable(__builder);}
+<p>
+    <strong>AMQP</strong>
+    @switch (BowlingService.GetStatus())
+    {
+        case IBusService.ConnectionStatus.CONECTING:
+            <span> Conectando...</span>
+            break;
+        case IBusService.ConnectionStatus.CONNECTED:
+            <span>Conectado</span>
+            break;
+        case IBusService.ConnectionStatus.ERROR:
+            <span> @BowlingService.GetError().Message </span>
+            break;
+        default:
+        case IBusService.ConnectionStatus.DISABLED:
+            <span> Desabilitado </span>
+            break;
+    }
+</p>
 
 @code {
 
     protected override Task OnInitializedAsync()
     {
-        //BowlingService.OnChange += (o, e) => InvokeAsync(StateHasChanged);
+        BowlingService.Game.OnChange += (o, e) => InvokeAsync(StateHasChanged);
         return base.OnInitializedAsync();
-    }
-
-    private void IsAMQPEnable(RenderTreeBuilder __builder)
-    {
-        @*switch (BowlingService.GetStatus())
-        {
-            case IBusService.ConnectionStatus.CONECTING:
-                <span>Conectando...</span>
-                break;
-            case IBusService.ConnectionStatus.CONNECTED:
-                <span>Conectado</span>
-                break;
-            case IBusService.ConnectionStatus.ERROR:
-                <span>@BowlingService.GetError().Message</span>
-                break;
-            default:
-            case IBusService.ConnectionStatus.DISABLED:
-                <span>Desabilitado</span>
-                break;
-        }*@
     }
 
 }
