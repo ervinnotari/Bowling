@@ -4,32 +4,64 @@ using System.Text;
 
 namespace Bowling.Service.Bus.MQTT
 {
-    public class MqttConfiguration
+    public static class MqttConfiguration
     {
-        public const string BUS_CONFIGURATIONS_USERNAME = "BUS_CONFIGURATIONS_USERNAME";
-        public const string BUS_CONFIGURATIONS_PASSWORD = "BUS_CONFIGURATIONS_PASSWORD";
-        public const string BUS_CONFIGURATIONS_TOPIC = "BUS_CONFIGURATIONS_TOPIC";
-        public const string BUS_CONFIGURATIONS_URI = "BUS_CONFIGURATIONS_URI";
+        private const string BusConfigurationsUsername = "BUS_CONFIGURATIONS_USERNAME";
+        private const string BusConfigurationsPassword = "BUS_CONFIGURATIONS_PASSWORD";
+        private const string BusConfigurationsTopic = "BUS_CONFIGURATIONS_TOPIC";
+        private const string BusConfigurationsUrl = "BUS_CONFIGURATIONS_URL";
 
-        public Uri Uri { get; set; }
-        public string Username { get; set; } = Environment.GetEnvironmentVariable(BUS_CONFIGURATIONS_USERNAME);
-        public string Password { get; set; } = Environment.GetEnvironmentVariable(BUS_CONFIGURATIONS_PASSWORD);
-        public string Topic { get; set; } = Environment.GetEnvironmentVariable(BUS_CONFIGURATIONS_TOPIC) ?? "bowling/play";
-
-        internal virtual bool IsEnabled() => Uri != null;
-
-        public MqttConfiguration()
+        public static string Url
         {
-            var uriEnv = Environment.GetEnvironmentVariable(BUS_CONFIGURATIONS_URI);
-            if (uriEnv != null) Uri = new Uri(uriEnv);
+            get
+            {
+                var val = ConfigureHelper.Configuration["Url"];
+                if (string.IsNullOrEmpty(val)) val = Environment.GetEnvironmentVariable(BusConfigurationsUrl);
+                return val;
+            }
         }
 
-        public MqttConfiguration(Uri uri, string username, string password, string topic)
+        public static string Username
         {
-            Uri = uri;
-            Username = username;
-            Password = password;
-            Topic = topic;
+            get
+            {
+                var val = ConfigureHelper.Configuration["Username"];
+                if (string.IsNullOrEmpty(val)) val = Environment.GetEnvironmentVariable(BusConfigurationsUsername);
+                return val;
+            }
         }
+
+        public static string Password
+        {
+            get
+            {
+                var val = ConfigureHelper.Configuration["Username"];
+                if (string.IsNullOrEmpty(val)) val = Environment.GetEnvironmentVariable(BusConfigurationsPassword);
+                return val;
+            }
+        }
+
+        public static string Topic
+        {
+            get
+            {
+                var val = ConfigureHelper.Configuration["Username"];
+                if (string.IsNullOrEmpty(val)) val = Environment.GetEnvironmentVariable(BusConfigurationsTopic);
+                if (string.IsNullOrEmpty(val)) val = "bowling/play";
+                return val;
+            }
+        }
+        public static int Port
+        {
+            get
+            {
+                var val = ConfigureHelper.Configuration["Port"];
+                if (string.IsNullOrEmpty(val)) val = Environment.GetEnvironmentVariable(BusConfigurationsTopic);
+                if (string.IsNullOrEmpty(val)) val = "1883";
+                return int.Parse(val);
+            }
+        }
+
+        internal static bool IsEnabled() => Url != null;
     }
 }

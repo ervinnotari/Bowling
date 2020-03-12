@@ -8,9 +8,9 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
         [Fact]
         public void Test1()
         {
-            var t = new MqttService(new MqttConfiguration(new Uri("tcp://localhost:1883"), null, null, "bowling/play"));
+            var t = new MqttService();
             t.ConnectionStart();
-            t.SendObject(null);
+            t.SendText("oi");
             Assert.True(true, "oi");
         }
     }

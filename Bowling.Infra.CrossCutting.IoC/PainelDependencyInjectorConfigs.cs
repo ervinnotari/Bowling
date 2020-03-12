@@ -11,7 +11,6 @@ namespace Bowling.Infra.CrossCutting.IoC
         {
             services.AddTransient<IGameService, GameService>();
             services.AddTransient<IBusService, MqttService>();
-            services.AddSingleton<MqttConfiguration>();
         }
     }
 }
