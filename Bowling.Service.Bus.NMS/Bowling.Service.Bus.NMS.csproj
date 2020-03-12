@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Bowling.Domain.Game\Bowling.Domain.Game.csproj" />
+    <ProjectReference Include="..\Bowling.Infra.Utilities\Bowling.Infra.Utilities.csproj" />
   </ItemGroup>
 
 </Project>

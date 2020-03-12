@@ -13,12 +13,6 @@ namespace Bowling.Service.Bus.NMS
         protected IConnection Connection { get; private set; }
         protected ISession Session { get; private set; }
         protected IDestination Destination { get; private set; }
-        public NmsConfiguration Configuration { get; set; }
-
-        public NmsService(NmsConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
 
         public event Action<object> OnMessageReciver;
         public event Action<object> OnConnection;
@@ -34,24 +28,22 @@ namespace Bowling.Service.Bus.NMS
         }
         public void OnObjectReciver<T>(Action<T> listener)
         {
-            IMessageConsumer consumer = Session.CreateConsumer(Destination);
+            var consumer = Session.CreateConsumer(Destination);
             consumer.Listener += msg =>
             {
-                if (msg is ITextMessage txtMsg)
+                if (!(msg is ITextMessage txtMsg)) return;
+                try
                 {
-                    try
-                    {
-                        var stt = new JsonSerializerSettings() { MissingMemberHandling = MissingMemberHandling.Error };
-                        var obj = JsonConvert.DeserializeObject<T>(txtMsg.Text, stt);
-                        listener.Invoke(obj);
-                    }
-                    catch (JsonSerializationException) { }
+                    var stt = new JsonSerializerSettings() { MissingMemberHandling = MissingMemberHandling.Error };
+                    var obj = JsonConvert.DeserializeObject<T>(txtMsg.Text, stt);
+                    listener.Invoke(obj);
                 }
+                catch (JsonSerializationException) { }
             };
         }
         public void SendText(string message)
         {
-            IMessageProducer producer = Session.CreateProducer(Destination);
+            var producer = Session.CreateProducer(Destination);
             var msg = producer.CreateTextMessage(message);
             producer.Send(msg);
         }
@@ -63,20 +55,20 @@ namespace Bowling.Service.Bus.NMS
         public void ConnectionStart()
         {
 
-            if (Configuration.Uri != null)
+            if (NmsConfiguration.Uri != null)
             {
                 try
                 {
-                    var factory = new ConnectionFactory(Configuration.Uri);
-                    if (Configuration.Username != null && Configuration.Password != null)
-                        Connection = factory.CreateConnection(Configuration.Username, Configuration.Password);
+                    var factory = new ConnectionFactory(NmsConfiguration.Uri);
+                    if (NmsConfiguration.Username != null && NmsConfiguration.Password != null)
+                        Connection = factory.CreateConnection(NmsConfiguration.Username, NmsConfiguration.Password);
                     else
                         Connection = factory.CreateConnection();
 
                     Connection.Start();
                     Session = Connection.CreateSession();
-                    Destination = Session.GetTopic(Configuration.Topic);
-                    IMessageConsumer consumer = Session.CreateConsumer(Destination);
+                    Destination = Session.GetTopic(NmsConfiguration.Topic);
+                    var consumer = Session.CreateConsumer(Destination);
                     consumer.Listener += (IMessage message) => OnMessageReciver?.Invoke(message);
                     OnConnection?.Invoke(Connection);
                 }

@@ -6,13 +6,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Bowling.Domain.Game\Bowling.Domain.Game.csproj" />
+    <ProjectReference Include="..\Bowling.Infra.Utilities\Bowling.Infra.Utilities.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MQTTnet.Extensions.ManagedClient" Version="3.0.9-rc1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.1" />
   </ItemGroup>
 
 </Project>

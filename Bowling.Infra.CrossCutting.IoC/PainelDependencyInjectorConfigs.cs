@@ -1,6 +1,7 @@
 ﻿using Bowling.Domain.Game.Interfaces;
 using Bowling.Service;
 using Bowling.Service.Bus.MQTT;
+// using Bowling.Service.Bus.NMS;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Bowling.Infra.CrossCutting.IoC
@@ -11,6 +12,7 @@ namespace Bowling.Infra.CrossCutting.IoC
         {
             services.AddTransient<IGameService, GameService>();
             services.AddTransient<IBusService, MqttService>();
+            //services.AddTransient<IBusService, NmsService>();
         }
     }
 }

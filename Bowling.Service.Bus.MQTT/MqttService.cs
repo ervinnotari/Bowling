@@ -10,10 +10,6 @@ namespace Bowling.Service.Bus.MQTT
 {
     public class MqttService : IBusService, IDisposable
     {
-        public MqttService()
-        {
-        }
-
         private IManagedMqttClient _client;
         public event Action<object> OnMessageReciver;
         public event Action<object> OnConnection;
@@ -50,7 +46,7 @@ namespace Bowling.Service.Bus.MQTT
 
         public async Task ConnectionStartAsync()
         {
-            var mqttUrl = MqttConfiguration.Url ?? "broker.mqttdashboard.com";
+            var mqttUrl = MqttConfiguration.Host ?? "broker.mqttdashboard.com";
             var clientId = Guid.NewGuid().ToString();
             var mqttUser = MqttConfiguration.Username;
             var mqttPassword = MqttConfiguration.Password;
@@ -60,7 +56,7 @@ namespace Bowling.Service.Bus.MQTT
             var messageBuilder = new MqttClientOptionsBuilder()
                 .WithClientId(clientId)
                 //.WithCredentials(mqttUser, mqttPassword)
-                .WithTcpServer(mqttUrl,null)
+                .WithTcpServer(mqttUrl, null)
                 .WithCleanSession();
             var options = mqttSecure
                 ? messageBuilder

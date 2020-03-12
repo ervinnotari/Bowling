@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 
 // ReSharper disable All
 
-namespace Bowling.Service.Bus.MQTT
+namespace Bowling.Infra.Utilities
 {
     public class ConfigureHelper
     {
