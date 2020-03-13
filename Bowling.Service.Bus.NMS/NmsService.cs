@@ -1,6 +1,7 @@
 ﻿using Apache.NMS;
 using Apache.NMS.ActiveMQ;
 using Bowling.Domain.Game.Interfaces;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
@@ -17,6 +18,12 @@ namespace Bowling.Service.Bus.NMS
         public event Action<object> OnMessageReciver;
         public event Action<object> OnConnection;
         public event Action<IBusService.ConnectionStatus> OnStatusChange;
+        private NmsConfiguration _configuration;
+
+        public NmsService(IConfiguration configuration)
+        {
+            _configuration = new NmsConfiguration(configuration);
+        }
 
         public IBusService.ConnectionStatus GetConnectionStatus()
         {
@@ -55,19 +62,19 @@ namespace Bowling.Service.Bus.NMS
         public void ConnectionStart()
         {
 
-            if (NmsConfiguration.Uri != null)
+            if (_configuration.Uri != null)
             {
                 try
                 {
-                    var factory = new ConnectionFactory(NmsConfiguration.Uri);
-                    if (NmsConfiguration.Username != null && NmsConfiguration.Password != null)
-                        Connection = factory.CreateConnection(NmsConfiguration.Username, NmsConfiguration.Password);
+                    var factory = new ConnectionFactory(_configuration.Uri);
+                    if (_configuration.Username != null && _configuration.Password != null)
+                        Connection = factory.CreateConnection(_configuration.Username, _configuration.Password);
                     else
                         Connection = factory.CreateConnection();
 
                     Connection.Start();
                     Session = Connection.CreateSession();
-                    Destination = Session.GetTopic(NmsConfiguration.Topic);
+                    Destination = Session.GetTopic(_configuration.Topic);
                     var consumer = Session.CreateConsumer(Destination);
                     consumer.Listener += (IMessage message) => OnMessageReciver?.Invoke(message);
                     OnConnection?.Invoke(Connection);

@@ -29,9 +29,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.1 - CrossCuting", "4.1 - 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bowling.Infra.CrossCutting.IoC", "Bowling.Infra.CrossCutting.IoC\Bowling.Infra.CrossCutting.IoC.csproj", "{5C654029-1560-4F8A-AE56-1C7E2E2D6606}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bowling.Service.Bus.MQTT.xUnitTests", "Bowling.Service.Bus.MQTT.xUnitTests\Bowling.Service.Bus.MQTT.xUnitTests.csproj", "{D34B4059-F6EF-454C-8172-67BA424E821C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bowling.Service.Bus.MQTT.xUnitTests", "Bowling.Service.Bus.MQTT.xUnitTests\Bowling.Service.Bus.MQTT.xUnitTests.csproj", "{D34B4059-F6EF-454C-8172-67BA424E821C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bowling.Infra.Utilities", "Bowling.Infra.Utilities\Bowling.Infra.Utilities.csproj", "{6AB7F6B3-354A-45A7-9A41-7D46C8851989}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bowling.Infra.Utilities", "Bowling.Infra.Utilities\Bowling.Infra.Utilities.csproj", "{6AB7F6B3-354A-45A7-9A41-7D46C8851989}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{036058E7-BEBC-4C59-BC95-02A88A6286A1}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,58 +1,61 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Bowling.Infra.Utilities;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 
 namespace Bowling.Service.Bus.NMS
 {
-    public static class NmsConfiguration
+    public class NmsConfiguration
     {
         private const string BusConfigurationsUsername = "NMS_USERNAME";
         private const string BusConfigurationsPassword = "NMS_PASSWORD";
         private const string BusConfigurationsTopic = "NMS_TOPIC";
         private const string BusConfigurationsUri = "NMS_URL";
+        private readonly IConfiguration _configuration;
+        public NmsConfiguration(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
 
-        public static Uri Uri
+        public Uri Uri
         {
             get
             {
                 var val = Environment.GetEnvironmentVariable(BusConfigurationsUri);
-                if (string.IsNullOrEmpty(val)) val = ConfigureHelper.Configuration["Url"];
+                if (string.IsNullOrEmpty(val)) val = _configuration["Url"];
                 return new Uri(val);
             }
         }
 
-        public static string Username
+        public string Username
         {
             get
             {
                 var val = Environment.GetEnvironmentVariable(BusConfigurationsUsername);
-                if (string.IsNullOrEmpty(val)) val = ConfigureHelper.Configuration["Username"];
+                if (string.IsNullOrEmpty(val)) val = _configuration["Username"];
                 return val;
             }
         }
 
-        public static string Password
+        public string Password
         {
             get
             {
                 var val = Environment.GetEnvironmentVariable(BusConfigurationsPassword);
-                if (string.IsNullOrEmpty(val)) val = ConfigureHelper.Configuration["Password"];
+                if (string.IsNullOrEmpty(val)) val = _configuration["Password"];
                 return val;
             }
         }
 
-        public static string Topic
+        public string Topic
         {
             get
             {
                 var val = Environment.GetEnvironmentVariable(BusConfigurationsTopic);
-                if (string.IsNullOrEmpty(val)) val = ConfigureHelper.Configuration["Topic"];
+                if (string.IsNullOrEmpty(val)) val = _configuration["Topic"];
                 if (string.IsNullOrEmpty(val)) val = "bowling/play";
                 return val;
             }
         }
 
-        internal static bool IsEnabled() => Uri != null;
+        internal bool IsEnabled() => Uri != null;
     }
 }

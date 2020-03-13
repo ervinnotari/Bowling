@@ -1,5 +1,5 @@
-using System;
 using Microsoft.Extensions.Configuration;
+using System;
 
 // ReSharper disable All
 
@@ -7,22 +7,22 @@ namespace Bowling.Infra.Utilities
 {
     public class ConfigureHelper
     {
-        
-        public ConfigureHelper(IConfiguration configuration)
+
+        static ConfigureHelper()
         {
-            
-// #if DEBUG
-//             string env = "Development";
-// #else
-//             string env = "Production";
-// #endif
-//             env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? env;
-//             Configuration = new ConfigurationBuilder()
-//                 .SetBasePath(ProcessDirectory)
-//                 .AddInMemoryCollection()
-//                 .AddJsonFile($"appsettings.{env}.json", optional: true,reloadOnChange: true)
-//                 .AddJsonFile("appsettings.json", optional: true,reloadOnChange: true)
-//                 .Build();
+
+            // #if DEBUG
+            //             string env = "Development";
+            // #else
+            //             string env = "Production";
+            // #endif
+            //             env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? env;
+            //             Configuration = new ConfigurationBuilder()
+            //                 .SetBasePath(ProcessDirectory)
+            //                 .AddInMemoryCollection()
+            //                 .AddJsonFile($"appsettings.{env}.json", optional: true,reloadOnChange: true)
+            //                 .AddJsonFile("appsettings.json", optional: true,reloadOnChange: true)
+            //                 .Build();
         }
 
         public static string ProcessDirectory
