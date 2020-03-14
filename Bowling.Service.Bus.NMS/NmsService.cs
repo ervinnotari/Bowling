@@ -27,11 +27,11 @@ namespace Bowling.Service.Bus.NMS
 
         public IBusService.ConnectionStatus GetConnectionStatus()
         {
-            if (Error != null) return IBusService.ConnectionStatus.ERROR;
-            else if (Connection == null) return IBusService.ConnectionStatus.DISABLED;
-            else if (!Connection.IsStarted && Session == null) return IBusService.ConnectionStatus.CONECTING;
-            else if (Connection.IsStarted && Session != null) return IBusService.ConnectionStatus.CONNECTED;
-            else return IBusService.ConnectionStatus.DISABLED;
+            if (Error != null) return IBusService.ConnectionStatus.Error;
+            else if (Connection == null) return IBusService.ConnectionStatus.Disabled;
+            else if (!Connection.IsStarted && Session == null) return IBusService.ConnectionStatus.Conecting;
+            else if (Connection.IsStarted && Session != null) return IBusService.ConnectionStatus.Connected;
+            else return IBusService.ConnectionStatus.Disabled;
         }
         public void OnObjectReciver<T>(Action<T> listener)
         {
@@ -88,5 +88,9 @@ namespace Bowling.Service.Bus.NMS
         }
         public Task ConnectionStartAsync() => Task.Factory.StartNew(ConnectionStart);
         public Exception GetError() => Error;
+        public void Dispose()
+        {
+            Connection.Dispose();
+        }
     }
 }

@@ -11,17 +11,17 @@
     <strong>AMQP</strong>
     @switch (BowlingService.GetStatus())
     {
-        case IBusService.ConnectionStatus.CONECTING:
+        case IBusService.ConnectionStatus.Conecting:
             <span> Conectando...</span>
             break;
-        case IBusService.ConnectionStatus.CONNECTED:
+        case IBusService.ConnectionStatus.Connected:
             <span>Conectado</span>
             break;
-        case IBusService.ConnectionStatus.ERROR:
+        case IBusService.ConnectionStatus.Error:
             <span> @BowlingService.GetError().Message </span>
             break;
         default:
-        case IBusService.ConnectionStatus.DISABLED:
+        case IBusService.ConnectionStatus.Disabled:
             <span> Desabilitado </span>
             break;
     }

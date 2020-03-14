@@ -1,25 +1,24 @@
 using Bowling.Domain.Game.Entities;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using System;
 
-namespace BowlingUnitTest
+namespace Bowling.Domain.Game.xUnitTests
 {
-    [TestClass]
     public class PlayersUnitTest
     {
-        private const string NAME1 = "José";
+        private const string NAME1 = "Josï¿½";
         private const string NAME2 = "Maria";
         private const string ALLEY = "01";
 
-        [TestMethod]
+        [Fact]
         public void AddPlayTest()
         {
             var p = new Players();
             p.AddPlay(new Play(NAME1, 10, ALLEY, DateTime.Now));
             p.AddPlay(new Play(NAME1, 10, ALLEY, DateTime.Now));
-            Assert.AreEqual(1, p.Count);
+            Assert.Single(p);
             p.AddPlay(new Play(NAME2, 10, ALLEY, DateTime.Now));
-            Assert.AreEqual(2, p.Count);
+            Assert.Equal(2, p.Count);
         }
     }
 }

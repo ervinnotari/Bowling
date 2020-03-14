@@ -46,7 +46,7 @@ namespace BowlingPainelOnBlazor.Data
 
         private void AmqpService_OnStatusChange(IBusService.ConnectionStatus obj)
         {
-            if (obj.Equals(IBusService.ConnectionStatus.ERROR))
+            if (obj.Equals(IBusService.ConnectionStatus.Error))
                 ToastService.ShowToast($"Erro: {GetError().Message}", Microsoft.AspNetCore.Components.Web.ToastLevel.Error);
             OnAmqpStatusChange?.Invoke(obj);
         }

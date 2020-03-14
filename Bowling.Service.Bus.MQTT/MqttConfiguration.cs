@@ -1,5 +1,4 @@
-﻿using Bowling.Infra.Utilities;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using System;
 
 namespace Bowling.Service.Bus.MQTT
@@ -10,7 +9,8 @@ namespace Bowling.Service.Bus.MQTT
         private const string BusConfigurationsPassword = "MQTT_PASSWORD";
         private const string BusConfigurationsTopic = "MQTT_TOPIC";
         private const string BusConfigurationsUrl = "MQTT_HOST";
-        private IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
+
         public MqttConfiguration(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -52,21 +52,20 @@ namespace Bowling.Service.Bus.MQTT
             {
                 var val = Environment.GetEnvironmentVariable(BusConfigurationsTopic);
                 if (string.IsNullOrEmpty(val)) val = _configuration["Topic"];
-                if (string.IsNullOrEmpty(val)) val = "bowling/play";
-                return val;
+                return val ?? "bowling/play";
             }
         }
+
         public int Port
         {
             get
             {
                 var val = Environment.GetEnvironmentVariable(BusConfigurationsTopic);
-                if (string.IsNullOrEmpty(val)) val = ConfigureHelper.Configuration["Port"];
-                if (string.IsNullOrEmpty(val)) val = "1883";
-                return int.Parse(val);
+                if (string.IsNullOrEmpty(val)) val = _configuration["Port"];
+                return int.Parse(val ?? "1883");
             }
         }
 
-        internal bool IsEnabled() => Host != null;
+        public bool IsEnabled() => Host != null;
     }
 }
