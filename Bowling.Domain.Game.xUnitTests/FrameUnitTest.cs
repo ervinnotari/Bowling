@@ -104,6 +104,7 @@ namespace Bowling.Domain.Game.xUnitTests
             f3.Balls.Add(1);
             f3.Balls.Add(10);
             Assert.Equal(36, f3.Score);
+            Assert.IsType<string>(f3.ToString());
         }
     }
 }
