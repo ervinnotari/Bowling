@@ -28,9 +28,9 @@ namespace Bowling.Service.Bus.MQTT
 
         public IBusService.ConnectionStatus GetConnectionStatus()
         {
-            if (_error != null) 
+            if (_error != null)
                 return IBusService.ConnectionStatus.Error;
-            else if (_client != null && _client.IsConnected) 
+            else if (_client != null && _client.IsConnected)
                 return IBusService.ConnectionStatus.Connected;
             return IBusService.ConnectionStatus.Disabled;
         }
@@ -47,7 +47,7 @@ namespace Bowling.Service.Bus.MQTT
                     var obj = JsonConvert.DeserializeObject<T>(txtMsg, stt);
                     listener.Invoke(obj);
                 }
-                catch (Exception)
+                catch (Newtonsoft.Json.JsonReaderException)
                 {
                     // ignored
                 }

@@ -24,7 +24,7 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
                     {"Port", "1883"}
                 }).Build();
         }
-
+        
         [Fact]
         public async void GetConnectionStatusTest()
         {
@@ -67,57 +67,28 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
         {
             var test = $"{(new Random()).Next(15292, 55292)}";
             var result = default(string);
-
+        
             using var mqtt = new MqttService(_configuration);
             await mqtt.ConnectionStartAsync();
-            mqtt.OnObjectReciver<string>((o) => result = o);
+            mqtt.OnObjectReciver<string>((o) =>
+            {
+                result = o;
+                Assert.IsType<string>(o);
+            });
             mqtt.SendText(test);
-
+            mqtt.SendObject(new Version());
+        
             await Task.Delay(1000);
             Assert.Equal(test, result);
         }
-
-        [Fact]
-        public async void Send2MensageTest()
-        {
-            var test = $"ola";
-            var result = default(int);
-
-            using var mqtt = new MqttService(_configuration);
-            await mqtt.ConnectionStartAsync();
-            mqtt.OnObjectReciver<int>((o) => result = o);
-            mqtt.SendText(test);
-
-            await Task.Delay(1000);
-            Assert.Equal(0, result);
-        }
-
-        [Fact]
-        public async void SendTextTest()
-        {
-            var test = $"{(new Random()).Next(15292, 55292)}";
-            var result = default(string);
-            using var mqtt = new MqttService(_configuration);
-            mqtt.ConnectionStart();
-            mqtt.OnObjectReciver<string>((o) => result = o);
-
-            mqtt.SendText(test);
-            await Task.Delay(1000);
-            Assert.Equal(test, result);
-        }
-
+        
         [Fact]
         public async void SendObjectTest()
         {
-            var test = $"{(new Random()).Next(15292, 55292)}";
-            var result = default(string);
             using var mqtt = new MqttService(_configuration);
             mqtt.ConnectionStart();
-            mqtt.OnObjectReciver<string>((o) => result = o);
-
-            mqtt.SendObject(test);
-            await Task.Delay(1000);
-            Assert.Equal(test, result);
+            mqtt.SendObject(156.5);
+            mqtt.SendText("test");
         }
     }
 }
