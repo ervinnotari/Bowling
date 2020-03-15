@@ -13,8 +13,8 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
         public void IsEnableTrueTeste()
         {
             var conf = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                //.SetBasePath(Directory.GetCurrentDirectory())
+                //.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
                     { "Host", "broker.mqttdashboard.com" },
@@ -31,8 +31,8 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
         public void IsEnableFalseTeste()
         {
             var conf = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                //.SetBasePath(Directory.GetCurrentDirectory())
+                //.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddInMemoryCollection().Build();
             var mqttc = new MqttConfiguration(conf);
             var value = mqttc.IsEnabled();

@@ -15,8 +15,8 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
         public MqttServiceTest()
         {
             _configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                //.SetBasePath(Directory.GetCurrentDirectory())
+                //.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
                     {"Host", "broker.mqttdashboard.com"},
@@ -24,7 +24,7 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
                     {"Port", "1883"}
                 }).Build();
         }
-        
+
         [Fact]
         public async void GetConnectionStatusTest()
         {
@@ -67,23 +67,20 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
         {
             var test = $"{(new Random()).Next(15292, 55292)}";
             var result = default(string);
-        
+
             using var mqtt = new MqttService(_configuration);
             await mqtt.ConnectionStartAsync();
-            mqtt.OnObjectReciver<string>((o) =>
-            {
-                result = o;
-                Assert.IsType<string>(o);
-            });
+            mqtt.OnObjectReciver<string>((o) => { result = o; });
+            mqtt.OnObjectReciver<int>((o) => { });
             mqtt.SendText(test);
             mqtt.SendObject(new Version());
-        
+
             await Task.Delay(1000);
             Assert.Equal(test, result);
         }
-        
+
         [Fact]
-        public async void SendObjectTest()
+        public void SendObjectTest()
         {
             using var mqtt = new MqttService(_configuration);
             mqtt.ConnectionStart();

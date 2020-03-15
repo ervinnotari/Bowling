@@ -14,11 +14,11 @@ namespace Microsoft.AspNetCore.Components.Web
         protected override Task OnParametersSetAsync()
         {
             BowlingService.Game.OnChange += BowlingService_OnChange;
-            BowlingService_OnChange(null, EventArgs.Empty);
+            BowlingService_OnChange(null);
             return base.OnParametersSetAsync();
         }
 
-        private void BowlingService_OnChange(object sender, EventArgs e) => InvokeAsync(RefrashOnChange);
+        private void BowlingService_OnChange(object sender) => InvokeAsync(RefrashOnChange);
 
         private async void RefrashOnChange()
         {

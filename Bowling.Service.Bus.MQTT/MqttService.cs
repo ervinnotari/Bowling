@@ -19,7 +19,6 @@ namespace Bowling.Service.Bus.MQTT
         private MqttClient _client;
         private Exception _error;
         private readonly MqttConfiguration _configuration;
-        private List<Action> _actions = new List<Action>();
 
         public MqttService(IConfiguration configuration)
         {
@@ -42,8 +41,8 @@ namespace Bowling.Service.Bus.MQTT
                 try
                 {
                     var txtMsg = Encoding.UTF8.GetString(e.Message);
-                    var stt = new Newtonsoft.Json.JsonSerializerSettings()
-                        {MissingMemberHandling = MissingMemberHandling.Error};
+                    var stt = new JsonSerializerSettings()
+                    { MissingMemberHandling = MissingMemberHandling.Error };
                     var obj = JsonConvert.DeserializeObject<T>(txtMsg, stt);
                     listener.Invoke(obj);
                 }
@@ -79,15 +78,15 @@ namespace Bowling.Service.Bus.MQTT
                 try
                 {
                     _error = null;
-                    _client = new MqttClient(_configuration.Host, _configuration.Port, false, (X509Certificate) null,
-                            (X509Certificate) null, MqttSslProtocols.None)
-                        {ProtocolVersion = MqttProtocolVersion.Version_3_1};
+                    _client = new MqttClient(_configuration.Host, _configuration.Port, false, (X509Certificate)null,
+                            (X509Certificate)null, MqttSslProtocols.None)
+                    { ProtocolVersion = MqttProtocolVersion.Version_3_1 };
                     var auth = !string.IsNullOrEmpty(_configuration.Username + _configuration.Password);
                     var code = auth
                         ? _client.Connect(Guid.NewGuid().ToString())
                         : _client.Connect(Guid.NewGuid().ToString(), _configuration.Username, _configuration.Password);
-                    _client.Subscribe(new string[] {_configuration.Topic},
-                        new byte[] {MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE});
+                    _client.Subscribe(new string[] { _configuration.Topic },
+                        new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
                     _client.MqttMsgPublishReceived += (object sender, MqttMsgPublishEventArgs e) =>
                         OnMessageReciver?.Invoke(e);
                     OnConnection?.Invoke(code);
@@ -96,8 +95,10 @@ namespace Bowling.Service.Bus.MQTT
                 {
                     _error = e;
                 }
-
-                OnStatusChange?.Invoke(GetConnectionStatus());
+                finally
+                {
+                    OnStatusChange?.Invoke(GetConnectionStatus());
+                }
             });
         }
 

@@ -18,7 +18,7 @@ namespace Bowling.Service.Bus.NMS
         public event Action<object> OnMessageReciver;
         public event Action<object> OnConnection;
         public event Action<IBusService.ConnectionStatus> OnStatusChange;
-        private NmsConfiguration _configuration;
+        private readonly NmsConfiguration _configuration;
 
         public NmsService(IConfiguration configuration)
         {

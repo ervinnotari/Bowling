@@ -1,6 +1,7 @@
 ﻿using Bowling.Domain.Game.Interfaces;
 using Bowling.Service;
 using Bowling.Service.Bus.MQTT;
+using Bowling.Service.Game;
 using Microsoft.Extensions.Configuration;
 // using Bowling.Service.Bus.NMS;
 using Microsoft.Extensions.DependencyInjection;

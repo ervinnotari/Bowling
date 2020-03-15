@@ -8,7 +8,7 @@ namespace Bowling.Domain.Game.Interfaces
     public interface IGameService
     {
         public event Func<Play, Play> OnPlay;
-        public event EventHandler OnChange;
+        public event Action<object> OnChange;
 
         public void Clear(string alley);
         public void AddPlay(Play play);

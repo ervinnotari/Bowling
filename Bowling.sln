@@ -29,14 +29,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bowling.Infra.CrossCutting.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bowling.Service.Bus.MQTT.xUnitTests", "Bowling.Service.Bus.MQTT.xUnitTests\Bowling.Service.Bus.MQTT.xUnitTests.csproj", "{D34B4059-F6EF-454C-8172-67BA424E821C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bowling.Infra.Utilities", "Bowling.Infra.Utilities\Bowling.Infra.Utilities.csproj", "{6AB7F6B3-354A-45A7-9A41-7D46C8851989}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{036058E7-BEBC-4C59-BC95-02A88A6286A1}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bowling.Domain.Game.xUnitTests", "Bowling.Domain.Game.xUnitTests\Bowling.Domain.Game.xUnitTests.csproj", "{1154C9CB-FE15-4866-8140-033F9343996A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bowling.Domain.Game.xUnitTests", "Bowling.Domain.Game.xUnitTests\Bowling.Domain.Game.xUnitTests.csproj", "{1154C9CB-FE15-4866-8140-033F9343996A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bowling.Service.Game.xUnitTests", "Bowling.Service.Game.xUnitTests\Bowling.Service.Game.xUnitTests.csproj", "{79E28B12-FA38-43CF-A8A8-455EBBFCD4DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -76,14 +76,14 @@ Global
 		{D34B4059-F6EF-454C-8172-67BA424E821C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D34B4059-F6EF-454C-8172-67BA424E821C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D34B4059-F6EF-454C-8172-67BA424E821C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6AB7F6B3-354A-45A7-9A41-7D46C8851989}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6AB7F6B3-354A-45A7-9A41-7D46C8851989}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6AB7F6B3-354A-45A7-9A41-7D46C8851989}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6AB7F6B3-354A-45A7-9A41-7D46C8851989}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1154C9CB-FE15-4866-8140-033F9343996A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1154C9CB-FE15-4866-8140-033F9343996A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1154C9CB-FE15-4866-8140-033F9343996A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1154C9CB-FE15-4866-8140-033F9343996A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79E28B12-FA38-43CF-A8A8-455EBBFCD4DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79E28B12-FA38-43CF-A8A8-455EBBFCD4DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79E28B12-FA38-43CF-A8A8-455EBBFCD4DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79E28B12-FA38-43CF-A8A8-455EBBFCD4DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,8 +97,8 @@ Global
 		{FE05668F-8217-41F8-AD0D-2BAA1EB740A4} = {6C23F2D1-2844-4638-B38A-B7AAB77E3066}
 		{5C654029-1560-4F8A-AE56-1C7E2E2D6606} = {FE05668F-8217-41F8-AD0D-2BAA1EB740A4}
 		{D34B4059-F6EF-454C-8172-67BA424E821C} = {A2AA4A1C-FDE3-422A-B6F4-4883D28FEC2A}
-		{6AB7F6B3-354A-45A7-9A41-7D46C8851989} = {6C23F2D1-2844-4638-B38A-B7AAB77E3066}
 		{1154C9CB-FE15-4866-8140-033F9343996A} = {31C03EAD-C85E-4E4A-A342-67161B1C4793}
+		{79E28B12-FA38-43CF-A8A8-455EBBFCD4DE} = {A2AA4A1C-FDE3-422A-B6F4-4883D28FEC2A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6AE0CD2E-2643-472E-86D5-887682AA733E}

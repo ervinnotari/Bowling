@@ -1,34 +1,38 @@
-﻿using Bowling.Domain.Game.Entities;
-using Bowling.Domain.Game.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bowling.Domain.Game.Entities;
+using Bowling.Domain.Game.Interfaces;
 
-namespace Bowling.Service
+namespace Bowling.Service.Game
 {
-    public class GameService : IGameService
+    public sealed class GameService : IGameService
     {
         public event Func<Play, Play> OnPlay;
-        public event EventHandler OnChange;
-        protected readonly Domain.Game.Entities.Game Game = new Domain.Game.Entities.Game();
+        public event Action<object> OnChange;
+        private readonly Domain.Game.Entities.Game _game;
 
-        public virtual void AddPlay(Play play)
+        public GameService()
         {
-            Game.AddPlay(OnPlay?.Invoke(play) ?? play);
-            OnChange?.Invoke(play, EventArgs.Empty);
+            _game = new Domain.Game.Entities.Game();
         }
 
-        public virtual void Clear(string alley)
+        public void AddPlay(Play play)
         {
-            var args = new GameCleanEventArgs();
-            OnChange?.Invoke(alley, args);
-            if (!args.Cancel) GetPainel(alley).Clear();
+            _game.AddPlay(OnPlay?.Invoke(play) ?? play);
+            OnChange?.Invoke(play);
+        }
+
+        public void Clear(string alley)
+        {
+            GetPainel(alley).Clear();
+            OnChange?.Invoke(alley);
         }
 
         public Painel GetPainel(string alley)
         {
-            return Game.GetPainel(alley);
+            return _game.GetPainel(alley);
         }
 
         public Task<Painel> GetScoreAsync(string alley)
@@ -38,12 +42,12 @@ namespace Bowling.Service
 
         public bool IsExistsAlley(string alley)
         {
-            return Game.Scores.ContainsKey(alley);
+            return _game.Scores.ContainsKey(alley);
         }
 
         public List<string> GetAlleysName()
         {
-            return Game.Scores.Keys.ToList();
+            return _game.Scores.Keys.ToList();
         }
     }
 }
