@@ -7,7 +7,7 @@ namespace Bowling.Domain.Game.Interfaces
     {
         public event Action<object> OnMessageReciver;
         public event Action<object> OnConnection;
-        public event Action<IBusService.ConnectionStatus> OnStatusChange;
+        public event Action<ConnectionStatus> OnStatusChange;
 
         public enum ConnectionStatus { Disabled, Connected, Conecting, Error }
         public ConnectionStatus GetConnectionStatus();

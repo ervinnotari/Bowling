@@ -6,18 +6,18 @@ namespace Bowling.Domain.Game.xUnitTests
 {
     public class PlayersUnitTest
     {
-        private const string NAME1 = "Jos�";
-        private const string NAME2 = "Maria";
-        private const string ALLEY = "01";
+        private const string Name1 = "Jos�";
+        private const string Name2 = "Maria";
+        private const string Alley = "01";
 
         [Fact]
         public void AddPlayTest()
         {
             var p = new Players();
-            p.AddPlay(new Play(NAME1, 10, ALLEY, DateTime.Now));
-            p.AddPlay(new Play(NAME1, 10, ALLEY, DateTime.Now));
+            p.AddPlay(new Play(Name1, 10, Alley, DateTime.Now));
+            p.AddPlay(new Play(Name1, 10, Alley, DateTime.Now));
             Assert.Single(p);
-            p.AddPlay(new Play(NAME2, 10, ALLEY, DateTime.Now));
+            p.AddPlay(new Play(Name2, 10, Alley, DateTime.Now));
             Assert.Equal(2, p.Count);
         }
     }

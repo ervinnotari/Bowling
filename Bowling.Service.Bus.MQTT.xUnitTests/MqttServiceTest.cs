@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Configuration;
 using System;
-using System.IO;
 using Xunit;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -33,13 +32,11 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
             {
                 value = mqtt.GetConnectionStatus();
                 Assert.Equal(IBusService.ConnectionStatus.Disabled, value);
-                value = default;
 
                 await mqtt.ConnectionStartAsync();
                 value = mqtt.GetConnectionStatus();
                 Assert.Equal(IBusService.ConnectionStatus.Connected, value);
                 Assert.Null(mqtt.GetError());
-                value = default;
             }
 
             var bkp = _configuration["Host"];
@@ -49,7 +46,6 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
                 using var mqtt = new MqttService(_configuration);
                 value = mqtt.GetConnectionStatus();
                 Assert.Equal(IBusService.ConnectionStatus.Disabled, value);
-                value = default;
 
                 await mqtt.ConnectionStartAsync();
                 value = mqtt.GetConnectionStatus();

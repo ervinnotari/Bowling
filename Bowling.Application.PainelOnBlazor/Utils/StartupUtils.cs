@@ -19,8 +19,8 @@ namespace BowlingPainelOnBlazor.Utils
     {
         public static void AddBowlingConfigurations(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSingleton<BowlingPainelOnBlazor.Data.ToastService>();
-            services.AddSingleton<BowlingPainelOnBlazor.Data.BowlingService>();
+            services.AddSingleton<Data.ToastService>();
+            services.AddSingleton<Data.BowlingService>();
             services.AddAllApplicationServices(configuration);
         }
 

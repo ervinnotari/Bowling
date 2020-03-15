@@ -5,8 +5,6 @@ namespace Bowling.Domain.Game.xUnitTests
 {
     public class FrameUnitTest
     {
-        private const string Name = "Jos�";
-
         [Fact]
         public void GettersAndSettersTest()
         {

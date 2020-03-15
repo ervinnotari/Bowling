@@ -4,8 +4,6 @@ using M2Mqtt.Messages;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -36,7 +34,7 @@ namespace Bowling.Service.Bus.MQTT
 
         public void OnObjectReciver<T>(Action<T> listener)
         {
-            _client.MqttMsgPublishReceived += (object sender, MqttMsgPublishEventArgs e) =>
+            _client.MqttMsgPublishReceived += (sender, e) =>
             {
                 try
                 {
@@ -78,16 +76,16 @@ namespace Bowling.Service.Bus.MQTT
                 try
                 {
                     _error = null;
-                    _client = new MqttClient(_configuration.Host, _configuration.Port, false, (X509Certificate)null,
-                            (X509Certificate)null, MqttSslProtocols.None)
+                    _client = new MqttClient(_configuration.Host, _configuration.Port, false, null,
+                            null, MqttSslProtocols.None)
                     { ProtocolVersion = MqttProtocolVersion.Version_3_1 };
                     var auth = !string.IsNullOrEmpty(_configuration.Username + _configuration.Password);
                     var code = auth
                         ? _client.Connect(Guid.NewGuid().ToString())
                         : _client.Connect(Guid.NewGuid().ToString(), _configuration.Username, _configuration.Password);
-                    _client.Subscribe(new string[] { _configuration.Topic },
-                        new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-                    _client.MqttMsgPublishReceived += (object sender, MqttMsgPublishEventArgs e) =>
+                    _client.Subscribe(new[] { _configuration.Topic },
+                        new[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+                    _client.MqttMsgPublishReceived += (sender, e) =>
                         OnMessageReciver?.Invoke(e);
                     OnConnection?.Invoke(code);
                 }

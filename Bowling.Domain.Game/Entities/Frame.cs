@@ -8,7 +8,7 @@ namespace Bowling.Domain.Game.Entities
         public int Score => (Last?.Score ?? 0) + Balls.Sum() + Bonus;
         public List<int> Balls { get; } = new List<int>();
         internal Frame Last { get; }
-        internal int Bonus { get; set; } = 0;
+        internal int Bonus { get; set; }
         public int GetAttempt() => Balls.Count;
         public bool IsOpen() => (Balls.Sum() < 10 && Balls.Count < 2);
         public bool IsSpare() => (Balls.Sum() == 10 && Balls.Count == 2);
