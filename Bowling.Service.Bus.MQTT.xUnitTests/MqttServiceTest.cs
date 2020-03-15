@@ -66,17 +66,17 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
         public async void SendAndReciverMensageTest()
         {
             var test = $"{(new Random()).Next(15292, 55292)}";
-            var result = default(string);
+            var test2 = new Version(1, 0, 0);
+            var result = default(Version);
 
             using var mqtt = new MqttService(_configuration);
             await mqtt.ConnectionStartAsync();
-            mqtt.OnObjectReciver<string>((o) => { result = o; });
-            mqtt.OnObjectReciver<int>((o) => { });
+            mqtt.OnObjectReciver<Version>((o) => { result = o; });
             mqtt.SendText(test);
-            mqtt.SendObject(new Version());
+            mqtt.SendObject(test2);
 
-            await Task.Delay(1000);
-            Assert.Equal(test, result);
+            await Task.Delay(2000);
+            Assert.Equal(test2, result);
         }
 
         [Fact]

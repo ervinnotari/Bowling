@@ -46,7 +46,7 @@ namespace Bowling.Service.Bus.MQTT
                     var obj = JsonConvert.DeserializeObject<T>(txtMsg, stt);
                     listener.Invoke(obj);
                 }
-                catch (Newtonsoft.Json.JsonReaderException)
+                catch (JsonException)
                 {
                     // ignored
                 }
