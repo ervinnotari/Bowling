@@ -20,7 +20,7 @@ namespace Microsoft.AspNetCore.Components.Web
 
         private void BowlingService_OnChange(object sender) => InvokeAsync(RefrashOnChange);
 
-        private async void RefrashOnChange()
+        private async Task RefrashOnChange()
         {
             Painel = await BowlingService.Game.GetScoreAsync(Alley);
             StateHasChanged();
