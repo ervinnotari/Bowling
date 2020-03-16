@@ -1,7 +1,8 @@
 name: Analyze pull request
 
 on:
-  pull_request:
+  #pull_request:
+  push:
     types: [opened, edited, reopened, synchronize]
     branches:
       - master
