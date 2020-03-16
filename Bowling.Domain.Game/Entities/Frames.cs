@@ -32,13 +32,14 @@ namespace Bowling.Domain.Game.Entities
                 Add(new Frame(last));
 
             var frame = this.LastOrDefault();
-            if (frame == null) return;
-            frame.Balls.Add(play.Pins);
-
-            if (frame.IsStrike() && Turn < 10)
-                _bonus.Push(new KeyValuePair<Bonus, Frame>(Bonus.Strike1, frame));
-            if (frame.IsSpare() && Turn < 10)
-                _bonus.Push(new KeyValuePair<Bonus, Frame>(Bonus.Spare, frame));
+            if (frame != null)
+            {
+                frame.Balls.Add(play.Pins);
+                if (frame.IsStrike() && Turn < 10)
+                    _bonus.Push(new KeyValuePair<Bonus, Frame>(Bonus.Strike1, frame));
+                if (frame.IsSpare() && Turn < 10)
+                    _bonus.Push(new KeyValuePair<Bonus, Frame>(Bonus.Spare, frame));
+            }
         }
 
     }
