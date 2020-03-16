@@ -1,11 +1,11 @@
 name: Analyze pull request
 
 on:
-#   pull_request:
-#     types: [opened, edited, reopened, synchronize]
-  push:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
     branches:
       - master
+      - dev
 
 jobs:
   build:
@@ -28,6 +28,11 @@ jobs:
               /d:sonar.verbose="true"
               /d:sonar.cs.opencover.reportsPaths='"/path/to/coverage.xml","/path/to/coverage.2.xml"'
               /d:sonar.coverage.exclusions='"**/*.cs","**/*.md"'
+              /d:sonar.pullrequest.key=${{ github.event.number }}
+              /d:sonar.pullrequest.branch=${{ github.HEAD_REF }}
+              /d:sonar.pullrequest.base=${{ github.BASE_REF }}
+              /d:sonar.pullrequest.github.repository=${{ github.repository }}
+              /d:sonar.scm.provider=git
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
