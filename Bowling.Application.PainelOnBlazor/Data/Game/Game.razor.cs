@@ -1,14 +1,13 @@
 ﻿using Bowling.Domain.Game.Entities;
 using BowlingPainelOnBlazor.Data;
-using System;
 using System.Threading.Tasks;
 
 namespace Microsoft.AspNetCore.Components.Web
 {
-    public class GameBase : ComponentBase, IDisposable
+    public class GameBase : ComponentBase
     {
         [Parameter] public string Alley { get; set; } = "01";
-        [Inject] protected BowlingService BowlingService { get; set; }
+        [Inject] private BowlingService BowlingService { get; set; }
         protected Painel Painel { get; set; }
 
         protected override Task OnParametersSetAsync()
@@ -26,7 +25,7 @@ namespace Microsoft.AspNetCore.Components.Web
             StateHasChanged();
         }
 
-        public void Dispose()
+        ~GameBase()
         {
             BowlingService.Game.OnChange -= BowlingService_OnChange;
         }

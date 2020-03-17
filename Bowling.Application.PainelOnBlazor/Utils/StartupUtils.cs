@@ -24,7 +24,7 @@ namespace BowlingPainelOnBlazor.Utils
             services.AddAllApplicationServices(configuration);
         }
 
-        public static void AddSwagger(this IServiceCollection services)
+        public static void AddSwagger(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -38,7 +38,7 @@ namespace BowlingPainelOnBlazor.Utils
                     {
                         Name = "Ervin Notari Junior",
                         Email = "ervinnotari@hotmail.com",
-                        Url = new Uri("https://www.linkedin.com/in/ervinnotarijunior/"),
+                        Url = new Uri(configuration["linkedin"]),
                     },
                 });
                 // Set the comments path for the Swagger JSON and UI.

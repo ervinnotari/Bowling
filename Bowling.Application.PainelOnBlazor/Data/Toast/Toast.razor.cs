@@ -1,12 +1,11 @@
 ﻿using BowlingPainelOnBlazor.Data;
-using System;
 
 namespace Microsoft.AspNetCore.Components.Web
 {
-    public class ToastBase : ComponentBase, IDisposable
+    public class ToastBase : ComponentBase
     {
         [Inject]
-        ToastService ToastService { get; set; }
+        private ToastService ToastService { get; set; }
 
         protected string Heading { get; set; }
         protected string Message { get; set; }
@@ -37,7 +36,7 @@ namespace Microsoft.AspNetCore.Components.Web
         {
             switch (level)
             {
-                case ToastLevel.Info:
+                default: //ToastLevel.Info:
                     BackgroundCssClass = "bg-info";
                     IconCssClass = "info";
                     Heading = "Info";
@@ -62,7 +61,7 @@ namespace Microsoft.AspNetCore.Components.Web
             Message = message;
         }
 
-        public void Dispose()
+        ~ToastBase()
         {
             ToastService.OnShow -= ShowToast;
         }
