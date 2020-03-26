@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Microsoft.AspNetCore.Components.Web
 {
-    public class GameBase : ComponentBase, IDisposable
+    public class GameBase : ComponentBase
     {
         [Parameter] public string Alley { get; set; } = "01";
         [Inject] protected BowlingService BowlingService { get; set; }
@@ -25,8 +25,7 @@ namespace Microsoft.AspNetCore.Components.Web
             Painel = await BowlingService.Game.GetScoreAsync(Alley);
             StateHasChanged();
         }
-
-        public void Dispose()
+         ~GameBase()
         {
             BowlingService.Game.OnChange -= BowlingService_OnChange;
         }
