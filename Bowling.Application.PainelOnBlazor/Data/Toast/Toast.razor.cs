@@ -1,5 +1,4 @@
 ﻿using BowlingPainelOnBlazor.Data;
-using System;
 
 namespace Microsoft.AspNetCore.Components.Web
 {

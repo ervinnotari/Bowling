@@ -1,6 +1,5 @@
 ﻿using Bowling.Domain.Game.Entities;
 using BowlingPainelOnBlazor.Data;
-using System;
 using System.Threading.Tasks;
 
 namespace Microsoft.AspNetCore.Components.Web
