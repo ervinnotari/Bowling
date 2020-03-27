@@ -22,4 +22,6 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+
 CMD ASPNETCORE_URLS=http://*:$PORT dotnet Bowling.Application.PainelOnBlazor.dll

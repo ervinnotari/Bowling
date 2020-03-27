@@ -4,8 +4,7 @@ namespace Microsoft.AspNetCore.Components.Web
 {
     public class ToastBase : ComponentBase
     {
-        [Inject]
-        private ToastService ToastService { get; set; }
+        [Inject] ToastService ToastService { get; set; }
 
         protected string Heading { get; set; }
         protected string Message { get; set; }
@@ -65,6 +64,5 @@ namespace Microsoft.AspNetCore.Components.Web
         {
             ToastService.OnShow -= ShowToast;
         }
-
     }
 }

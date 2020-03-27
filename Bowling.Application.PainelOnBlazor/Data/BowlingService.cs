@@ -12,6 +12,7 @@ namespace BowlingPainelOnBlazor.Data
         public readonly IBusService BusService;
         public readonly IGameService Game;
         public readonly ToastService ToastService;
+        public object Info { get; private set; }
 
         public Exception GetError() => BusService.GetError();
         public IBusService.ConnectionStatus GetStatus() => BusService.GetConnectionStatus();
@@ -21,7 +22,7 @@ namespace BowlingPainelOnBlazor.Data
             ToastService = toastService;
             Game = gameService;
             BusService = busService;
-            BusService.OnConnection += (c) => BusService.OnObjectReciver<Play>(AddPlay);
+            BusService.OnConnection += (dynamic c) => BusService.OnObjectReciver<Play>(AddPlay);
             BusService.OnStatusChange += AmqpService_OnStatusChange;
             BusService.ConnectionStartAsync();
 #if DEBUG
@@ -44,8 +45,9 @@ namespace BowlingPainelOnBlazor.Data
             }
         }
 
-        private void AmqpService_OnStatusChange(IBusService.ConnectionStatus obj)
+        private void AmqpService_OnStatusChange(IBusService.ConnectionStatus obj, dynamic info)
         {
+            Info = $"mqtt://{info.Host}:{info.Port}/topic/{info.Topic}";
             if (obj.Equals(IBusService.ConnectionStatus.Error))
                 ToastService.ShowToast($"Erro: {GetError().Message}", Microsoft.AspNetCore.Components.Web.ToastLevel.Error);
             OnAmqpStatusChange?.Invoke(obj);

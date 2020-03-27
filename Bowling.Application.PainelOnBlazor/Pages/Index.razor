@@ -14,10 +14,12 @@
             <span> Conectando...</span>
             break;
         case IBusService.ConnectionStatus.Connected:
-            <span>Conectado</span>
+            <span>Conectado</span><br />
+            <small style="font-size: 9px;margin: -7px 0 0 55px;display: flex;">@BowlingService.Info</small>
             break;
         case IBusService.ConnectionStatus.Error:
             <span> @BowlingService.GetError().Message </span>
+            <small style="font-size: 9px;margin: -7px 0 0 55px;display: flex;">@BowlingService.Info</small>
             break;
         default:
         case IBusService.ConnectionStatus.Disabled:
@@ -30,7 +32,7 @@
 
     protected override Task OnInitializedAsync()
     {
-        BowlingService.Game.OnChange += (o) => InvokeAsync(StateHasChanged);
+        BowlingService.BusService.OnConnection += (o) => InvokeAsync(StateHasChanged);
         return base.OnInitializedAsync();
     }
 

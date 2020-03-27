@@ -28,22 +28,20 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
         public async void GetConnectionStatusTest()
         {
             IBusService.ConnectionStatus value;
-            using (var mqtt = new MqttService(_configuration))
-            {
-                value = mqtt.GetConnectionStatus();
-                Assert.Equal(IBusService.ConnectionStatus.Disabled, value);
+            var mqtt = new MqttService(_configuration);
+            value = mqtt.GetConnectionStatus();
+            Assert.Equal(IBusService.ConnectionStatus.Disabled, value);
 
-                await mqtt.ConnectionStartAsync();
-                value = mqtt.GetConnectionStatus();
-                Assert.Equal(IBusService.ConnectionStatus.Connected, value);
-                Assert.Null(mqtt.GetError());
-            }
+            await mqtt.ConnectionStartAsync();
+            value = mqtt.GetConnectionStatus();
+            Assert.Equal(IBusService.ConnectionStatus.Connected, value);
+            Assert.Null(mqtt.GetError());
 
             var bkp = _configuration["Host"];
             try
             {
                 _configuration["Host"] = "****.***";
-                using var mqtt = new MqttService(_configuration);
+                mqtt = new MqttService(_configuration);
                 value = mqtt.GetConnectionStatus();
                 Assert.Equal(IBusService.ConnectionStatus.Disabled, value);
 
@@ -65,7 +63,7 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
             var test2 = new Version(1, 0, 0);
             var result = default(Version);
 
-            using var mqtt = new MqttService(_configuration);
+            var mqtt = new MqttService(_configuration);
             await mqtt.ConnectionStartAsync();
             mqtt.OnObjectReciver<Version>((o) => { result = o; });
             mqtt.SendText(test);
@@ -78,7 +76,7 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
         [Fact]
         public void SendObjectTest()
         {
-            using var mqtt = new MqttService(_configuration);
+            var mqtt = new MqttService(_configuration);
             mqtt.ConnectionStart();
             mqtt.SendObject(156.5);
             mqtt.SendText("test");

@@ -17,7 +17,7 @@ namespace Bowling.Service.Bus.NMS
 
         public event Action<object> OnMessageReciver;
         public event Action<object> OnConnection;
-        public event Action<IBusService.ConnectionStatus> OnStatusChange;
+        public event Action<IBusService.ConnectionStatus, object> OnStatusChange;
         private readonly NmsConfiguration _configuration;
 
         public NmsService(IConfiguration configuration)
@@ -33,6 +33,7 @@ namespace Bowling.Service.Bus.NMS
             else if (Connection.IsStarted && Session != null) return IBusService.ConnectionStatus.Connected;
             else return IBusService.ConnectionStatus.Disabled;
         }
+
         public void OnObjectReciver<T>(Action<T> listener)
         {
             var consumer = Session.CreateConsumer(Destination);
@@ -41,27 +42,32 @@ namespace Bowling.Service.Bus.NMS
                 if (!(msg is ITextMessage txtMsg)) return;
                 try
                 {
-                    var stt = new JsonSerializerSettings() { MissingMemberHandling = MissingMemberHandling.Error };
+                    var stt = new JsonSerializerSettings() {MissingMemberHandling = MissingMemberHandling.Error};
                     var obj = JsonConvert.DeserializeObject<T>(txtMsg.Text, stt);
                     listener.Invoke(obj);
                 }
-                catch (JsonSerializationException) { }
+                catch (JsonSerializationException)
+                {
+                    // ignored
+                }
             };
         }
+
         public void SendText(string message)
         {
             var producer = Session.CreateProducer(Destination);
             var msg = producer.CreateTextMessage(message);
             producer.Send(msg);
         }
+
         public void SendObject(object obj)
         {
             var strObj = JsonConvert.SerializeObject(obj);
             SendText(strObj);
         }
+
         public void ConnectionStart()
         {
-
             if (_configuration.Uri != null)
             {
                 try
@@ -84,10 +90,13 @@ namespace Bowling.Service.Bus.NMS
                     Error = ex;
                 }
             }
-            OnStatusChange?.Invoke(GetConnectionStatus());
+
+            OnStatusChange?.Invoke(GetConnectionStatus(), _configuration);
         }
+
         public Task ConnectionStartAsync() => Task.Factory.StartNew(ConnectionStart);
         public Exception GetError() => Error;
+
         public void Dispose()
         {
             Connection.Dispose();
