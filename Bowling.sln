@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bowling.Service.Bus.MQTT", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Infra", "4 - Infra", "{6C23F2D1-2844-4638-B38A-B7AAB77E3066}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.1 - CrossCuting", "4.1 - CrossCuting", "{FE05668F-8217-41F8-AD0D-2BAA1EB740A4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.1 - CrossCutting", "4.1 - CrossCutting", "{FE05668F-8217-41F8-AD0D-2BAA1EB740A4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bowling.Infra.CrossCutting.IoC", "Bowling.Infra.CrossCutting.IoC\Bowling.Infra.CrossCutting.IoC.csproj", "{5C654029-1560-4F8A-AE56-1C7E2E2D6606}"
 EndProject
