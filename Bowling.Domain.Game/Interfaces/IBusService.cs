@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 
 namespace Bowling.Domain.Game.Interfaces
 {
-    public interface IBusService : IDisposable
+    public interface IBusService
     {
         public event Action<object> OnMessageReciver;
         public event Action<object> OnConnection;
-        public event Action<ConnectionStatus> OnStatusChange;
+        public event Action<ConnectionStatus, object> OnStatusChange;
 
         public enum ConnectionStatus { Disabled, Connected, Conecting, Error }
         public ConnectionStatus GetConnectionStatus();

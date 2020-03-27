@@ -2,7 +2,6 @@
 using Bowling.Service.Bus.MQTT;
 using Bowling.Service.Game;
 using Microsoft.Extensions.Configuration;
-// using Bowling.Service.Bus.NMS;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Bowling.Infra.CrossCutting.IoC
@@ -14,7 +13,6 @@ namespace Bowling.Infra.CrossCutting.IoC
             services.AddSingleton(confgs);
             services.AddTransient<IGameService, GameService>();
             services.AddTransient<IBusService, MqttService>();
-            //services.AddTransient<IBusService, NmsService>();
         }
     }
 }

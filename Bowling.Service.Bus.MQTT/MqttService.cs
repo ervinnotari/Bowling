@@ -13,7 +13,7 @@ namespace Bowling.Service.Bus.MQTT
     {
         public event Action<object> OnMessageReciver;
         public event Action<object> OnConnection;
-        public event Action<IBusService.ConnectionStatus> OnStatusChange;
+        public event Action<IBusService.ConnectionStatus, object> OnStatusChange;
         private MqttClient _client;
         private Exception _error;
         private readonly MqttConfiguration _configuration;
@@ -95,14 +95,14 @@ namespace Bowling.Service.Bus.MQTT
                 }
                 finally
                 {
-                    OnStatusChange?.Invoke(GetConnectionStatus());
+                    OnStatusChange?.Invoke(GetConnectionStatus(), _configuration);
                 }
             });
         }
 
         public Exception GetError() => _error;
 
-        public void Dispose()
+        ~MqttService()
         {
             if (_client != null && _client.IsConnected)
             {
