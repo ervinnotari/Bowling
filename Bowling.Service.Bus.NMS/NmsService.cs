@@ -97,7 +97,7 @@ namespace Bowling.Service.Bus.NMS
         public Task ConnectionStartAsync() => Task.Factory.StartNew(ConnectionStart);
         public Exception GetError() => Error;
 
-        public void Dispose()
+        ~NmsService()
         {
             Connection.Dispose();
         }
