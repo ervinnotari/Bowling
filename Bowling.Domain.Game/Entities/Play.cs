@@ -4,7 +4,8 @@ namespace Bowling.Domain.Game.Entities
 {
     public class Play
     {
-        private const string ArgumentOutOfRangeMessage = "Only values ​​from 0 to 10 will be accepted";
+        private const int Max = 10;
+        private const int Min = 0;
 
         private int _pins;
 
@@ -34,7 +35,7 @@ namespace Bowling.Domain.Game.Entities
         private int PinsCheck(int pins)
         {
             if (pins >= 0 && pins <= 10) return pins;
-            else throw new ArgumentOutOfRangeException(nameof(pins), pins, ArgumentOutOfRangeMessage);
+            else throw new ArgumentOutOfRangeException(nameof(pins), pins, $"Only values ​​from {Min} to {Max} will be accepted");
         }
     }
 }
