@@ -11,14 +11,15 @@ namespace Bowling.Service.Bus.NMS
     public class NmsService : IBusService
     {
         public Exception Error { get; protected set; }
-        protected IConnection Connection { get; private set; }
-        protected ISession Session { get; private set; }
-        protected IDestination Destination { get; private set; }
+        private IConnection _connection;
+        private ISession _session;
+        private IDestination _destination;
 
         public event Action<object> OnMessageReciver;
         public event Action<object> OnConnection;
         public event Action<IBusService.ConnectionStatus, object> OnStatusChange;
         private readonly NmsConfiguration _configuration;
+        private bool _disposed;
 
         public NmsService(IConfiguration configuration)
         {
@@ -28,15 +29,15 @@ namespace Bowling.Service.Bus.NMS
         public IBusService.ConnectionStatus GetConnectionStatus()
         {
             if (Error != null) return IBusService.ConnectionStatus.Error;
-            else if (Connection == null) return IBusService.ConnectionStatus.Disabled;
-            else if (!Connection.IsStarted && Session == null) return IBusService.ConnectionStatus.Conecting;
-            else if (Connection.IsStarted && Session != null) return IBusService.ConnectionStatus.Connected;
+            else if (_connection == null) return IBusService.ConnectionStatus.Disabled;
+            else if (!_connection.IsStarted && _session == null) return IBusService.ConnectionStatus.Conecting;
+            else if (_connection.IsStarted && _session != null) return IBusService.ConnectionStatus.Connected;
             else return IBusService.ConnectionStatus.Disabled;
         }
 
         public void OnObjectReciver<T>(Action<T> listener)
         {
-            var consumer = Session.CreateConsumer(Destination);
+            var consumer = _session.CreateConsumer(_destination);
             consumer.Listener += msg =>
             {
                 if (!(msg is ITextMessage txtMsg)) return;
@@ -55,7 +56,7 @@ namespace Bowling.Service.Bus.NMS
 
         public void SendText(string message)
         {
-            var producer = Session.CreateProducer(Destination);
+            var producer = _session.CreateProducer(_destination);
             var msg = producer.CreateTextMessage(message);
             producer.Send(msg);
         }
@@ -74,16 +75,16 @@ namespace Bowling.Service.Bus.NMS
                 {
                     var factory = new ConnectionFactory(_configuration.Uri);
                     if (_configuration.BusUsername != null && _configuration.Password != null)
-                        Connection = factory.CreateConnection(_configuration.BusUsername, _configuration.Password);
+                        _connection = factory.CreateConnection(_configuration.BusUsername, _configuration.Password);
                     else
-                        Connection = factory.CreateConnection();
+                        _connection = factory.CreateConnection();
 
-                    Connection.Start();
-                    Session = Connection.CreateSession();
-                    Destination = Session.GetTopic(_configuration.Topic);
-                    var consumer = Session.CreateConsumer(Destination);
+                    _connection.Start();
+                    _session = _connection.CreateSession();
+                    _destination = _session.GetTopic(_configuration.Topic);
+                    var consumer = _session.CreateConsumer(_destination);
                     consumer.Listener += (IMessage message) => OnMessageReciver?.Invoke(message);
-                    OnConnection?.Invoke(Connection);
+                    OnConnection?.Invoke(_connection);
                 }
                 catch (Exception ex)
                 {
@@ -97,16 +98,24 @@ namespace Bowling.Service.Bus.NMS
         public Task ConnectionStartAsync() => Task.Factory.StartNew(ConnectionStart);
         public Exception GetError() => Error;
 
-        ~NmsService()
+        public void Dispose()
         {
-            this.Dispose();
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        public void Dispose()
+        // Protected implementation of Dispose pattern.
+        private void Dispose(bool disposing)
         {
-            Connection.Dispose();
-            GC.SuppressFinalize(this);
+            if (_disposed)
+                return;
+
+            if (disposing)
+            {
+                _connection?.Dispose();
+            }
+
+            _disposed = true;
         }
     }
 }

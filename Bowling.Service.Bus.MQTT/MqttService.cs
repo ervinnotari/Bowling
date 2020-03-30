@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Bowling.Service.Bus.MQTT
 {
-    public class MqttService : IBusService
+    public sealed class MqttService : IBusService
     {
-        private bool disposed = false;
+        private bool _disposed = false;
         public event Action<object> OnMessageReciver;
         public event Action<object> OnConnection;
         public event Action<IBusService.ConnectionStatus, object> OnStatusChange;
@@ -110,15 +110,15 @@ namespace Bowling.Service.Bus.MQTT
         }
    
         // Protected implementation of Dispose pattern.
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
-            if (disposed)
+            if (_disposed)
                 return; 
       
             if (disposing && _client != null && _client.IsConnected) {
                 _client.Disconnect();
             }
-            disposed = true;
+            _disposed = true;
         }
     }
 }

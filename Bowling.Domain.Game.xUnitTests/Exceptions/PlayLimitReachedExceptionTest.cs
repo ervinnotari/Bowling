@@ -1,6 +1,4 @@
-﻿using System;
-using System.Runtime.Serialization;
-using Bowling.Domain.Game.Exceptions;
+﻿using Bowling.Domain.Game.Exceptions;
 using Xunit;
 
 namespace Bowling.Domain.Game.xUnitTests.Exceptions
