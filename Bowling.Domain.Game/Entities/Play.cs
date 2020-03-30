@@ -5,17 +5,15 @@ namespace Bowling.Domain.Game.Entities
     public class Play
     {
         private const string ArgumentOutOfRangeMessage = "Only values ​​from 0 to 10 will be accepted";
-        
+
         private int _pins;
+
         public int Pins
         {
-            get { return _pins; }
-            set
-            {
-                if (value >= 0 && value <= 10) _pins = value;
-                else throw new ArgumentOutOfRangeException("pins", value, ArgumentOutOfRangeMessage);
-            }
+            get => _pins;
+            set => _pins = PinsCheck(value);
         }
+
         public string Name { get; set; }
         public string Alley { get; set; }
         public DateTime Date { get; set; }
@@ -31,6 +29,12 @@ namespace Bowling.Domain.Game.Entities
         public override string ToString()
         {
             return $"Play {{name={Name}, pins={Pins}, alley={Alley}, date={Date}}}";
+        }
+
+        private int PinsCheck(int pins)
+        {
+            if (pins >= 0 && pins <= 10) return pins;
+            else throw new ArgumentOutOfRangeException(nameof(pins), pins, ArgumentOutOfRangeMessage);
         }
     }
 }

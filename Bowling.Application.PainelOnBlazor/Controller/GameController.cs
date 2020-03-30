@@ -93,27 +93,27 @@ namespace BowlingPainelOnBlazor.Controller
             [Required]
             new public string Name
             {
-                get { return base.Name; }
-                set { base.Name = value; }
+                get => base.Name;
+                set => base.Name = value;
             }
             [Required]
             new public string Alley
             {
-                get { return base.Alley; }
-                set { base.Alley = value; }
+                get => base.Alley;
+                set => base.Alley = value;
             }
             [Required]
             [Range(0, 10)]
             new public int Pins
             {
-                get { return base.Pins; }
-                set { base.Pins = value; }
+                get => base.Pins;
+                set => base.Pins = value;
             }
             [Required]
             new public DateTime Date
             {
-                get { return base.Date; }
-                set { base.Date = value; }
+                get => base.Date;
+                set => base.Date = value;
             }
             public Play() : base("", 0, "", DateTime.Now) { }
         }
