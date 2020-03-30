@@ -4,6 +4,8 @@ namespace Bowling.Domain.Game.Entities
 {
     public class Play
     {
+        private const string ArgumentOutOfRangeMessage = "Only values ​​from 0 to 10 will be accepted";
+        
         private int _pins;
         public int Pins
         {
@@ -11,7 +13,7 @@ namespace Bowling.Domain.Game.Entities
             set
             {
                 if (value >= 0 && value <= 10) _pins = value;
-                else throw new ArgumentOutOfRangeException(nameof(Pins), value, "Only values ​​from 0 to 10 will be accepted");
+                else throw new ArgumentOutOfRangeException(nameof(Pins), value, ArgumentOutOfRangeMessage);
             }
         }
         public string Name { get; set; }

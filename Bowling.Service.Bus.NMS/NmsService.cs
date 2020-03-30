@@ -10,7 +10,7 @@ namespace Bowling.Service.Bus.NMS
 {
     public sealed class NmsService : IBusService
     {
-        public Exception Error { get; protected set; }
+        public Exception Error { get; private set; }
         private IConnection _connection;
         private ISession _session;
         private IDestination _destination;
