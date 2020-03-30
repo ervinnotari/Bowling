@@ -11,6 +11,7 @@ namespace Bowling.Service.Bus.MQTT
 {
     public class MqttService : IBusService
     {
+        private bool disposed = false;
         public event Action<object> OnMessageReciver;
         public event Action<object> OnConnection;
         public event Action<IBusService.ConnectionStatus, object> OnStatusChange;
@@ -101,18 +102,23 @@ namespace Bowling.Service.Bus.MQTT
         }
 
         public Exception GetError() => _error;
-
-        ~MqttService()
-        {
-            this.Dispose();
-        }
-
+        
         public void Dispose()
+        { 
+            Dispose(true);
+            GC.SuppressFinalize(this);           
+        }
+   
+        // Protected implementation of Dispose pattern.
+        protected virtual void Dispose(bool disposing)
         {
-            if (_client != null && _client.IsConnected)
-            {
+            if (disposed)
+                return; 
+      
+            if (disposing && _client != null && _client.IsConnected) {
                 _client.Disconnect();
             }
+            disposed = true;
         }
     }
 }
