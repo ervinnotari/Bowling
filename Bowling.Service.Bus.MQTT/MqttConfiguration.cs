@@ -1,58 +1,23 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
+using Bowling.Infra.Utilities;
 
 namespace Bowling.Service.Bus.MQTT
 {
-    public class MqttConfiguration
+    public class MqttConfiguration : AbstractBusConfigurations
     {
-        private const string BusConfigurationsUsername = "MQTT_USERNAME";
-        private const string BusConfigurationsPassword = "MQTT_PASSWORD";
-        private const string BusConfigurationsTopic = "MQTT_TOPIC";
-        private const string BusConfigurationsUrl = "MQTT_HOST";
-        private readonly IConfiguration _configuration;
 
-        public MqttConfiguration(IConfiguration configuration)
+        public MqttConfiguration(IConfiguration configuration):base(configuration)
         {
-            _configuration = configuration;
         }
 
         public string Host
         {
             get
             {
-                var val = Environment.GetEnvironmentVariable(BusConfigurationsUrl);
-                if (string.IsNullOrEmpty(val)) val = _configuration["Host"];
+                var val = Environment.GetEnvironmentVariable(nameof(Host).ToUpper());
+                if (string.IsNullOrEmpty(val)) val = Configuration[nameof(Host)];
                 return val;
-            }
-        }
-
-        public string Username
-        {
-            get
-            {
-                var val = Environment.GetEnvironmentVariable(BusConfigurationsUsername);
-                if (string.IsNullOrEmpty(val)) val = _configuration["Username"];
-                return val;
-            }
-        }
-
-        public string Password
-        {
-            get
-            {
-                var val = Environment.GetEnvironmentVariable(BusConfigurationsPassword);
-                if (string.IsNullOrEmpty(val)) val = _configuration["Password"];
-                return val;
-            }
-        }
-
-        public string Topic
-        {
-            get
-            {
-                var val = Environment.GetEnvironmentVariable(BusConfigurationsTopic);
-                if (string.IsNullOrEmpty(val)) val = _configuration["Topic"];
-                return val ?? "bowling/play";
             }
         }
 
@@ -60,12 +25,12 @@ namespace Bowling.Service.Bus.MQTT
         {
             get
             {
-                var val = Environment.GetEnvironmentVariable(BusConfigurationsTopic);
-                if (string.IsNullOrEmpty(val)) val = _configuration["Port"];
+                var val = Environment.GetEnvironmentVariable(nameof(Port).ToUpper());
+                if (string.IsNullOrEmpty(val)) val = Configuration[nameof(Port)];
                 return int.Parse(val ?? "1883");
             }
         }
 
-        public bool IsEnabled() => Host != null;
+        public override bool IsEnabled() => Host != null;
     }
 }

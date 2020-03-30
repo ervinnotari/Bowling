@@ -40,6 +40,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bowling.Service.Game.xUnitT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bowling.Service.Bus.NMS.xUnitTest", "Bowling.Service.Bus.NMS.xUnitTest\Bowling.Service.Bus.NMS.xUnitTest.csproj", "{DE1A6421-AC20-4060-AD42-277CDA7E8E9F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bowling.Infra.Utilities", "Bowling.Infra.Utilities\Bowling.Infra.Utilities.csproj", "{56649EE2-0A30-46EF-8C53-C71D19D01674}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -90,6 +92,10 @@ Global
 		{DE1A6421-AC20-4060-AD42-277CDA7E8E9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE1A6421-AC20-4060-AD42-277CDA7E8E9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE1A6421-AC20-4060-AD42-277CDA7E8E9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56649EE2-0A30-46EF-8C53-C71D19D01674}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56649EE2-0A30-46EF-8C53-C71D19D01674}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56649EE2-0A30-46EF-8C53-C71D19D01674}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56649EE2-0A30-46EF-8C53-C71D19D01674}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -106,6 +112,7 @@ Global
 		{1154C9CB-FE15-4866-8140-033F9343996A} = {31C03EAD-C85E-4E4A-A342-67161B1C4793}
 		{79E28B12-FA38-43CF-A8A8-455EBBFCD4DE} = {A2AA4A1C-FDE3-422A-B6F4-4883D28FEC2A}
 		{DE1A6421-AC20-4060-AD42-277CDA7E8E9F} = {A2AA4A1C-FDE3-422A-B6F4-4883D28FEC2A}
+		{56649EE2-0A30-46EF-8C53-C71D19D01674} = {6C23F2D1-2844-4638-B38A-B7AAB77E3066}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6AE0CD2E-2643-472E-86D5-887682AA733E}

@@ -79,10 +79,10 @@ namespace Bowling.Service.Bus.MQTT
                     _client = new MqttClient(_configuration.Host, _configuration.Port, false, null,
                             null, MqttSslProtocols.None)
                     { ProtocolVersion = MqttProtocolVersion.Version_3_1 };
-                    var auth = !string.IsNullOrEmpty(_configuration.Username + _configuration.Password);
+                    var auth = !string.IsNullOrEmpty(_configuration.BusUsername + _configuration.Password);
                     var code = auth
                         ? _client.Connect(Guid.NewGuid().ToString())
-                        : _client.Connect(Guid.NewGuid().ToString(), _configuration.Username, _configuration.Password);
+                        : _client.Connect(Guid.NewGuid().ToString(), _configuration.BusUsername, _configuration.Password);
                     _client.Subscribe(new[] { _configuration.Topic },
                         new[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
                     _client.MqttMsgPublishReceived += (sender, e) =>
@@ -103,6 +103,11 @@ namespace Bowling.Service.Bus.MQTT
         public Exception GetError() => _error;
 
         ~MqttService()
+        {
+            this.Dispose();
+        }
+
+        public void Dispose()
         {
             if (_client != null && _client.IsConnected)
             {

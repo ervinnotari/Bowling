@@ -73,8 +73,8 @@ namespace Bowling.Service.Bus.NMS
                 try
                 {
                     var factory = new ConnectionFactory(_configuration.Uri);
-                    if (_configuration.Username != null && _configuration.Password != null)
-                        Connection = factory.CreateConnection(_configuration.Username, _configuration.Password);
+                    if (_configuration.BusUsername != null && _configuration.Password != null)
+                        Connection = factory.CreateConnection(_configuration.BusUsername, _configuration.Password);
                     else
                         Connection = factory.CreateConnection();
 
@@ -99,7 +99,14 @@ namespace Bowling.Service.Bus.NMS
 
         ~NmsService()
         {
+            this.Dispose();
+            GC.SuppressFinalize(this);
+        }
+
+        public void Dispose()
+        {
             Connection.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }

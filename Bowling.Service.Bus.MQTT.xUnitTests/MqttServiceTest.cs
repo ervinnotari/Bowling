@@ -28,20 +28,23 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
         public async void GetConnectionStatusTest()
         {
             IBusService.ConnectionStatus value;
-            var mqtt = new MqttService(_configuration);
-            value = mqtt.GetConnectionStatus();
-            Assert.Equal(IBusService.ConnectionStatus.Disabled, value);
+            using (var mqtt = new MqttService(_configuration))
+            {
+                value = mqtt.GetConnectionStatus();
+                Assert.Equal(IBusService.ConnectionStatus.Disabled, value);
 
-            await mqtt.ConnectionStartAsync();
-            value = mqtt.GetConnectionStatus();
-            Assert.Equal(IBusService.ConnectionStatus.Connected, value);
-            Assert.Null(mqtt.GetError());
+                await mqtt.ConnectionStartAsync();
+                value = mqtt.GetConnectionStatus();
+                Assert.Equal(IBusService.ConnectionStatus.Connected, value);
+                Assert.Null(mqtt.GetError());
+                GC.SuppressFinalize(mqtt);
+            }
 
             var bkp = _configuration["Host"];
             try
             {
                 _configuration["Host"] = "****.***";
-                mqtt = new MqttService(_configuration);
+                using var mqtt = new MqttService(_configuration);
                 value = mqtt.GetConnectionStatus();
                 Assert.Equal(IBusService.ConnectionStatus.Disabled, value);
 
@@ -63,7 +66,7 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
             var test2 = new Version(1, 0, 0);
             var result = default(Version);
 
-            var mqtt = new MqttService(_configuration);
+            using var mqtt = new MqttService(_configuration);
             await mqtt.ConnectionStartAsync();
             mqtt.OnObjectReciver<Version>((o) => { result = o; });
             mqtt.SendText(test);

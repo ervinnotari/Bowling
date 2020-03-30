@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Bowling.Domain.Game.Interfaces
 {
-    public interface IBusService
+    public interface IBusService : IDisposable
     {
         public event Action<object> OnMessageReciver;
         public event Action<object> OnConnection;
