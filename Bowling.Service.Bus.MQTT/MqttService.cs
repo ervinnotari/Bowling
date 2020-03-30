@@ -41,7 +41,7 @@ namespace Bowling.Service.Bus.MQTT
                 {
                     var txtMsg = Encoding.UTF8.GetString(e.Message);
                     var stt = new JsonSerializerSettings()
-                    { MissingMemberHandling = MissingMemberHandling.Error };
+                        {MissingMemberHandling = MissingMemberHandling.Error};
                     var obj = JsonConvert.DeserializeObject<T>(txtMsg, stt);
                     listener.Invoke(obj);
                 }
@@ -79,13 +79,14 @@ namespace Bowling.Service.Bus.MQTT
                     _error = null;
                     _client = new MqttClient(_configuration.Host, _configuration.Port, false, null,
                             null, MqttSslProtocols.None)
-                    { ProtocolVersion = MqttProtocolVersion.Version_3_1 };
+                        {ProtocolVersion = MqttProtocolVersion.Version_3_1};
                     var auth = !string.IsNullOrEmpty(_configuration.BusUsername + _configuration.Password);
                     var code = auth
                         ? _client.Connect(Guid.NewGuid().ToString())
-                        : _client.Connect(Guid.NewGuid().ToString(), _configuration.BusUsername, _configuration.Password);
-                    _client.Subscribe(new[] { _configuration.Topic },
-                        new[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+                        : _client.Connect(Guid.NewGuid().ToString(), _configuration.BusUsername,
+                            _configuration.Password);
+                    _client.Subscribe(new[] {_configuration.Topic},
+                        new[] {MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE});
                     _client.MqttMsgPublishReceived += (sender, e) =>
                         OnMessageReciver?.Invoke(e);
                     OnConnection?.Invoke(code);
@@ -102,22 +103,23 @@ namespace Bowling.Service.Bus.MQTT
         }
 
         public Exception GetError() => _error;
-        
+
         public void Dispose()
-        { 
+        {
             Dispose(true);
-            GC.SuppressFinalize(this);           
+            GC.SuppressFinalize(this);
         }
-   
-        // Protected implementation of Dispose pattern.
+
         private void Dispose(bool disposing)
         {
             if (_disposed)
-                return; 
-      
-            if (disposing && _client != null && _client.IsConnected) {
+                return;
+
+            if (disposing && _client != null && _client.IsConnected)
+            {
                 _client.Disconnect();
             }
+
             _disposed = true;
         }
     }

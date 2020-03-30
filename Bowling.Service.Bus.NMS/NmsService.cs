@@ -98,13 +98,17 @@ namespace Bowling.Service.Bus.NMS
         public Task ConnectionStartAsync() => Task.Factory.StartNew(ConnectionStart);
         public Exception GetError() => Error;
 
+        ~NmsService()
+        {
+            Dispose(false);
+        }
+        
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        // Protected implementation of Dispose pattern.
         private void Dispose(bool disposing)
         {
             if (_disposed)
