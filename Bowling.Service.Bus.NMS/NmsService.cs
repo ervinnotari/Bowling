@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Bowling.Service.Bus.NMS
 {
-    public class NmsService : IBusService
+    public sealed class NmsService : IBusService
     {
         public Exception Error { get; protected set; }
         private IConnection _connection;
@@ -97,11 +97,6 @@ namespace Bowling.Service.Bus.NMS
 
         public Task ConnectionStartAsync() => Task.Factory.StartNew(ConnectionStart);
         public Exception GetError() => Error;
-
-        ~NmsService()
-        {
-            Dispose(false);
-        }
         
         public void Dispose()
         {
