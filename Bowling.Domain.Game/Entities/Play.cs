@@ -13,7 +13,7 @@ namespace Bowling.Domain.Game.Entities
             set
             {
                 if (value >= 0 && value <= 10) _pins = value;
-                else throw new ArgumentOutOfRangeException(ArgumentOutOfRangeMessage);
+                else throw new ArgumentOutOfRangeException("pins", value, ArgumentOutOfRangeMessage);
             }
         }
         public string Name { get; set; }
