@@ -35,7 +35,7 @@ namespace Bowling.Domain.Game.Entities
         private int PinsCheck(int pins)
         {
             if (pins >= Min && pins <= Max) return pins;
-            else throw new ArgumentOutOfRangeException(nameof(pins), pins, $"Onlyvalues​​from{Min}to{Max}willbeaccepted");
+            else throw new ArgumentOutOfRangeException(nameof(pins), pins, $"Only\u200Bvalues\u200B​​from\u200B{Min}\u200Bto\u200B{Max}\u200Bwill\u200Bbe\u200Baccepted");
         }
     }
 }
