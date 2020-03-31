@@ -5,8 +5,9 @@ namespace Bowling.Application.PainelOnBlazor
 {
     public static class Program
     {
-        static void Main(string[] args)
+        public static void Main()
         {
+            var args = new string[] { };
             CreateHostBuilder(args).Build().Run();
         }
 
