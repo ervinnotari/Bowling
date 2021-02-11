@@ -9,7 +9,11 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["Bowling.Application.PainelOnBlazor/Bowling.Application.PainelOnBlazor.csproj", "Bowling.Application.PainelOnBlazor/"]
 COPY ["Bowling.Domain.Game/Bowling.Domain.Game.csproj", "Bowling.Domain.Game/"]
+COPY ["Bowling.Infra.CrossCutting.IoC/Bowling.Infra.CrossCutting.IoC.csproj", "Bowling.Infra.CrossCutting.IoC/"]
+COPY ["Bowling.Service.Bus.NMS/Bowling.Service.Bus.NMS.csproj", "Bowling.Service.Bus.NMS/"]
+COPY ["Bowling.Infra.Utilities/Bowling.Infra.Utilities.csproj", "Bowling.Infra.Utilities/"]
 COPY ["Bowling.Service.Game/Bowling.Service.Game.csproj", "Bowling.Service.Game/"]
+COPY ["Bowling.Service.Bus.MQTT/Bowling.Service.Bus.MQTT.csproj", "Bowling.Service.Bus.MQTT/"]
 RUN dotnet restore "Bowling.Application.PainelOnBlazor/Bowling.Application.PainelOnBlazor.csproj"
 COPY . .
 WORKDIR "/src/Bowling.Application.PainelOnBlazor"

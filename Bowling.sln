@@ -15,8 +15,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Service", "2 - Service"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bowling.Service.Game", "Bowling.Service.Game\Bowling.Service.Game.csproj", "{04F64FEB-EFA9-4E88-B952-9418D3291007}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{ABF19BDA-1DE0-46CA-8F4E-44E5F0A8D8AD}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bowling.Service.Bus.NMS", "Bowling.Service.Bus.NMS\Bowling.Service.Bus.NMS.csproj", "{FA082A3B-0B02-4A87-9E00-6177CC99921F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bowling.Service.Bus.MQTT", "Bowling.Service.Bus.MQTT\Bowling.Service.Bus.MQTT.csproj", "{EC677F33-02EB-4250-AC0B-311F7AEDFA28}"
@@ -29,18 +27,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bowling.Infra.CrossCutting.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bowling.Service.Bus.MQTT.xUnitTests", "Bowling.Service.Bus.MQTT.xUnitTests\Bowling.Service.Bus.MQTT.xUnitTests.csproj", "{D34B4059-F6EF-454C-8172-67BA424E821C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{036058E7-BEBC-4C59-BC95-02A88A6286A1}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bowling.Domain.Game.xUnitTests", "Bowling.Domain.Game.xUnitTests\Bowling.Domain.Game.xUnitTests.csproj", "{1154C9CB-FE15-4866-8140-033F9343996A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bowling.Service.Game.xUnitTests", "Bowling.Service.Game.xUnitTests\Bowling.Service.Game.xUnitTests.csproj", "{79E28B12-FA38-43CF-A8A8-455EBBFCD4DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bowling.Service.Bus.NMS.xUnitTest", "Bowling.Service.Bus.NMS.xUnitTest\Bowling.Service.Bus.NMS.xUnitTest.csproj", "{DE1A6421-AC20-4060-AD42-277CDA7E8E9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bowling.Service.Bus.NMS.xUnitTest", "Bowling.Service.Bus.NMS.xUnitTest\Bowling.Service.Bus.NMS.xUnitTest.csproj", "{DE1A6421-AC20-4060-AD42-277CDA7E8E9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bowling.Infra.Utilities", "Bowling.Infra.Utilities\Bowling.Infra.Utilities.csproj", "{56649EE2-0A30-46EF-8C53-C71D19D01674}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bowling.Infra.Utilities", "Bowling.Infra.Utilities\Bowling.Infra.Utilities.csproj", "{56649EE2-0A30-46EF-8C53-C71D19D01674}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{ABF19BDA-1DE0-46CA-8F4E-44E5F0A8D8AD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bowling.Application.PlayWorkerService", "Bowling.Application.PlayWorkerService\Bowling.Application.PlayWorkerService.csproj", "{FD6A9F91-FE1E-412A-9E70-96EC1C66E039}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,10 +57,6 @@ Global
 		{04F64FEB-EFA9-4E88-B952-9418D3291007}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04F64FEB-EFA9-4E88-B952-9418D3291007}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04F64FEB-EFA9-4E88-B952-9418D3291007}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ABF19BDA-1DE0-46CA-8F4E-44E5F0A8D8AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ABF19BDA-1DE0-46CA-8F4E-44E5F0A8D8AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ABF19BDA-1DE0-46CA-8F4E-44E5F0A8D8AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ABF19BDA-1DE0-46CA-8F4E-44E5F0A8D8AD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FA082A3B-0B02-4A87-9E00-6177CC99921F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FA082A3B-0B02-4A87-9E00-6177CC99921F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA082A3B-0B02-4A87-9E00-6177CC99921F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -96,6 +89,14 @@ Global
 		{56649EE2-0A30-46EF-8C53-C71D19D01674}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56649EE2-0A30-46EF-8C53-C71D19D01674}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56649EE2-0A30-46EF-8C53-C71D19D01674}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABF19BDA-1DE0-46CA-8F4E-44E5F0A8D8AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABF19BDA-1DE0-46CA-8F4E-44E5F0A8D8AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABF19BDA-1DE0-46CA-8F4E-44E5F0A8D8AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABF19BDA-1DE0-46CA-8F4E-44E5F0A8D8AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD6A9F91-FE1E-412A-9E70-96EC1C66E039}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD6A9F91-FE1E-412A-9E70-96EC1C66E039}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD6A9F91-FE1E-412A-9E70-96EC1C66E039}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD6A9F91-FE1E-412A-9E70-96EC1C66E039}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -113,6 +114,7 @@ Global
 		{79E28B12-FA38-43CF-A8A8-455EBBFCD4DE} = {A2AA4A1C-FDE3-422A-B6F4-4883D28FEC2A}
 		{DE1A6421-AC20-4060-AD42-277CDA7E8E9F} = {A2AA4A1C-FDE3-422A-B6F4-4883D28FEC2A}
 		{56649EE2-0A30-46EF-8C53-C71D19D01674} = {6C23F2D1-2844-4638-B38A-B7AAB77E3066}
+		{FD6A9F91-FE1E-412A-9E70-96EC1C66E039} = {DD931112-A65E-4E8F-859F-367F9ADDCBCA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6AE0CD2E-2643-472E-86D5-887682AA733E}
