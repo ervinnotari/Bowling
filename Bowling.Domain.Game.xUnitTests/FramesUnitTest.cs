@@ -15,17 +15,25 @@ namespace Bowling.Domain.Game.xUnitTests
         private static void SequencialPlaysMake(Frames f, IEnumerable<int> plays)
         {
             plays.ToList().ForEach(p => f.AddPlay(new Play(Player, p, Alley, DateTime.Now)));
+            Assert.NotNull(plays);
         }
 
-        [Fact]
-        public void GetTurnLimitTest()
+        [Theory]
+        [InlineData(new[] { 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10 })]
+        [InlineData(new[] { 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10 })]
+        public void GetTurnLimitTest(int[] plays)
         {
-            var frames = new Frames();
-            SequencialPlaysMake(frames, new[] { 10, 10, 10, 10, 10 });
-            SequencialPlaysMake(frames, new[] { 10, 10, 10, 10, 10 });
-            SequencialPlaysMake(frames, new[] { 10, 10 });
-            Assert.Equal(300, frames.GetTotal());
-            Assert.Throws<PlayLimitReachedException>(() => frames.AddPlay(new Play(Player, 10, Alley, DateTime.Now)));
+            try
+            {
+                var frames = new Frames();
+                SequencialPlaysMake(frames, plays);
+                frames.AddPlay(new Play(Player, 10, Alley, DateTime.Now));
+                Assert.Equal(300, frames.GetTotal());
+            }
+            catch (Exception ex)
+            {
+                Assert.IsType<PlayLimitReachedException>(ex);
+            }
         }
     }
 }

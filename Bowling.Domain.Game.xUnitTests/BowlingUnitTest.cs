@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Bowling.Domain.Game.Entities;
 using Xunit;
 using System.Linq;
+using Bowling.Domain.Game.Exceptions;
 
 namespace Bowling.Domain.Game.xUnitTests
 {
@@ -98,31 +99,30 @@ namespace Bowling.Domain.Game.xUnitTests
             Assert.Equal(300, bowling.GetScore(Alley, Player));
         }
 
-        [Fact]
-        public void PlaySimulate3()
+        [Theory]
+        [InlineData(new[] { 10, 10, 8, 2, 8, 2, 9, 1, 10, 8, 1, 9, 0, 8, 1, 10, 9, 1 }, 171)]
+        [InlineData(new[] { 10, 9, 1, 8, 2, 10, 7, 1, 10, 8, 2, 10, 10, 10, 8, 1 }, 201)]
+        [InlineData(new[] { 9, 1, 8, 2, 9, 1, 6, 3, 8, 2, 10, 10, 10, 10, 10, 9, 1 }, 221)]
+        [InlineData(new[] { 1, 4, 4, 5, 6, 4, 5, 5, 10, 0, 1, 7, 3, 6, 4, 10, 1, 3 }, 115)]
+        [InlineData(new[] { 1, 4, 4, 5, 6, 4, 5, 5, 10, 0, 1, 7, 3, 6, 4, 10, 1, 3, 6 }, 115)]
+        [InlineData(new[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 0)]
+        [InlineData(new[] { 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10 }, 300)]
+        public void PerfectPlaySimulateAndPlayLimitReachedExceptionTest(int[] plays, int score)
         {
             var b = new Entities.Game();
-            var plays = new[] { 10, 10, 8, 2, 8, 2, 9, 1, 10, 8, 1, 9, 0, 8, 1, 10, 9, 1 };
-            SequencialPlaysMake(b, plays);
-            Assert.Equal(171, b.GetScore(Alley, Player));
-        }
-
-        [Fact]
-        public void PlaySimulate4()
-        {
-            var b = new Entities.Game();
-            var plays = new[] { 9, 1, 8, 2, 9, 1, 6, 3, 8, 2, 10, 10, 10, 10, 10, 9, 1 };
-            SequencialPlaysMake(b, plays);
-            Assert.Equal(221, b.GetScore(Alley, Player));
-        }
-
-        [Fact]
-        public void PlaySimulate5()
-        {
-            var b = new Entities.Game();
-            var plays = new[] { 10, 9, 1, 8, 2, 10, 7, 1, 10, 8, 2, 10, 10, 10, 8, 1 };
-            SequencialPlaysMake(b, plays);
-            Assert.Equal(201, b.GetScore(Alley, Player));
+            try
+            {
+                SequencialPlaysMake(b, plays);
+            }
+            catch (Exception ex)
+            {
+                Assert.IsType<PlayLimitReachedException>(ex);
+                Assert.NotEqual("", ex.Message);
+            }
+            finally
+            {
+                Assert.Equal(score, b.GetScore(Alley, Player));
+            }
         }
 
         [Fact]

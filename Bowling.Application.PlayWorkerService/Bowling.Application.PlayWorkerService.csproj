@@ -16,6 +16,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Bowling.Domain.Game\Bowling.Domain.Game.csproj" />
-    <ProjectReference Include="..\Bowling.Service.Bus.NMS\Bowling.Service.Bus.NMS.csproj" />
   </ItemGroup>
 </Project>

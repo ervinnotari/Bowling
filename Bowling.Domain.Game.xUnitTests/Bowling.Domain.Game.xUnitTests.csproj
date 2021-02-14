@@ -17,4 +17,8 @@
       <ProjectReference Include="..\Bowling.Domain.Game\Bowling.Domain.Game.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <EditorConfigFiles Update="C:\Users\Ervin\source\repos\Bowling\.editorconfig" Link=".editorconfig" />
+    </ItemGroup>
+
 </Project>

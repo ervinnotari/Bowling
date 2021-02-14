@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Bowling.Service.Bus.MQTT\Bowling.Service.Bus.MQTT.csproj" />
-    <ProjectReference Include="..\Bowling.Service.Bus.NMS\Bowling.Service.Bus.NMS.csproj" />
     <ProjectReference Include="..\Bowling.Service.Game\Bowling.Service.Game.csproj" />
   </ItemGroup>
 

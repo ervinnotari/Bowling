@@ -41,7 +41,7 @@ namespace Bowling.Service.Bus.MQTT
                 {
                     var txtMsg = Encoding.UTF8.GetString(e.Message);
                     var stt = new JsonSerializerSettings()
-                        {MissingMemberHandling = MissingMemberHandling.Error};
+                    { MissingMemberHandling = MissingMemberHandling.Error };
                     var obj = JsonConvert.DeserializeObject<T>(txtMsg, stt);
                     listener.Invoke(obj);
                 }
@@ -79,16 +79,19 @@ namespace Bowling.Service.Bus.MQTT
                     _error = null;
                     _client = new MqttClient(_configuration.Host, _configuration.Port, false, null,
                             null, MqttSslProtocols.None)
-                        {ProtocolVersion = MqttProtocolVersion.Version_3_1};
+                    { ProtocolVersion = MqttProtocolVersion.Version_3_1 };
                     var auth = !string.IsNullOrEmpty(_configuration.BusUsername + _configuration.Password);
-                    var code = auth
-                        ? _client.Connect(Guid.NewGuid().ToString())
-                        : _client.Connect(Guid.NewGuid().ToString(), _configuration.BusUsername,
-                            _configuration.Password);
-                    _client.Subscribe(new[] {_configuration.Topic},
-                        new[] {MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE});
-                    _client.MqttMsgPublishReceived += (sender, e) =>
-                        OnMessageReciver?.Invoke(e);
+                    var code = default(byte);
+                    if (auth)
+                    {
+                        code = _client.Connect(Guid.NewGuid().ToString());
+                    }
+                    else
+                    {
+                        code = _client.Connect(Guid.NewGuid().ToString(), _configuration.BusUsername, _configuration.Password);
+                    }
+                    _client.Subscribe(new[] { _configuration.Topic }, new[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+                    _client.MqttMsgPublishReceived += (sender, e) => OnMessageReciver?.Invoke(e);
                     OnConnection?.Invoke(code);
                 }
                 catch (Exception e)

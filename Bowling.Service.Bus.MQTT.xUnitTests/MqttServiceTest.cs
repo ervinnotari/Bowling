@@ -10,17 +10,24 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
     public class MqttServiceTest
     {
         private readonly IConfiguration _configuration;
+        private readonly IConfiguration _configuration2;
 
         public MqttServiceTest()
         {
             _configuration = new ConfigurationBuilder()
-                //.SetBasePath(Directory.GetCurrentDirectory())
-                //.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
                     {"Host", "broker.mqttdashboard.com"},
                     {"Topic", "bowling/MQTT_xUnitTests"},
                     {"Port", "1883"}
+                }).Build();
+            _configuration2 = new ConfigurationBuilder()
+                .AddInMemoryCollection(new Dictionary<string, string>
+                {
+                    {"Host", "broker.mqttdashboard.com"},
+                    {"Topic", "bowling/MQTT_xUnitTests"},
+                    {"BusUsername", "teste"},
+                    {"Password", "teste"}
                 }).Build();
         }
 
@@ -30,6 +37,10 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
             IBusService.ConnectionStatus value;
             using (var mqtt = new MqttService(_configuration))
             {
+
+                mqtt.OnMessageReciver += Mqtt_OnMessageReciver;
+                mqtt.OnConnection += Mqtt_OnConnection;
+                mqtt.OnStatusChange += Mqtt_OnStatusChange;
                 value = mqtt.GetConnectionStatus();
                 Assert.Equal(IBusService.ConnectionStatus.Disabled, value);
 
@@ -46,6 +57,8 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
             {
                 _configuration["Host"] = "****.***";
                 using var mqtt = new MqttService(_configuration);
+                mqtt.OnConnection += Mqtt_OnConnection;
+                mqtt.OnStatusChange += Mqtt_OnStatusChange;
                 value = mqtt.GetConnectionStatus();
                 Assert.Equal(IBusService.ConnectionStatus.Disabled, value);
 
@@ -78,12 +91,23 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
         }
 
         [Fact]
-        public void SendObjectTest()
+        public void ConfigurationWichUserTest() => ConfigurationTest(_configuration);
+        [Fact]
+        public void ConfigurationNoUserTest() => ConfigurationTest(_configuration2);
+
+        private void ConfigurationTest(IConfiguration conf)
         {
-            var mqtt = new MqttService(_configuration);
+            var mqtt = new MqttService(conf);
             mqtt.ConnectionStart();
+            mqtt.OnMessageReciver += Mqtt_OnMessageReciver;
             mqtt.SendObject(156.5);
             mqtt.SendText("test");
         }
+
+        private void Mqtt_OnStatusChange(IBusService.ConnectionStatus arg1, object arg2) => Assert.NotNull(arg2);
+
+        private void Mqtt_OnMessageReciver(object obj) => Assert.NotNull(obj);
+
+        private void Mqtt_OnConnection(object obj) => Assert.NotNull(obj);
     }
 }

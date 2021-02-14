@@ -22,12 +22,12 @@ namespace Bowling.Domain.Game.Entities
                 Scores.Add(play.Alley, new Painel(play.Alley, play.Date));
             }
             var score = GetPainel(play.Alley);
-            if (!score.Players?.Any(p => p.Name == play.Name) ?? false)
+            if (!score.Players.Any(p => p.Name == play.Name))
             {
                 score.Players.Add(new Player() { Name = play.Name });
             }
             score.LastGame = play.Date;
-            score.Players?.AddPlay(play);
+            score.Players.AddPlay(play);
         }
     }
 }
