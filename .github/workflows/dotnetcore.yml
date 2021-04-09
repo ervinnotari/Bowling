@@ -21,7 +21,7 @@ jobs:
       with:
         dotnet-version: ${{ matrix.dotnet-version }}
     - name: Install dependencies
-      run: dotnet restore Bowling.sln --configuration Release
+      run: dotnet restore Bowling.sln
     - name: Build Bowling
       run: dotnet build Bowling.sln --configuration Release
     - name: Test Bowling
