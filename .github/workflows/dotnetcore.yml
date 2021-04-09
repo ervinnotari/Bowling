@@ -36,7 +36,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1.7.2
         with:
-          dotnet-version: 3.1.100
+          dotnet-version: 3.1.x
       - name: Heroku container publish
         if: success()
         env: 
