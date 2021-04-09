@@ -6,36 +6,26 @@ on:
       - master
 
 jobs: 
-  
-  test:
-    runs-on: ${{ matrix.os }}
-    name: "CI: Automated Testing"
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macOS-latest, windows-latest]
-    steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1.4.0
-      with:
-        dotnet-version: 3.1.100
-    - name: Test Bowling
-      run: dotnet test Bowling.sln --configuration Release
-      
+       
   build:
     runs-on: ${{ matrix.os }}
     name: "CI: Automated Build"
     strategy:
       matrix:
         os: [ubuntu-latest, macOS-latest, windows-latest]
+        dotnet-version: ['3.0', '3.1.x' ]
     steps:
     - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1.4.0
+    - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+      uses: actions/setup-dotnet@v1.7.2
       with:
-        dotnet-version: 3.1.100
+        dotnet-version: ${{ matrix.dotnet-version }}
+    - name: Install dependencies
+      run: dotnet restore
     - name: Build Bowling
       run: dotnet build Bowling.sln --configuration Release
+    - name: Test Bowling
+      run: dotnet test Bowling.sln --configuration Release --no-restore --verbosity normal
 
   deploy:
     runs-on: ubuntu-latest
@@ -44,7 +34,7 @@ jobs:
     steps: 
       - uses: actions/checkout@v2
       - name: Setup .NET Core
-        uses: actions/setup-dotnet@v1.4.0
+        uses: actions/setup-dotnet@v1.7.2
         with:
           dotnet-version: 3.1.100
       - name: Heroku container publish
