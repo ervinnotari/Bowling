@@ -35,7 +35,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bowling.Application.PlayWor
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{ABF19BDA-1DE0-46CA-8F4E-44E5F0A8D8AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bowling.Infra.Utilities.xUnitTests", "Bowling.Infra.Utilities.xUnitTests\Bowling.Infra.Utilities.xUnitTests.csproj", "{63D8691E-334B-4872-A433-FF204A553D41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bowling.Infra.Utilities.xUnitTests", "Bowling.Infra.Utilities.xUnitTests\Bowling.Infra.Utilities.xUnitTests.csproj", "{63D8691E-334B-4872-A433-FF204A553D41}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bowling.Service.Bus.NMS.xUnitTest", "Bowling.Service.Bus.NMS.xUnitTest\Bowling.Service.Bus.NMS.xUnitTest.csproj", "{1C576572-559B-4E65-BB57-67498F010F13}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bowling.Service.Bus.NMS", "Bowling.Service.Bus.NMS\Bowling.Service.Bus.NMS.csproj", "{C0499421-ADFB-46D2-9C49-6B707100DF6A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,6 +95,14 @@ Global
 		{63D8691E-334B-4872-A433-FF204A553D41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63D8691E-334B-4872-A433-FF204A553D41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63D8691E-334B-4872-A433-FF204A553D41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C576572-559B-4E65-BB57-67498F010F13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C576572-559B-4E65-BB57-67498F010F13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C576572-559B-4E65-BB57-67498F010F13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C576572-559B-4E65-BB57-67498F010F13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0499421-ADFB-46D2-9C49-6B707100DF6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0499421-ADFB-46D2-9C49-6B707100DF6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0499421-ADFB-46D2-9C49-6B707100DF6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0499421-ADFB-46D2-9C49-6B707100DF6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -108,6 +120,8 @@ Global
 		{56649EE2-0A30-46EF-8C53-C71D19D01674} = {6C23F2D1-2844-4638-B38A-B7AAB77E3066}
 		{FD6A9F91-FE1E-412A-9E70-96EC1C66E039} = {DD931112-A65E-4E8F-859F-367F9ADDCBCA}
 		{63D8691E-334B-4872-A433-FF204A553D41} = {6C23F2D1-2844-4638-B38A-B7AAB77E3066}
+		{1C576572-559B-4E65-BB57-67498F010F13} = {A2AA4A1C-FDE3-422A-B6F4-4883D28FEC2A}
+		{C0499421-ADFB-46D2-9C49-6B707100DF6A} = {A2AA4A1C-FDE3-422A-B6F4-4883D28FEC2A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6AE0CD2E-2643-472E-86D5-887682AA733E}
