@@ -9,7 +9,7 @@ jobs:
        
   build:
     runs-on: ${{ matrix.os }}
-    name: "CI: Automated Build"
+    name: "Bowling - CI: Automated Build"
     strategy:
       matrix:
         os: [ubuntu-latest, macOS-latest, windows-latest]
@@ -21,7 +21,7 @@ jobs:
       with:
         dotnet-version: ${{ matrix.dotnet-version }}
     - name: Install dependencies
-      run: dotnet restore
+      run: dotnet restore Bowling.sln --configuration Release
     - name: Build Bowling
       run: dotnet build Bowling.sln --configuration Release
     - name: Test Bowling
@@ -29,7 +29,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    name: "CD: Automated Heroku publish"
+    name: "Bowling - CD: Automated Heroku publish"
     needs: [build]
     steps: 
       - uses: actions/checkout@v2
