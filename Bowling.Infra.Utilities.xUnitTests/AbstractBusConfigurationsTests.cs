@@ -22,12 +22,6 @@ namespace Bowling.Infra.Utilities.xUnitTests
             Assert.Equal(t.BusUsername, BUSUSERNAME);
             Assert.Equal(t.Password, PASSWORD);
             Assert.Equal(t.Topic, TOPIC);
-            Environment.SetEnvironmentVariable(nameof(t.Topic), TOPIC + "2");
-            Environment.SetEnvironmentVariable(nameof(t.BusUsername), BUSUSERNAME + "2");
-            Environment.SetEnvironmentVariable(nameof(t.Password), PASSWORD + "2");
-            //Assert.Equal(t.Topic, TOPIC + "2");
-            //Assert.Equal(t.BusUsername, BUSUSERNAME + "2");
-            //Assert.Equal(t.Password, PASSWORD + "2");
         }
 
         [Fact]
@@ -46,12 +40,6 @@ namespace Bowling.Infra.Utilities.xUnitTests
             Assert.Equal(t.Topic, AbstractBusConfigurations.DefaultTopic);
             Assert.Null(t.BusUsername);
             Assert.Null(t.Password);
-            Environment.SetEnvironmentVariable(nameof(t.Topic), TOPIC);
-            Environment.SetEnvironmentVariable(nameof(t.BusUsername), BUSUSERNAME);
-            Environment.SetEnvironmentVariable(nameof(t.Password), PASSWORD);
-            //Assert.Equal(t.Topic, TOPIC);
-            //Assert.Equal(t.BusUsername, BUSUSERNAME);
-            //Assert.Equal(t.Password, PASSWORD);
         }
 
         [Fact]
