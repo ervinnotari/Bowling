@@ -19,15 +19,15 @@ namespace Bowling.Infra.Utilities.xUnitTests
                 .AddInMemoryCollection(new Dictionary<string, string> { { "Topic", TOPIC }, { "BusUsername", BUSUSERNAME }, { "Password", PASSWORD } })
                 .Build();
             var t = new TestBusConfigurationsClass(_configuration);
-            Assert.Equal(t.Topic, TOPIC);
             Assert.Equal(t.BusUsername, BUSUSERNAME);
             Assert.Equal(t.Password, PASSWORD);
+            Assert.Equal(t.Topic, TOPIC);
             Environment.SetEnvironmentVariable(nameof(t.Topic), TOPIC + "2");
             Environment.SetEnvironmentVariable(nameof(t.BusUsername), BUSUSERNAME + "2");
             Environment.SetEnvironmentVariable(nameof(t.Password), PASSWORD + "2");
-            Assert.Equal(t.Topic, TOPIC + "2");
             Assert.Equal(t.BusUsername, BUSUSERNAME + "2");
             Assert.Equal(t.Password, PASSWORD + "2");
+            Assert.Equal(t.Topic, TOPIC + "2");
         }
 
         [Fact]
