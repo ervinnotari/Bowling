@@ -21,16 +21,16 @@ namespace Bowling.Infra.Utilities.xUnitTests
             var t = new TestBusConfigurationsClass(_configuration);
             Assert.Equal(t.BusUsername, BUSUSERNAME);
             Assert.Equal(t.Password, PASSWORD);
-            //Assert.Equal(t.Topic, TOPIC);
+            Assert.Equal(t.Topic, TOPIC);
             Environment.SetEnvironmentVariable(nameof(t.Topic), TOPIC + "2");
             Environment.SetEnvironmentVariable(nameof(t.BusUsername), BUSUSERNAME + "2");
             Environment.SetEnvironmentVariable(nameof(t.Password), PASSWORD + "2");
+            Assert.Equal(t.Topic, TOPIC + "2");
             //Assert.Equal(t.BusUsername, BUSUSERNAME + "2");
             //Assert.Equal(t.Password, PASSWORD + "2");
-            //Assert.Equal(t.Topic, TOPIC + "2");
         }
 
-/*        [Fact]
+        [Fact]
         public void ValuesNullTest()
         {
             IConfiguration _configuration = new ConfigurationBuilder()
@@ -49,10 +49,10 @@ namespace Bowling.Infra.Utilities.xUnitTests
             Environment.SetEnvironmentVariable(nameof(t.Topic), TOPIC);
             Environment.SetEnvironmentVariable(nameof(t.BusUsername), BUSUSERNAME);
             Environment.SetEnvironmentVariable(nameof(t.Password), PASSWORD);
-            Assert.Equal(t.Topic, TOPIC);
-            Assert.Equal(t.BusUsername, BUSUSERNAME);
-            Assert.Equal(t.Password, PASSWORD);
-        }*/
+            //Assert.Equal(t.Topic, TOPIC);
+            //Assert.Equal(t.BusUsername, BUSUSERNAME);
+            //Assert.Equal(t.Password, PASSWORD);
+        }
 
         [Fact]
         public void DefaultTopicTest()
