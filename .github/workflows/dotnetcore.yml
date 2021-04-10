@@ -29,7 +29,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    name: "Bowling - CD: Automated Heroku publish"
+    name: "PainelOnBlazor - CD: Automated Heroku publish"
     needs: [build]
     steps: 
       - uses: actions/checkout@v2
