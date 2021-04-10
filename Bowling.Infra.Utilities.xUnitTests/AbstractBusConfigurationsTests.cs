@@ -34,8 +34,8 @@ namespace Bowling.Infra.Utilities.xUnitTests
             Environment.SetEnvironmentVariable(nameof(t.Topic), null);
             Environment.SetEnvironmentVariable(nameof(t.BusUsername), null);
             Environment.SetEnvironmentVariable(nameof(t.Password), null);
-            Assert.Null(Environment.GetEnvironmentVariable(nameof(t.Topic)));
             Assert.Null(Environment.GetEnvironmentVariable(nameof(t.BusUsername)));
+            Assert.Null(Environment.GetEnvironmentVariable(nameof(t.Topic)));
             Assert.Null(Environment.GetEnvironmentVariable(nameof(t.Password)));
             Assert.Equal(t.Topic, AbstractBusConfigurations.DefaultTopic);
             Assert.Null(t.BusUsername);
