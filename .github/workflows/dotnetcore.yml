@@ -24,8 +24,6 @@ jobs:
       run: dotnet restore Bowling.sln
     - name: Build Bowling
       run: dotnet build Bowling.sln --configuration Release
-    - name: Test Bowling
-      run: dotnet test Bowling.sln --configuration Release --no-restore --verbosity normal
 
   deploy:
     runs-on: ubuntu-latest
