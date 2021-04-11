@@ -5,12 +5,17 @@ namespace Bowling.Application.PainelOnBlazor
 {
     public static class Program
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
-            var host = (args != null) ? Host.CreateDefaultBuilder(args) : Host.CreateDefaultBuilder();
-            host.ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>())
-                .Build()
-                .Run();
+            var args = new string[] { };
+            CreateHostBuilder(args).Build().Run();
         }
+
+        private static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
     }
 }

@@ -9,8 +9,24 @@ namespace Bowling.Domain.Game.Entities
         private enum Bonus { Strike1, Strike2, Spare }
         private readonly Stack<KeyValuePair<Bonus, Frame>> _bonus = new Stack<KeyValuePair<Bonus, Frame>>();
         private int Turn => this.Count(f => !f.IsOpen());
-        private bool IsEndGame() => Turn == 10 && ((this.LastOrDefault()?.Balls.ElementAtOrDefault(0) == 10 && this.LastOrDefault()?.Balls.Count == 3) || ((this.LastOrDefault()?.Balls.ElementAtOrDefault(0) + this.LastOrDefault()?.Balls.ElementAtOrDefault(1)) < 10 && this.LastOrDefault()?.Balls.Count == 2));
-        public int GetTotal() => this.LastOrDefault()?.Score ?? 0;
+        private bool IsEndGame()
+        {
+            if (Turn == 10)
+            {
+                var balls = this.LastOrDefault().Balls;
+                var e0 = balls.ElementAtOrDefault(0);
+                var e1 = balls.ElementAtOrDefault(1);
+                var _3Strike = (e0 == 10 && balls.Count == 3);
+                if (_3Strike) return true;
+                var noStrike = (e0 + e1) < 10;
+                if (noStrike)
+                    if (balls.Count == 2)
+                        return true;
+                return false;
+            }
+            return false;
+        }
+        public int GetTotal() => this.LastOrDefault().Score;
         public void AddPlay(Play play)
         {
             if (IsEndGame()) throw new PlayLimitReachedException();

@@ -24,7 +24,7 @@ namespace Bowling.Domain.Game.xUnitTests
         public void GetsAndSetsTest()
         {
             var date = DateTime.Now;
-            var play = new Play(Name, 10, Alley, date) {Name = $"_{Name}"};
+            var play = new Play(Name, 10, Alley, date) { Name = $"_{Name}" };
             Assert.Equal($"_{Name}", play.Name);
             for (var i = 0; i <= 10; i++)
             {
@@ -38,24 +38,24 @@ namespace Bowling.Domain.Game.xUnitTests
             Assert.Equal(date, play.Date);
         }
 
-
-        [Fact]
-        public void PinsLess0ExceptionTest()
+        [Theory]
+        [InlineData(-1)]
+        [InlineData(11)]
+        [InlineData(5)]
+        public void ToStringTestAndRangeException(int value)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new Play(Name, -1, Alley, DateTime.Now));
-        }
-
-        [Fact]
-        public void PinsMore10ExceptionTest()
-        {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new Play(Name, 11, Alley, DateTime.Now));
-        }
-
-        [Fact]
-        public void ToStringTest()
-        {
-            var play = new Play(Name, 5, Alley, DateTime.Now);
-            Assert.NotEqual("", play.ToString());
+            try
+            {
+                var play = new Play(Name, value, Alley, DateTime.Now);
+                Assert.NotNull(play);
+                Assert.NotEqual("", play.ToString());
+            }
+            catch (Exception ex)
+            {
+                Assert.NotNull(ex);
+                Assert.IsType<ArgumentOutOfRangeException>(ex);
+                Assert.NotEqual("", ex.Message);
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Apache.NMS;
 using Apache.NMS.ActiveMQ;
+using Bowling.Domain.Game.Exceptions;
 using Bowling.Domain.Game.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -43,7 +44,7 @@ namespace Bowling.Service.Bus.NMS
                 if (!(msg is ITextMessage txtMsg)) return;
                 try
                 {
-                    var stt = new JsonSerializerSettings() {MissingMemberHandling = MissingMemberHandling.Error};
+                    var stt = new JsonSerializerSettings() { MissingMemberHandling = MissingMemberHandling.Error };
                     var obj = JsonConvert.DeserializeObject<T>(txtMsg.Text, stt);
                     listener.Invoke(obj);
                 }
@@ -69,27 +70,27 @@ namespace Bowling.Service.Bus.NMS
 
         public void ConnectionStart()
         {
-            if (_configuration.Uri != null)
+            try
             {
-                try
-                {
-                    var factory = new ConnectionFactory(_configuration.Uri);
-                    if (_configuration.BusUsername != null && _configuration.Password != null)
-                        _connection = factory.CreateConnection(_configuration.BusUsername, _configuration.Password);
-                    else
-                        _connection = factory.CreateConnection();
+                if (_configuration.Uri == null)
+                    throw new InvalidArgumentExecption($"Unknow data in field '{nameof(_configuration.Uri)}'");
 
-                    _connection.Start();
-                    _session = _connection.CreateSession();
-                    _destination = _session.GetTopic(_configuration.Topic);
-                    var consumer = _session.CreateConsumer(_destination);
-                    consumer.Listener += (IMessage message) => OnMessageReciver?.Invoke(message);
-                    OnConnection?.Invoke(_connection);
-                }
-                catch (Exception ex)
-                {
-                    Error = ex;
-                }
+                var factory = new ConnectionFactory(_configuration.Uri);
+                if (_configuration.BusUsername != null && _configuration.Password != null)
+                    _connection = factory.CreateConnection(_configuration.BusUsername, _configuration.Password);
+                else
+                    _connection = factory.CreateConnection();
+
+                _connection.Start();
+                _session = _connection.CreateSession();
+                _destination = _session.GetTopic(_configuration.Topic);
+                var consumer = _session.CreateConsumer(_destination);
+                consumer.Listener += (IMessage message) => OnMessageReciver?.Invoke(message);
+                OnConnection?.Invoke(_connection);
+            }
+            catch (Exception ex)
+            {
+                Error = ex;
             }
 
             OnStatusChange?.Invoke(GetConnectionStatus(), _configuration);
@@ -97,7 +98,7 @@ namespace Bowling.Service.Bus.NMS
 
         public Task ConnectionStartAsync() => Task.Factory.StartNew(ConnectionStart);
         public Exception GetError() => Error;
-        
+
         public void Dispose()
         {
             Dispose(true);

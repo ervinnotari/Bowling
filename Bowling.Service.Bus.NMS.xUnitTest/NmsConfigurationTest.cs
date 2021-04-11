@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Moq;
 using Bowling.Infra.Utilities;
 using Microsoft.Extensions.Configuration;
 using Xunit;
@@ -11,15 +12,12 @@ namespace Bowling.Service.Bus.NMS.xUnitTest
         [Fact]
         public void IsEnableTrueTeste()
         {
-            var conf = new ConfigurationBuilder()
-                .AddInMemoryCollection(new Dictionary<string, string>
-                {
-                    { "Url", "tcp://localhost:61616" },
-                    { "Topic", "bowling/NMS_xUnitTests" },
-                    { "BusUsername", "teste_user" },
-                    { "Password", "teste_pass" },
-                }).Build();
-            var nmsc = new NmsConfiguration(conf);
+            var conf = new Mock<IConfiguration>();
+            conf.SetupGet(c => c["Url"]).Returns("tcp://localhost:61616");
+            conf.SetupGet(c => c["Topic"]).Returns("bowling/NMS_xUnitTests");
+            conf.SetupGet(c => c["BusUsername"]).Returns("teste_user");
+            conf.SetupGet(c => c["Password"]).Returns("teste_pass");
+            var nmsc = new NmsConfiguration(conf.Object);
             var value = nmsc.IsEnabled();
             Assert.True(value);
             Assert.Equal(new Uri("tcp://localhost:61616"), nmsc.Uri);
@@ -31,9 +29,8 @@ namespace Bowling.Service.Bus.NMS.xUnitTest
         public void IsEnableFalseTeste()
         {
             AbstractBusConfigurations.DefaultTopic = "bowling/NMS_xUnitTests";
-            var conf = new ConfigurationBuilder()
-                .AddInMemoryCollection().Build();
-            var nmsc = new NmsConfiguration(conf);
+            var conf = new Mock<IConfiguration>();
+            var nmsc = new NmsConfiguration(conf.Object);
             var value = nmsc.IsEnabled();
             Assert.False(value);
             Assert.Equal("bowling/NMS_xUnitTests", nmsc.Topic);

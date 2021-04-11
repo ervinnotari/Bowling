@@ -16,7 +16,7 @@ namespace Bowling.Service.Bus.NMS
             {
                 var val = Environment.GetEnvironmentVariable("URL");
                 if (string.IsNullOrEmpty(val)) val = Configuration["Url"];
-                return val == null ? null : new Uri(val);
+                return string.IsNullOrEmpty(val) ? null : new Uri(val);
             }
         }
 

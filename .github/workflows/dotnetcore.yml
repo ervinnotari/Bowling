@@ -1,69 +1,29 @@
-name: Bowling Actions
+name: Bowling Build
 
 on:
   push:
-    branches:
-      - master
+    branches: [master, dev]
+  pull_request:
+    branches: ["**"]
 
 jobs: 
-  
-  test:
-    runs-on: ${{ matrix.os }}
-    name: "CI: Automated Testing"
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macOS-latest, windows-latest]
-    steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1.4.0
-      with:
-        dotnet-version: 3.1.100
-    - name: Test Bowling
-      run: dotnet test Bowling.sln --configuration Release
-      
+       
   build:
     runs-on: ${{ matrix.os }}
-    name: "CI: Automated Build"
+    name: "Bowling - CI: Automated Build"
     strategy:
       matrix:
         os: [ubuntu-latest, macOS-latest, windows-latest]
+        dotnet-version: [ '3.1.x' ]
     steps:
     - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1.4.0
+    - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+      uses: actions/setup-dotnet@v1.7.2
       with:
-        dotnet-version: 3.1.100
+        dotnet-version: ${{ matrix.dotnet-version }}
+    - name: Install dependencies
+      run: dotnet restore Bowling.sln
     - name: Build Bowling
       run: dotnet build Bowling.sln --configuration Release
-
-  deploy:
-    runs-on: ubuntu-latest
-    name: "CD: Automated Heroku publish"
-    needs: [build]
-    steps: 
-      - uses: actions/checkout@v2
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v1.4.0
-        with:
-          dotnet-version: 3.1.100
-      - name: Heroku container publish
-        if: success()
-        env: 
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          APP_NAME: ${{'bowling-painel-on-blazor'}}
-        run: |
-          docker build -t painel:lasted -f Bowling.Application.PainelOnBlazor/Dockerfile.heroku .
-          heroku container:login
-          docker login --username=_ --password=$(heroku auth:token) registry.heroku.com
-          docker tag painel:lasted registry.heroku.com/bowling-painel-on-blazor/web
-          docker push registry.heroku.com/bowling-painel-on-blazor/web
-          heroku container:release web -a bowling-painel-on-blazor
-      - name: Telegram Notify
-        uses: appleboy/telegram-action@master
-        with:
-          to: ${{ secrets.TELEGRAM_TO }}
-          token: ${{ secrets.TELEGRAM_TOKEN }} 
-          message: "Bowling new version runing on Heroku\n-> http://bowling-painel-on-blazor.herokuapp.com/"
-          photo: tests/github.png
-          document: tests/gophercolor.png
+    - name: Test Bowling
+      run: dotnet test Bowling.sln --nologo --no-restore

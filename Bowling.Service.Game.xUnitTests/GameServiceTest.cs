@@ -25,6 +25,7 @@ namespace Bowling.Service.Game.xUnitTests
             t.AddPlay(new Play("teste", 10, alley, DateTime.Now));
             Assert.True(t.IsExistsAlley(alley));
             t.Clear(alley);
+            Assert.Empty(t.GetPainel(alley).Players);
         }
 
         [Fact]
@@ -61,6 +62,30 @@ namespace Bowling.Service.Game.xUnitTests
             var rst = await t.GetScoreAsync(alley);
             Assert.NotNull(rst);
             Assert.IsType<Painel>(rst);
+        }
+
+        [Fact]
+        public async void EventsTest()
+        {
+            var t = new GameService();
+            t.OnPlay += EventOnPlay;
+            t.OnChange += EventOnChange;
+            const string alley = "1";
+            Assert.Null(await t.GetScoreAsync(alley));
+            t.AddPlay(new Play("teste", 10, alley, DateTime.Now));
+            var rst = await t.GetScoreAsync(alley);
+            Assert.NotNull(rst);
+            Assert.IsType<Painel>(rst);
+            t.Clear(alley);
+            Assert.Empty(rst.Players);
+        }
+
+        private void EventOnChange(object obj) => Assert.NotNull(obj);
+
+        private Play EventOnPlay(Play p)
+        {
+            Assert.NotNull(p);
+            return p;
         }
     }
 }

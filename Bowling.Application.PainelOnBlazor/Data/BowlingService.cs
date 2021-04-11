@@ -30,6 +30,8 @@ namespace BowlingPainelOnBlazor.Data
             plays.ToList().ForEach(p => AddPlay(new Play("Exemple A", p, "Debug", DateTime.Now)));
             plays = new int[] { 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10 };
             plays.ToList().ForEach(p => AddPlay(new Play("Exemple B", p, "Debug", DateTime.Now)));
+            plays = new int[] { 1, 4, 4, 5, 6, 4, 5, 5, 10, 0, 1, 7, 3, 6, 4, 10, 1, 3, 6 };
+            plays.ToList().ForEach(p => AddPlay(new Play("Exemple C", p, "Debug", DateTime.Now)));
 #endif
         }
 
