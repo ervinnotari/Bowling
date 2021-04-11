@@ -1,9 +1,10 @@
-name: Bowling Actions
+name: Bowling Build Actions
 
 on:
   push:
     branches:
       - master
+      - dev
 
 jobs: 
        
