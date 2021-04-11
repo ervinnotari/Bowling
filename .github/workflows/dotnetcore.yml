@@ -1,10 +1,10 @@
-name: Bowling Build Actions
+name: Bowling Build
 
 on:
   push:
-    branches:
-      - master
-      - dev
+    branches: [master, dev]
+  pull_request:
+    branches: ["**"]
 
 jobs: 
        
