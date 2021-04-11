@@ -1,4 +1,4 @@
-name: Deploy Bowling on Heroko
+name: Heroko Deploy
 
 on:
   push:
