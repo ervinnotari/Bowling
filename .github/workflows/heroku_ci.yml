@@ -10,7 +10,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     name: "Bowling - CI: Automated Build"
-    strategy:
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core SDK
