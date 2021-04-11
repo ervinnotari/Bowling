@@ -1,4 +1,4 @@
-name: Bowling Actions
+name: Deploy Bowling on Heroko
 
 on:
   push:
