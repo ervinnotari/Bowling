@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="M2MqttClientDotnetCore" Version="1.0.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1-beta1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
 </Project>
