@@ -1,4 +1,4 @@
-name: Validate code
+name: SonarCloud Actions
 
 on:
   push:
