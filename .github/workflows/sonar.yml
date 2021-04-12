@@ -35,19 +35,17 @@ jobs:
           
       - name: Install SonarCloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        run: dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
-
-      - name: Install Coverage Converter
-        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        run: dotnet tool install dotnet-coverageconverter --tool-path ./.sonar/convert
+        run: |
+          dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
+          dotnet tool update dotnet-coverageconverter --tool-path ./.sonar/convert
 
       - name: Test and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          ./.sonar/scanner/dotnet-sonarscanner begin /k:"ervinnotari_Bowling" /o:"${{ secrets.SONAR_ORGANIZATION }}" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths="**.coveragexml" /d:sonar.cs.vstest.reportsPaths="**.trx" /d:sonar.coverage.exclusions="**\*Test*.cs"
+          ./.sonar/scanner/dotnet-sonarscanner begin /k:"ervinnotari_Bowling" /o:"${{ secrets.SONAR_ORGANIZATION }}" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"  /d:sonar.cs.vscoveragexml.reportsPaths="**.coveragexml" /d:sonar.cs.vstest.reportsPaths="**.trx" /d:sonar.coverage.exclusions="**\*Test*.cs,**\Bowling.Application.**.cs"
           dotnet build "Bowling.sln"
-          dotnet test "Bowling.sln" --collect "Code Coverage" --logger trx
-          ./.sonar/convert/dotnet-coverageconverter -f "." -r
+          dotnet test "Bowling.sln" --collect "Code Coverage" --logger trx --results-directory "TestsResults"
+          ./.sonar/convert/dotnet-coverageconverter -f "." -p true -r
           ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
