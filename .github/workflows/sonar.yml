@@ -48,6 +48,6 @@ jobs:
         run: |
           ./.sonar/scanner/dotnet-sonarscanner begin /k:"ervinnotari_Bowling" /o:"${{ secrets.SONAR_ORGANIZATION }}" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths="**.coveragexml" /d:sonar.cs.vstest.reportsPaths="**.trx" /d:sonar.coverage.exclusions="**\*Test*.cs"
           dotnet build "Bowling.sln"
-          dotnet test "Bowling.sln" --collect "Code Coverage" --logger trx --results-directory "TestsResults"
+          dotnet test "Bowling.sln" --collect "Code Coverage" --logger trx
           ./.sonar/convert/dotnet-coverageconverter -f "." -r
           ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
