@@ -51,4 +51,3 @@ jobs:
           dotnet test "Bowling.sln" --collect "Code Coverage" --logger trx --results-directory "TestsResults"
           ./.sonar/convert/dotnet-coverageconverter -f "." -p true -r
           ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
-
