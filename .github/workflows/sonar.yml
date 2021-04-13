@@ -20,13 +20,16 @@ jobs:
       run: |
         dotnet restore "Bowling.sln"
         dotnet build "Bowling.sln" --configuration Release --no-restore
-        dotnet test "Bowling.sln" --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput="..\coverage.xml"
+        dotnet test "Bowling.sln" --no-restore --verbosity normal --logger trx --results-directory "TestResults" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput="..\coverage.xml"
     - uses: sonarsource/sonarcloud-github-action@master
       with:
         args: >
           -Dsonar.organization=ervinnotari
           -Dsonar.projectKey=ervinnotari_Bowling
-          -Dsonar.cs.opencover.reportsPaths="coverage.xml"
+          -Dsonar.cs.opencover.reportsPaths="**coverage.xml"
+          -Dsonar.cs.vscoveragexml.reportsPaths="**.coveragexml" 
+          -Dsonar.cs.vstest.reportsPaths="**.trx" 
+          -Dsonar.coverage.exclusions="**\*Test*.cs,**\Bowling.Application.**.cs"
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
