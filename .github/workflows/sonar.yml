@@ -37,7 +37,7 @@ jobs:
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         run: |
           dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
-          dotnet tool update dotnet-coverageconverter
+          dotnet tool update --global dotnet-coverageconverter
 
       - name: Test and analyze
         env:
