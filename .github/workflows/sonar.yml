@@ -8,15 +8,24 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Begin
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
+          
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1.7.2
         with:
           dotnet-version: 3.1.x
+    
+      - name: Setup Java 11
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+          check-latest: true
 
       - name: Cache SonarCloud packages
         uses: actions/cache@v1
@@ -32,16 +41,19 @@ jobs:
           path: .\.sonar\scanner
           key: ${{ runner.os }}-sonar-scanner
           restore-keys: ${{ runner.os }}-sonar-scanner
-
+          
       - name: Install SonarCloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        run: dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
+        run: |
+          dotnet tool update --global dotnet-sonarscanner
+          dotnet tool update --global dotnet-coverageconverter
 
       - name: Test and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          ./.sonar/scanner/dotnet-sonarscanner begin /k:"ervinnotari_Bowling" /o:"${{ secrets.SONAR_ORGANIZATION }}" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet test Bowling.sln /p:CollectCoverage=true /p:CoverletOutputFormat=opencover -l trx
-          ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+          dotnet-sonarscanner begin /k:"ervinnotari_Bowling" /o:"ervinnotari" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"  /d:sonar.cs.vscoveragexml.reportsPaths="**.coveragexml" /d:sonar.cs.vstest.reportsPaths="**.trx" /d:sonar.coverage.exclusions="**\*Test*.cs,**\Bowling.Application.**.cs"
+          dotnet test "Bowling.sln" --collect "Code Coverage" --logger trx --results-directory "TestsResults"
+          dotnet-coverageconverter -f "." -p true -r
+          dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
