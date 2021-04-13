@@ -8,6 +8,7 @@
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=ervinnotari_Bowling&metric=bugs)](https://sonarcloud.io/dashboard?id=ervinnotari_Bowling)
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=ervinnotari_Bowling&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=ervinnotari_Bowling)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=ervinnotari_Bowling&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=ervinnotari_Bowling)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=ervinnotari_Bowling&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=ervinnotari_Bowling)
 
 Bowling é uma pequena rede de micro serviços. Foi desenvolvido na linguagem C# e tem como objetivo demonstrar o conhecimento do desenvolvedor sobre essa linguagem.
 
