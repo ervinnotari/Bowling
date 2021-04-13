@@ -18,14 +18,14 @@ jobs:
         dotnet-version: 3.1.x
     - name: build and test
       run: |
-        dotnet restore
-        dotnet build --configuration Release --no-restore
-        dotnet test --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput="..\coverage.xml"
+        dotnet restore "Bowling.sln"
+        dotnet build "Bowling.sln" --configuration Release --no-restore
+        dotnet test "Bowling.sln" --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput="..\coverage.xml"
     - uses: sonarsource/sonarcloud-github-action@master
       with:
         args: >
-          -Dsonar.organization=gtmaster-github
-          -Dsonar.projectKey=SiGamePackOptimizer
+          -Dsonar.organization=ervinnotari
+          -Dsonar.projectKey=ervinnotari_Bowling
           -Dsonar.cs.opencover.reportsPaths="coverage.xml"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
