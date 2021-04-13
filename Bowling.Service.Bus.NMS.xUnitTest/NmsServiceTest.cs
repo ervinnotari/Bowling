@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Bowling.Domain.Game.Interfaces;
 using Bowling.Domain.Game.Exceptions;
 using Apache.NMS;
+using System.Threading.Tasks;
 
 namespace Bowling.Service.Bus.NMS.xUnitTest
 {
@@ -50,7 +51,9 @@ namespace Bowling.Service.Bus.NMS.xUnitTest
         }
 
         [Fact]
-        public async void SendTextTest()
+        public void SendAndReciverMensageTest() => Task.Run(this.SendAndReciverMensageAsyncTest).GetAwaiter().GetResult();
+
+        private async void SendAndReciverMensageAsyncTest()
         {
             var confMock = new Mock<IConfiguration>();
             confMock.SetupGet(c => c["Url"]).Returns("mock://teste");
@@ -71,7 +74,9 @@ namespace Bowling.Service.Bus.NMS.xUnitTest
         [InlineData("teste")]
         [InlineData('o')]
         [InlineData(1.56)]
-        public async void SendObjectTest(object obj)
+        public void SendObjectTest(object obj) => Task.Run(() => this.SendObjectAsyncTest(obj)).GetAwaiter().GetResult();
+
+        private async void SendObjectAsyncTest(object obj)
         {
             void teste(object ob) {
                 Assert.IsType(obj.GetType(), ob.GetType());

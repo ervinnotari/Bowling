@@ -32,7 +32,9 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
         }
 
         [Fact]
-        public async void GetConnectionStatusTest()
+        public void GetConnectionStatusTest() => Task.Run(this.GetConnectionStatusAsyncTest).GetAwaiter().GetResult();
+
+        private async void GetConnectionStatusAsyncTest()
         {
             IBusService.ConnectionStatus value;
             using (var mqtt = new MqttService(_configuration))
@@ -74,7 +76,9 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
         }
 
         [Fact]
-        public async void SendAndReciverMensageTest()
+        public void SendAndReciverMensageTest() => Task.Run(this.SendAndReciverMensageAsyncTest).GetAwaiter().GetResult();
+
+        private async void SendAndReciverMensageAsyncTest()
         {
             var test = $"{(new Random()).Next(15292, 55292)}";
             var test2 = new Version(1, 0, 0);
