@@ -50,8 +50,6 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
                     value = mqtt.GetConnectionStatus();
                     Assert.Equal(IBusService.ConnectionStatus.Connected, value);
                     Assert.Null(mqtt.GetError());
-                    GC.SuppressFinalize(mqtt);
-                    mqtt.Dispose();
                 }
 
                 var bkp = _configuration["Host"];

@@ -24,7 +24,6 @@ namespace Bowling.Service.Bus.NMS.xUnitTest
             srv.ConnectionStart();
             Assert.Equal<IBusService.ConnectionStatus>(IBusService.ConnectionStatus.Error, srv.GetConnectionStatus());
             Assert.IsType<InvalidArgumentExecption>(srv.GetError());
-            srv.Dispose();
         }
 
         [Theory]
