@@ -11,14 +11,6 @@ namespace Bowling.Domain.Game.xUnitTests.Exceptions
         {
             var cA = new PlayLimitReachedException();
             Assert.NotNull(cA);
-
-            cA = new Test();
-            Assert.NotNull(cA);
-        }
-
-        private class Test : PlayLimitReachedException
-        {
-            public Test() : base(new SerializationInfo(typeof(string), new FormatterConverter()), new StreamingContext()) { }
         }
 
     }

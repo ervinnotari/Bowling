@@ -8,6 +8,8 @@ namespace Bowling.Domain.Game.Exceptions
     {
         public PlayLimitReachedException() : base() { }
 
-        protected PlayLimitReachedException(SerializationInfo info, StreamingContext context) { }
+        protected PlayLimitReachedException(SerializationInfo info, StreamingContext context) :  base(info, context) { }
     }
+
+
 }
