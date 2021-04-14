@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace Bowling.Domain.Game.Exceptions
 {
-    public class PlayLimitReachedException : Exception
+    [Serializable]
+    public class PlayLimitReachedException : SystemException, ISerializable
     {
-        public PlayLimitReachedException() : base() {}
+        public PlayLimitReachedException() : base() { }
+
+        protected PlayLimitReachedException(SerializationInfo info, StreamingContext context) { }
     }
 }

@@ -11,7 +11,6 @@ namespace Bowling.Service.Bus.MQTT
 {
     public sealed class MqttService : IBusService
     {
-        private bool _disposed = false;
         public event Action<object> OnMessageReciver;
         public event Action<object> OnConnection;
         public event Action<IBusService.ConnectionStatus, object> OnStatusChange;
@@ -115,15 +114,10 @@ namespace Bowling.Service.Bus.MQTT
 
         private void Dispose(bool disposing)
         {
-            if (_disposed)
-                return;
-
             if (disposing && _client != null && _client.IsConnected)
             {
                 _client.Disconnect();
             }
-
-            _disposed = true;
         }
     }
 }
