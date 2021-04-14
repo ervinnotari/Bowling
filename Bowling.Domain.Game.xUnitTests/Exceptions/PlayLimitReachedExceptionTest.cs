@@ -1,6 +1,7 @@
 ﻿using Bowling.Domain.Game.Exceptions;
 using Xunit;
-using System.Runtime.Serialization;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Bowling.Domain.Game.xUnitTests.Exceptions
 {
@@ -9,8 +10,17 @@ namespace Bowling.Domain.Game.xUnitTests.Exceptions
         [Fact]
         public void ConstructorsTest()
         {
-            var cA = new PlayLimitReachedException();
-            Assert.NotNull(cA);
+            var exBase = new PlayLimitReachedException();
+            var exResult = Record.ExceptionAsync(() =>
+            {
+                using Stream s = new MemoryStream();
+                BinaryFormatter formatter = new BinaryFormatter();
+                formatter.Serialize(s, exBase);
+                s.Position = 0;
+                throw (PlayLimitReachedException)formatter.Deserialize(s);
+            }).GetAwaiter().GetResult();
+            Assert.NotNull(exResult);
+            Assert.IsType<PlayLimitReachedException>(exResult);
         }
 
     }
