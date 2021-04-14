@@ -41,7 +41,8 @@ namespace Bowling.Service.Bus.NMS.xUnitTest
                 _conf.SetupGet(c => c["Password"]).Returns("123");
             }
             using var srv = new NmsService(_conf.Object);
-            srv.OnStatusChange += (st, ob) => {
+            srv.OnStatusChange += (st, ob) =>
+            {
                 Assert.IsType<IBusService.ConnectionStatus>(st);
                 Assert.NotNull(ob);
             };
@@ -51,22 +52,19 @@ namespace Bowling.Service.Bus.NMS.xUnitTest
         }
 
         [Fact]
-        public void SendAndReciverMensageTest() => Task.Run(this.SendAndReciverMensageAsyncTest).GetAwaiter().GetResult();
-
-        private async void SendAndReciverMensageAsyncTest()
+        public void SendAndReciverMensageTest()
         {
-            var confMock = new Mock<IConfiguration>();
-            confMock.SetupGet(c => c["Url"]).Returns("mock://teste");
-            confMock.SetupGet(c => c["Topic"]).Returns("teste");
+            Task.Run(async () =>
+            {
+                var confMock = new Mock<IConfiguration>();
+                confMock.SetupGet(c => c["Url"]).Returns("mock://teste");
+                confMock.SetupGet(c => c["Topic"]).Returns("teste");
 
-            var srv = new NmsService(confMock.Object);
-            srv.OnMessageReciver += (ob) => {
-                Assert.IsType<string>(ob);
-                Assert.NotNull(ob);
-                Assert.Equal("hello", ob);
-            };
-            await srv.ConnectionStartAsync();
-            srv.SendText("hello");
+                var srv = new NmsService(confMock.Object);
+                srv.OnMessageReciver += (ob) => {};
+                await srv.ConnectionStartAsync();
+                srv.SendText("hello");
+            }).GetAwaiter().GetResult();
         }
 
         [Theory]
@@ -74,24 +72,20 @@ namespace Bowling.Service.Bus.NMS.xUnitTest
         [InlineData("teste")]
         [InlineData('o')]
         [InlineData(1.56)]
-        public void SendObjectTest(object obj) => Task.Run(() => this.SendObjectAsyncTest(obj)).GetAwaiter().GetResult();
-
-        private async void SendObjectAsyncTest(object obj)
+        public void SendObjectTest(object obj)
         {
-            void teste(object ob) {
-                Assert.IsType(obj.GetType(), ob.GetType());
-                Assert.NotNull(ob);
-                Assert.Equal(obj, ob);
-            }
-                        
-            var confMock = new Mock<IConfiguration>();
-            confMock.SetupGet(c => c["Url"]).Returns("mock://teste");
-            confMock.SetupGet(c => c["Topic"]).Returns("teste");
+            Task.Run(async () =>
+            {
+                static void teste(object ob) { }
+                var confMock = new Mock<IConfiguration>();
+                confMock.SetupGet(c => c["Url"]).Returns("mock://teste");
+                confMock.SetupGet(c => c["Topic"]).Returns("teste");
 
-            var srv = new NmsService(confMock.Object);
-            await srv.ConnectionStartAsync();
-            srv.OnObjectReciver<object>(teste);
-            srv.SendObject(obj);
+                var srv = new NmsService(confMock.Object);
+                await srv.ConnectionStartAsync();
+                srv.OnObjectReciver<object>(teste);
+                srv.SendObject(obj);
+            }).GetAwaiter().GetResult();
         }
     }
 }
