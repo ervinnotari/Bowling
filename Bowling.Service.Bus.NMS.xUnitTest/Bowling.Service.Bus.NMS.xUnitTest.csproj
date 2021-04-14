@@ -21,8 +21,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Bowling.Service.Bus.NMS\Bowling.Service.Bus.NMS.csproj" />
-  </ItemGroup>
-
 </Project>
