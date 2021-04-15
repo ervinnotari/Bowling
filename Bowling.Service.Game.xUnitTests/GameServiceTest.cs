@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Bowling.Domain.Game.Entities;
 using Xunit;
 
@@ -53,31 +54,37 @@ namespace Bowling.Service.Game.xUnitTests
         }
 
         [Fact]
-        public async void GetScoreAsyncTest()
+        public void GetScoreAsyncTest()
         {
-            var t = new GameService();
-            const string alley = "1";
-            Assert.Null(await t.GetScoreAsync(alley));
-            t.AddPlay(new Play("teste", 10, alley, DateTime.Now));
-            var rst = await t.GetScoreAsync(alley);
-            Assert.NotNull(rst);
-            Assert.IsType<Painel>(rst);
+            Task.Run(async () =>
+            {
+                var t = new GameService();
+                const string alley = "1";
+                Assert.Null(await t.GetScoreAsync(alley));
+                t.AddPlay(new Play("teste", 10, alley, DateTime.Now));
+                var rst = await t.GetScoreAsync(alley);
+                Assert.NotNull(rst);
+                Assert.IsType<Painel>(rst);
+            }).GetAwaiter().GetResult();
         }
 
         [Fact]
-        public async void EventsTest()
+        public void EventsTest()
         {
-            var t = new GameService();
-            t.OnPlay += EventOnPlay;
-            t.OnChange += EventOnChange;
-            const string alley = "1";
-            Assert.Null(await t.GetScoreAsync(alley));
-            t.AddPlay(new Play("teste", 10, alley, DateTime.Now));
-            var rst = await t.GetScoreAsync(alley);
-            Assert.NotNull(rst);
-            Assert.IsType<Painel>(rst);
-            t.Clear(alley);
-            Assert.Empty(rst.Players);
+            Task.Run(async () =>
+            {
+                var t = new GameService();
+                t.OnPlay += EventOnPlay;
+                t.OnChange += EventOnChange;
+                const string alley = "1";
+                Assert.Null(await t.GetScoreAsync(alley));
+                t.AddPlay(new Play("teste", 10, alley, DateTime.Now));
+                var rst = await t.GetScoreAsync(alley);
+                Assert.NotNull(rst);
+                Assert.IsType<Painel>(rst);
+                t.Clear(alley);
+                Assert.Empty(rst.Players);
+            }).GetAwaiter().GetResult();
         }
 
         private void EventOnChange(object obj) => Assert.NotNull(obj);

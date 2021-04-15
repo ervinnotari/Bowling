@@ -95,9 +95,17 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
         }
 
         [Fact]
-        public void ConfigurationWichUserTest() => ConfigurationTest(_configuration);
+        public void ConfigurationWichUserTest()
+        {
+            ConfigurationTest(_configuration);
+            Assert.True(true);
+        }
         [Fact]
-        public void ConfigurationNoUserTest() => ConfigurationTest(_configuration2);
+        public void ConfigurationNoUserTest()
+        {
+            ConfigurationTest(_configuration2);
+            Assert.True(true);
+        }
 
         private void ConfigurationTest(IConfiguration conf)
         {
