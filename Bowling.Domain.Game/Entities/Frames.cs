@@ -11,20 +11,14 @@ namespace Bowling.Domain.Game.Entities
         private int Turn => this.Count(f => !f.IsOpen());
         private bool IsEndGame()
         {
-            if (Turn == 10)
-            {
-                var balls = this.LastOrDefault().Balls;
-                var e0 = balls.ElementAtOrDefault(0);
-                var e1 = balls.ElementAtOrDefault(1);
-                var _3Strike = (e0 == 10 && balls.Count == 3);
-                if (_3Strike) return true;
-                var noStrike = (e0 + e1) < 10;
-                if (noStrike)
-                    if (balls.Count == 2)
-                        return true;
-                return false;
-            }
-            return false;
+            if (Turn != 10) return false;
+            var balls = this.LastOrDefault().Balls;
+            var e0 = balls.ElementAtOrDefault(0);
+            var e1 = balls.ElementAtOrDefault(1);
+            var _3Strike = (e0 == 10 && balls.Count == 3);
+            if (_3Strike) return true;
+            var noStrike = (e0 + e1) < 10;
+            return noStrike && balls.Count == 2;
         }
         public int GetTotal() => this.LastOrDefault().Score;
         public void AddPlay(Play play)

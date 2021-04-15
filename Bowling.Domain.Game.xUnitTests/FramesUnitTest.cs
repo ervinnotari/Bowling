@@ -9,7 +9,7 @@ namespace Bowling.Domain.Game.xUnitTests
 {
     public class FramesUnitTest
     {
-        private const string Player = "Jos?";
+        private const string Player = "Teste";
         private const string Alley = "2";
 
         private static void SequencialPlaysMake(Frames f, IEnumerable<int> plays)
