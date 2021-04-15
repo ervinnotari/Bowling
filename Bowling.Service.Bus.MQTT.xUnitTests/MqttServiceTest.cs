@@ -106,6 +106,7 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
             mqtt.OnMessageReciver += Mqtt_OnMessageReciver;
             mqtt.SendObject(156.5);
             mqtt.SendText("test");
+            Assert.True(true);
         }
 
         private void Mqtt_OnStatusChange(IBusService.ConnectionStatus arg1, object arg2) => Assert.NotNull(arg2);
