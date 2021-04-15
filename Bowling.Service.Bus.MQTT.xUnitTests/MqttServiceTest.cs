@@ -95,9 +95,17 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
         }
 
         [Fact]
-        public void ConfigurationWichUserTest() => ConfigurationTest(_configuration);
+        public void ConfigurationWichUserTest()
+        {
+            ConfigurationTest(_configuration);
+            Assert.True(true);
+        }
         [Fact]
-        public void ConfigurationNoUserTest() => ConfigurationTest(_configuration2);
+        public void ConfigurationNoUserTest()
+        {
+            ConfigurationTest(_configuration2);
+            Assert.True(true);
+        }
 
         private void ConfigurationTest(IConfiguration conf)
         {
@@ -106,7 +114,6 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
             mqtt.OnMessageReciver += Mqtt_OnMessageReciver;
             mqtt.SendObject(156.5);
             mqtt.SendText("test");
-            Assert.True(true);
         }
 
         private void Mqtt_OnStatusChange(IBusService.ConnectionStatus arg1, object arg2) => Assert.NotNull(arg2);
