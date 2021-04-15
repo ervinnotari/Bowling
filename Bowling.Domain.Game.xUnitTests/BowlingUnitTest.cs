@@ -45,81 +45,10 @@ namespace Bowling.Domain.Game.xUnitTests
         [InlineData(new[] {10, 9, 1, 8, 2, 10, 7, 1, 10, 8, 2, 10, 10, 10, 8, 1}, 201, 16)]
         public void PlaySimulate(IEnumerable<int> plays, int assert, int totalPlays)
         {
-            // Arrange
             var bowling = new Game.Entities.Game();
-            //turn 1
-            SequencialPlaysMake(bowling, new[] { 1, 4 });
-            Assert.Equal(5, bowling.GetScore(Alley, Player));
-            //turn 2
-            SequencialPlaysMake(bowling, new[] { 4, 5 });
-            Assert.Equal(14, bowling.GetScore(Alley, Player));
-            //turn 3
-            SequencialPlaysMake(bowling, new[] { 6, 4 });
-            Assert.Equal(24, bowling.GetScore(Alley, Player));
-            //turn 4
-            SequencialPlaysMake(bowling, new[] { 5, 5 });
-            Assert.Equal(39, bowling.GetScore(Alley, Player));
-            //turn 5
-            SequencialPlaysMake(bowling, new[] { 10 });
-            Assert.Equal(59, bowling.GetScore(Alley, Player));
-            //turn 6
-            SequencialPlaysMake(bowling, new[] { 0, 1 });
-            Assert.Equal(61, bowling.GetScore(Alley, Player));
-            //turn 7
-            SequencialPlaysMake(bowling, new[] { 7, 3 });
-            Assert.Equal(71, bowling.GetScore(Alley, Player));
-            //turn 8
-            SequencialPlaysMake(bowling, new[] { 6, 4 });
-            Assert.Equal(87, bowling.GetScore(Alley, Player));
-            //turn 9
-            SequencialPlaysMake(bowling, new[] { 10 });
-            Assert.Equal(107, bowling.GetScore(Alley, Player));
-            //turn 10
-            SequencialPlaysMake(bowling, new[] { 2, 8 });
-            Assert.Equal(127, bowling.GetScore(Alley, Player));
-            ////turn BONUS
-            bowling.AddPlay(new Play(Player, 6, Alley, DateTime.Now));
-            Assert.Equal(133, bowling.GetScore(Alley, Player));
-            Assert.Equal(19, bowling.Plays.Count);
-        }
-
-        [Fact]
-        public void PlaySimulate2()
-        {
-            var bowling = new Game.Entities.Game();
-            //turn 1
-            SequencialPlaysMake(bowling, new[] { 10 });
-            Assert.Equal(10, bowling.GetScore(Alley, Player));
-            //turn 2
-            SequencialPlaysMake(bowling, new[] { 10 });
-            Assert.Equal(30, bowling.GetScore(Alley, Player));
-            //turn 3
-            SequencialPlaysMake(bowling, new[] { 10 });
-            Assert.Equal(60, bowling.GetScore(Alley, Player));
-            //turn 4
-            SequencialPlaysMake(bowling, new[] { 10 });
-            Assert.Equal(90, bowling.GetScore(Alley, Player));
-            //turn 5
-            SequencialPlaysMake(bowling, new[] { 10 });
-            Assert.Equal(120, bowling.GetScore(Alley, Player));
-            //turn 6
-            SequencialPlaysMake(bowling, new[] { 10 });
-            Assert.Equal(150, bowling.GetScore(Alley, Player));
-            //turn 7
-            SequencialPlaysMake(bowling, new[] { 10 });
-            Assert.Equal(180, bowling.GetScore(Alley, Player));
-            //turn 8
-            SequencialPlaysMake(bowling, new[] { 10 });
-            Assert.Equal(210, bowling.GetScore(Alley, Player));
-            //turn 9
-            SequencialPlaysMake(bowling, new[] { 10 });
-            Assert.Equal(240, bowling.GetScore(Alley, Player));
-            //turn 10
-            SequencialPlaysMake(bowling, new[] { 10, 10 });
-            Assert.Equal(290, bowling.GetScore(Alley, Player));
-            //turn BONUS
-            bowling.AddPlay(new Play(Player, 10, Alley, DateTime.Now));
-            Assert.Equal(300, bowling.GetScore(Alley, Player));
+            SequencialPlaysMake(bowling, plays);
+            Assert.Equal(assert, bowling.GetScore(Alley, Player));
+            Assert.Equal(totalPlays, bowling.Plays.Count);
         }
 
         [Theory]

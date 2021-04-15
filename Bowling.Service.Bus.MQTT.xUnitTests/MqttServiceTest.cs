@@ -32,62 +32,66 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
         }
 
         [Fact]
-        public async void GetConnectionStatusTest()
+        public void GetConnectionStatusTest()
         {
-            IBusService.ConnectionStatus value;
-            using (var mqtt = new MqttService(_configuration))
+            Task.Run(async () =>
             {
+                IBusService.ConnectionStatus value;
+                using (var mqtt = new MqttService(_configuration))
+                {
 
-                mqtt.OnMessageReciver += Mqtt_OnMessageReciver;
-                mqtt.OnConnection += Mqtt_OnConnection;
-                mqtt.OnStatusChange += Mqtt_OnStatusChange;
-                value = mqtt.GetConnectionStatus();
-                Assert.Equal(IBusService.ConnectionStatus.Disabled, value);
+                    mqtt.OnMessageReciver += Mqtt_OnMessageReciver;
+                    mqtt.OnConnection += Mqtt_OnConnection;
+                    mqtt.OnStatusChange += Mqtt_OnStatusChange;
+                    value = mqtt.GetConnectionStatus();
+                    Assert.Equal(IBusService.ConnectionStatus.Disabled, value);
 
-                await mqtt.ConnectionStartAsync();
-                value = mqtt.GetConnectionStatus();
-                Assert.Equal(IBusService.ConnectionStatus.Connected, value);
-                Assert.Null(mqtt.GetError());
-                GC.SuppressFinalize(mqtt);
-                mqtt.Dispose();
-            }
+                    await mqtt.ConnectionStartAsync();
+                    value = mqtt.GetConnectionStatus();
+                    Assert.Equal(IBusService.ConnectionStatus.Connected, value);
+                    Assert.Null(mqtt.GetError());
+                }
 
-            var bkp = _configuration["Host"];
-            try
-            {
-                _configuration["Host"] = "****.***";
-                using var mqtt = new MqttService(_configuration);
-                mqtt.OnConnection += Mqtt_OnConnection;
-                mqtt.OnStatusChange += Mqtt_OnStatusChange;
-                value = mqtt.GetConnectionStatus();
-                Assert.Equal(IBusService.ConnectionStatus.Disabled, value);
+                var bkp = _configuration["Host"];
+                try
+                {
+                    _configuration["Host"] = "****.***";
+                    using var mqtt = new MqttService(_configuration);
+                    mqtt.OnConnection += Mqtt_OnConnection;
+                    mqtt.OnStatusChange += Mqtt_OnStatusChange;
+                    value = mqtt.GetConnectionStatus();
+                    Assert.Equal(IBusService.ConnectionStatus.Disabled, value);
 
-                await mqtt.ConnectionStartAsync();
-                value = mqtt.GetConnectionStatus();
-                Assert.Equal(IBusService.ConnectionStatus.Error, value);
-                Assert.NotNull(mqtt.GetError());
-            }
-            finally
-            {
-                _configuration["Host"] = bkp;
-            }
+                    await mqtt.ConnectionStartAsync();
+                    value = mqtt.GetConnectionStatus();
+                    Assert.Equal(IBusService.ConnectionStatus.Error, value);
+                    Assert.NotNull(mqtt.GetError());
+                }
+                finally
+                {
+                    _configuration["Host"] = bkp;
+                }
+            }).GetAwaiter().GetResult();
         }
 
         [Fact]
-        public async void SendAndReciverMensageTest()
+        public void SendAndReciverMensageTest()
         {
-            var test = $"{(new Random()).Next(15292, 55292)}";
-            var test2 = new Version(1, 0, 0);
-            var result = default(Version);
+            Task.Run(async () =>
+            {
+                var test = $"{(new Random()).Next(15292, 55292)}";
+                var test2 = new Version(1, 0, 0);
+                var result = default(Version);
 
-            using var mqtt = new MqttService(_configuration);
-            await mqtt.ConnectionStartAsync();
-            mqtt.OnObjectReciver<Version>((o) => { result = o; });
-            mqtt.SendText(test);
-            mqtt.SendObject(test2);
+                using var mqtt = new MqttService(_configuration);
+                await mqtt.ConnectionStartAsync();
+                mqtt.OnObjectReciver<Version>((o) => { result = o; });
+                mqtt.SendText(test);
+                mqtt.SendObject(test2);
 
-            await Task.Delay(2000);
-            Assert.Equal(test2, result);
+                await Task.Delay(2000);
+                Assert.Equal(test2, result);
+            }).GetAwaiter().GetResult();
         }
 
         [Fact]
