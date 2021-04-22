@@ -90,13 +90,16 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
         }
 
         [Theory]
-        [InlineData("broker.mqttdashboard.com", 1883, true)]
-        [InlineData("broker.mqttdashboard.com", 1883, true, "", "")]
-        [InlineData("broker.mqttdashboard.com", 1883, true, "TESTE", "TESTE")]
-        [InlineData("broker.mqttdashboard.com", 1883, false)]
-        public void ConfigurationTest(string host, int port, bool login, string user = null, string pass = null)
+        [InlineData(false)]
+        [InlineData(true)]
+        [InlineData(true, "", "")]
+        [InlineData(true, "TESTE", "TESTE")]
+        public void ConfigurationTest(bool login, string user = null, string pass = null)
         {
+            int port = 1883;
+            string host = "broker.mqttdashboard.com";
             var mqtt = new MqttService("bowling/MQTT_xUnitTests");
+            mqtt.OnMessageReciver += Mqtt_OnMessageReciver;
             if (login) mqtt.ConnectionStart(host, port, user, pass);
             else mqtt.ConnectionStart(host, port);
             InternalConfigurationTest(mqtt);
@@ -115,6 +118,7 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
         {
             mqtt.SendObject(156.5);
             mqtt.SendText("test");
+            Assert.NotNull(mqtt);
         }
 
         private void Mqtt_OnStatusChange(IBusService.ConnectionStatus arg1, object arg2) => Assert.NotNull(arg2);

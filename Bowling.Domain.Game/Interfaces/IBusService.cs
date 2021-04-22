@@ -15,15 +15,15 @@ namespace Bowling.Domain.Game.Interfaces
         public void SendText(string message);
         public void SendObject(object obj);
 
-        public void ConnectionStop();
-        public Task ConnectionStopAsync();
-
         public void ConnectionStart();
-        public Task ConnectionStartAsync();
-        public Task ConnectionStartAsync(string host, int portc);
-        public Task ConnectionStartAsync(string host, int port, string username, string password);
         public void ConnectionStart(string host, int port);
         public void ConnectionStart(string host, int port, string username, string password);
+        public Task ConnectionStartAsync();
+        public Task ConnectionStartAsync(string host, int port);
+        public Task ConnectionStartAsync(string host, int port, string username, string password);
+
+        public void ConnectionStop();
+        public Task ConnectionStopAsync();
 
         public Exception GetError();
     }
