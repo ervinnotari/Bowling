@@ -103,6 +103,7 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
             if (login) mqtt.ConnectionStart(host, port, user, pass);
             else mqtt.ConnectionStart(host, port);
             InternalConfigurationTest(mqtt);
+            Assert.NotNull(mqtt);
         }
 
         [Fact]
@@ -112,13 +113,13 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
             mqtt.ConnectionStart();
             InternalConfigurationTest(mqtt);
             mqtt.ConnectionStop();
+            Assert.NotNull(mqtt);
         }
 
         private void InternalConfigurationTest(MqttService mqtt)
         {
             mqtt.SendObject(156.5);
             mqtt.SendText("test");
-            Assert.NotNull(mqtt);
         }
 
         private void Mqtt_OnStatusChange(IBusService.ConnectionStatus arg1, object arg2) => Assert.NotNull(arg2);
