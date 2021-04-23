@@ -4,17 +4,20 @@
 @using Bowling.Domain.Game.Interfaces
 @inject BowlingService BowlingService
 
-<h1>Bem vindo ao painel do Boliche!</h1>
+<h1>Welcome to the bowling panel!</h1>
 
 <p>
-    <strong>AMQP</strong>
+    <strong>
+        <a href="/config" class="oi oi-cog"></a>
+        AMQP
+    </strong>
     @switch (BowlingService.GetStatus())
     {
         case IBusService.ConnectionStatus.Conecting:
-            <span> Conectando...</span>
+            <span> Connecting...</span>
             break;
         case IBusService.ConnectionStatus.Connected:
-            <span>Conectado</span><br />
+            <span>Connected</span><br />
             <small style="font-size: 9px;margin: -7px 0 0 55px;display: flex;">@BowlingService.Info</small>
             break;
         case IBusService.ConnectionStatus.Error:
@@ -23,7 +26,7 @@
             break;
         default:
         case IBusService.ConnectionStatus.Disabled:
-            <span> Desabilitado </span>
+            <span> Disabled </span>
             break;
     }
 </p>

@@ -1,110 +1,41 @@
 ﻿@page "/config"
+@inherits ConfigurationsBase
 
-@using System;
-@using BowlingPainelOnBlazor.Data
-@using System.ComponentModel.DataAnnotations
-@using Bowling.Domain.Game.Interfaces
-@using Microsoft.Extensions.Configuration;
-@using Bowling.Service.Bus.MQTT;
-@inject IBusService BusService;
-@inject IConfiguration Configuration;
-@inject ToastService ToastService;
+<h1>AMQP Configurations</h1>
+<hr>
 
-<h1>New Ship Entry Form</h1>
+<EditForm EditContext="@Model.Context" OnValidSubmit="@Model.OnSubmit">
 
-<EditForm Model="@form" OnValidSubmit="@HandleValidSubmit">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+    <div class="alert alert-warning pl-5" hidden="@Model.Context.Validate()">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+    </div>
 
-    <p>
-        <label for="host">Host: </label>
-        <InputText id="host" @bind-Value="form.Host" />
-        <ValidationMessage For="() => form.Host" />
-    </p>
-    <p>
-        <label for="port">Port: </label>
-        <InputNumber id="port" @bind-Value="form.Port" />
-        <ValidationMessage For="() => form.Port" />
-    </p>
+    <div class="row content">
+        <label class="col-sm-1 col-form-label" for="host">Host: </label>
+        <InputText class="col-sm-3 form-control" id="host" @bind-Value="Model.Host" />
+        <div class="col-md-6 m-2">
+            <ValidationMessage For="@(() => Model.Host)" />
+        </div>
+    </div>
 
-    <button type="submit" disabled="@form.IsNoTested()">Submit</button>
-    <button type="button" @onclick="HandleTestOnclick">Test</button>
+    <div class="row content">
+        <label class="col-sm-1 col-form-label" for="port">Port: </label>
+        <InputNumber class="col-sm-1 form-control" id="port" @bind-Value="Model.Port" />
+        <div class="col-md-8 m-2">
+            <ValidationMessage For="@(() => Model.Port)" />
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row content">
+        <div class="col-md-2">
+            <button type="submit" class="form-control btn btn-primary" disabled="@Model.SubmitIsDisable">Submit</button>
+        </div>
+        <div class="col-md-1">
+            <button type="button" class="form-control btn btn-info" disabled="@Model.Tested" @onclick="Model.TestOnclick">Test</button>
+        </div>
+    </div>
+
 </EditForm>
-
-@code {
-
-    private ConfigForm form;
-
-    protected override void OnInitialized()
-    {
-        form = new ConfigForm(ToastService);
-        var conf = new MqttConfiguration(Configuration);
-        form.Host = conf.Host;
-        form.Port = conf.Port;
-    }
-
-    private void HandleValidSubmit()
-    {
-        Console.WriteLine("oi");
-        StateHasChanged();
-    }
-
-    private void HandleTestOnclick()
-    {
-        form.TestConection(Mqtt_OnStatusChange);
-        StateHasChanged();
-    }
-
-    private void Mqtt_OnStatusChange(IBusService.ConnectionStatus arg1, object arg2)
-    {
-        switch (arg1)
-        {
-            case IBusService.ConnectionStatus.Connected:
-                form.FormState = ConfigForm.FormStateType.TESTED;
-                ToastService.ShowToast($"OK", Microsoft.AspNetCore.Components.Web.ToastLevel.Success);
-                break;
-            default:
-                form.FormState = ConfigForm.FormStateType.NOTESTED;
-                ToastService.ShowToast($"Não deu certo", Microsoft.AspNetCore.Components.Web.ToastLevel.Warning);
-                break;
-        }
-    }
-
-    private class ConfigForm
-    {
-        public ConfigForm(ToastService toastService)
-        {
-            this.toastService = toastService;
-        }
-
-        [Required]
-        [StringLength(100, ErrorMessage = "Identifier too long (16 character limit).")]
-        public string Host { get; set; }
-
-        [Range(1, 65000, ErrorMessage = "Accommodation invalid (1-65000).")]
-        public int Port { get; set; }
-
-        public FormStateType FormState { get; set; } = FormStateType.NOTESTED;
-
-        public enum FormStateType { NOTESTED, TESTED }
-
-        public bool IsTested() => FormState == FormStateType.TESTED;
-        public bool IsNoTested() => FormState == FormStateType.NOTESTED;
-
-        private ToastService toastService;
-
-        public async void TestConection(Action<IBusService.ConnectionStatus, object> ac)
-        {
-            var conf = new ConfigurationBuilder()
-            .AddInMemoryCollection(new Dictionary<string, string>
-            {
-                    { "Host", Host },
-                    { "Topic", "bowling/MQTT_xUnitTests" },
-                    { "Port", $"{Port}" }
-                }).Build();
-            var mqtt = new MqttService(conf);
-            mqtt.OnStatusChange += ac;
-            await mqtt.ConnectionStartAsync();
-        }
-    }
-}
