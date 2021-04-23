@@ -1,4 +1,4 @@
-name: "Bowling Painel security analysis"
+name: "Security analysis"
 
 on:
   push:
