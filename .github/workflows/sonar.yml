@@ -53,7 +53,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          dotnet-sonarscanner begin /k:"ervinnotari_Bowling" /o:"ervinnotari" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"  /d:sonar.cs.vscoveragexml.reportsPaths="**.coveragexml" /d:sonar.cs.vstest.reportsPaths="**.trx" /d:sonar.coverage.exclusions="**\*Test*.cs,**\Bowling.Application.**.cs"
+          dotnet-sonarscanner begin /k:"ervinnotari_Bowling" /o:"ervinnotari" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"  /d:sonar.cs.vscoveragexml.reportsPaths="**.coveragexml" /d:sonar.cs.vstest.reportsPaths="**.trx"
           dotnet test "Bowling.sln" --collect "Code Coverage" --logger trx --results-directory "TestsResults"
           dotnet-coverageconverter -f "." -p true -r
           dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
