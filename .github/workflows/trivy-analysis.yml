@@ -19,7 +19,7 @@ jobs:
 
       - name: Build an image from Dockerfile
         run: |
-          docker build -f Bowling.Application.PainelOnBlazor -t docker.io/ervinnotari/bowling:${{ github.sha }} .
+          docker build -f Bowling.Application.PainelOnBlazor/Dockerfile -t docker.io/ervinnotari/bowling:${{ github.sha }} .
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
