@@ -1,4 +1,4 @@
-name: "Security analysis"
+name: "Security"
 
 on:
   push:
@@ -9,8 +9,9 @@ on:
     - cron: '25 13 * * 5'
 
 jobs:
+
   codeql:
-    name: Code security
+    name: Code
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -29,8 +30,8 @@ jobs:
       uses: github/codeql-action/analyze@v1
 
   trivy:
-    name: Container security
-    runs-on: "ubuntu-18.04"
+    name: Container
+    runs-on: windows-latest #ubuntu-18.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
