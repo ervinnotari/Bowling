@@ -2,9 +2,9 @@ name: "Security analysis"
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, dev ]
   pull_request:
-    branches: [ master ]
+    branches: [ '**' ]
   schedule:
     - cron: '25 13 * * 5'
 
