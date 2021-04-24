@@ -1,16 +1,15 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine AS build
 WORKDIR /src
 COPY ["Bowling.Application.PainelOnBlazor/Bowling.Application.PainelOnBlazor.csproj", "Bowling.Application.PainelOnBlazor/"]
 COPY ["Bowling.Domain.Game/Bowling.Domain.Game.csproj", "Bowling.Domain.Game/"]
 COPY ["Bowling.Infra.CrossCutting.IoC/Bowling.Infra.CrossCutting.IoC.csproj", "Bowling.Infra.CrossCutting.IoC/"]
-COPY ["Bowling.Service.Bus.NMS/Bowling.Service.Bus.NMS.csproj", "Bowling.Service.Bus.NMS/"]
 COPY ["Bowling.Infra.Utilities/Bowling.Infra.Utilities.csproj", "Bowling.Infra.Utilities/"]
 COPY ["Bowling.Service.Game/Bowling.Service.Game.csproj", "Bowling.Service.Game/"]
 COPY ["Bowling.Service.Bus.MQTT/Bowling.Service.Bus.MQTT.csproj", "Bowling.Service.Bus.MQTT/"]
