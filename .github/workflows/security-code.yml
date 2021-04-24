@@ -37,10 +37,10 @@ jobs:
       - uses: microsoft/setup-msbuild@v1.0.2
       - name: Set up projects for analysis
         uses: security-code-scan/security-code-scan-add-action@main
-      - name: Restore dependencies	
-        run: dotnet restore
+      - name: Restore dependencies
+        run: dotnet restore "Bowling.sln"
       - name: Build
-        run: dotnet build --no-restore
+        run: dotnet build "Bowling.sln" --no-restore
       - name: Convert sarif for uploading to GitHub
         uses: security-code-scan/security-code-scan-results-action@main
       - name: Upload sarif
