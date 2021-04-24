@@ -27,24 +27,6 @@ jobs:
       uses: github/codeql-action/autobuild@v1
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
-
-  SCS:
-    name: SecurityCodeScan analysis
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: nuget/setup-nuget@v1.0.5
-      - uses: microsoft/setup-msbuild@v1.0.2
-      - name: Set up projects for analysis
-        uses: security-code-scan/security-code-scan-add-action@main
-      - name: Restore dependencies
-        run: dotnet restore "Bowling.sln"
-      - name: Build
-        run: dotnet build "Bowling.sln" --no-restore
-      - name: Convert sarif for uploading to GitHub
-        uses: security-code-scan/security-code-scan-results-action@main
-      - name: Upload sarif
-        uses: github/codeql-action/upload-sarif@v1
         
   trivy:
     name: Container security
