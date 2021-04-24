@@ -10,7 +10,7 @@ namespace BowlingPainelOnBlazor.Data
         public event Action<string, ToastLevel> OnShow;
         public event Action OnHide;
         private Timer Countdown;
-        public int Time { get; set; } = 5000;
+        public int Time { get; set; } = 10000;
 
         public void ShowToast(string message, ToastLevel level)
         {

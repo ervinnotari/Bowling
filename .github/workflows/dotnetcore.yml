@@ -1,4 +1,4 @@
-name: Bowling Build
+name: Build
 
 on:
   push:
@@ -16,14 +16,18 @@ jobs:
         os: [ubuntu-latest, macOS-latest, windows-latest]
         dotnet-version: [ '3.1.x' ]
     steps:
+
     - uses: actions/checkout@v2
     - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
       uses: actions/setup-dotnet@v1.7.2
       with:
         dotnet-version: ${{ matrix.dotnet-version }}
+
     - name: Install dependencies
       run: dotnet restore Bowling.sln
+
     - name: Build Bowling
       run: dotnet build Bowling.sln --configuration Release
+
     - name: Test Bowling
       run: dotnet test Bowling.sln --nologo --no-restore

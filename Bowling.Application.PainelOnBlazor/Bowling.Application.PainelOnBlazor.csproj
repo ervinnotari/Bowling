@@ -12,12 +12,13 @@
     <PackageReference Include="Apache.NMS.Core" Version="1.7.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Bowling.Domain.Game\Bowling.Domain.Game.csproj" />
     <ProjectReference Include="..\Bowling.Infra.CrossCutting.IoC\Bowling.Infra.CrossCutting.IoC.csproj" />
+    <ProjectReference Include="..\Bowling.Service.Bus.MQTT\Bowling.Service.Bus.MQTT.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
