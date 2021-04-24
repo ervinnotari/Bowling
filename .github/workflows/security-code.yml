@@ -1,4 +1,4 @@
-name: "Security analysis"
+name: Security
 
 on:
   push:
@@ -10,33 +10,40 @@ on:
 
 jobs:
   codeql:
-    name: Code security
+    name: CodeQL analysis
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         language: [ 'csharp' ]
     steps:
+
     - name: Checkout repository
       uses: actions/checkout@v2
+
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v1
       with:
         languages: ${{ matrix.language }}
+
     - name: Autobuild
       uses: github/codeql-action/autobuild@v1
+
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
-
+        
   trivy:
     name: Container security
-    runs-on: "ubuntu-18.04"
+    runs-on: ubuntu-latest
     steps:
+
       - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Build an image from Dockerfile
         run: |
           docker build -f Bowling.Application.PainelOnBlazor/Dockerfile -t docker.io/ervinnotari/bowling:${{ github.sha }} .
+
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
@@ -45,6 +52,7 @@ jobs:
           template: '@/contrib/sarif.tpl'
           output: 'trivy-results.sarif'
           severity: 'CRITICAL,HIGH'
+
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v1
         with:
