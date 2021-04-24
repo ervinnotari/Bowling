@@ -1,4 +1,4 @@
-name: Heroko Deploy
+name: Deploy
 
 on:
   push:
@@ -6,31 +6,24 @@ on:
       - heroku
 
 jobs: 
-       
-  build:
-    runs-on: ubuntu-latest
-    name: "Bowling - CI: Automated Build"
-    steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core SDK
-      uses: actions/setup-dotnet@v1.7.2
-      with:
-        dotnet-version: 3.1.x
-    - name: Install dependencies
-      run: dotnet restore Bowling.sln
-    - name: Build Bowling
-      run: dotnet build Bowling.sln --configuration Release
 
   deploy:
     runs-on: ubuntu-latest
     name: "PainelOnBlazor - CD: Automated Heroku publish"
-    needs: [build]
     steps: 
+
       - uses: actions/checkout@v2
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1.7.2
         with:
           dotnet-version: 3.1.x
+
+      - name: Install dependencies
+        run: dotnet restore Bowling.sln
+
+      - name: Build Bowling
+        run: dotnet build Bowling.sln --configuration Release
+
       - name: Heroku container publish
         if: success()
         env: 
@@ -43,6 +36,7 @@ jobs:
           docker tag painel:lasted registry.heroku.com/bowling-painel-on-blazor/web
           docker push registry.heroku.com/bowling-painel-on-blazor/web
           heroku container:release web -a bowling-painel-on-blazor
+
       - name: Telegram Notify
         uses: appleboy/telegram-action@master
         with:
