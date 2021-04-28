@@ -1,4 +1,4 @@
-name: Heroku Merge Scheduler 
+name: Heroku Scheduler 
 
 on:
   schedule:
@@ -7,8 +7,8 @@ on:
 jobs:
   merge_schedule:
     runs-on: ubuntu-latest
+    name: Merge Scheduler
     steps:
-      - name: Merge
       - uses: gr2m/merge-schedule-action@v1
         with:
           merge_method: merge
