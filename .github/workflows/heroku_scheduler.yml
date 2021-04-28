@@ -1,0 +1,16 @@
+name: Heroku Merge Scheduler 
+
+on:
+  schedule:
+    - cron: '*/5 * * * *' #'0 12 * * 5'
+
+jobs:
+  merge_schedule:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Merge
+      - uses: gr2m/merge-schedule-action@v1
+        with:
+          merge_method: merge
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
