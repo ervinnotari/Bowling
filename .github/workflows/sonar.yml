@@ -3,6 +3,10 @@ name: SonarCloud
 on:
   push:
     branches: [master, dev]
+    paths: 
+      - '**.Domain.**'
+      - '**.Infra.**'
+      - '**.Service.**'
   pull_request:
     branches: ["**"]
     paths: 
