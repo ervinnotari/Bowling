@@ -9,13 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     name: "Painel Automated Docker Hub publish"
     steps: 
-    
       - uses: actions/checkout@v2
       - uses: actions/setup-dotnet@v1.7.2
       - name: Process begin
         run: |
           dotnet restore Bowling.sln
-          dotnet build Bowling.sln --configuration Release
+          dotnet build Bowling.sln -c Release --no-restore
 
       - name: Login to DockerHub
         uses: docker/login-action@v1 
