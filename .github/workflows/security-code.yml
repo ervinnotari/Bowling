@@ -8,7 +8,7 @@ on:
   pull_request:
     branches: [ '**' ]
   schedule:
-    - cron: '25 13 * * 5'
+    - cron: '0 12,0 * * *'
 
 jobs:
   codeql:
