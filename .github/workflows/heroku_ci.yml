@@ -5,7 +5,7 @@ on:
     branches:
       - heroku
   schedule:
-    - cron: "*/6 * * * *"   #"0 12 * * 5"
+    - cron: "0 12 * * 5"
 
 jobs:
   sync-branch:
