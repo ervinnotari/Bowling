@@ -4,12 +4,27 @@ on:
   push:
     branches:
       - heroku
+  schedule:
+    - cron: "*/6 * * * *"   #"0 12 * * 5"
 
-jobs: 
-
+jobs:
+  sync-branch:
+    if: github.event.pull_request.merged != 'true'
+    name: "Branch Merge"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: master -> heroku
+        uses: devmasx/merge-branch@v1.3.1
+        with:
+          type: now
+          from_branch: master
+          target_branch: heroku
+          github_token: ${{ secrets.GITHUB_TOKEN }}
   deploy:
     runs-on: ubuntu-latest
-    name: "PainelOnBlazor - CD: Automated Heroku publish"
+    name: "Painel Automated Heroku publish"
+    needs: [sync-branch]
     steps: 
 
       - uses: actions/checkout@v2
