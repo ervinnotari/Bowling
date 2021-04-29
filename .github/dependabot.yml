@@ -1,0 +1,48 @@
+version: 2
+updates:
+- package-ecosystem: nuget
+  directory: "/Bowling.Application.PlayWorkerService"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: Newtonsoft.Json
+    versions:
+    - 13.0.1
+  - dependency-name: Microsoft.Extensions.Hosting
+    versions:
+    - 5.0.0
+  - dependency-name: Microsoft.Extensions.Configuration.Abstractions
+    versions:
+    - 5.0.0
+  - dependency-name: Microsoft.VisualStudio.Azure.Containers.Tools.Targets
+    versions:
+    - 1.10.8
+- package-ecosystem: nuget
+  directory: "/Bowling.Application.PainelOnBlazor"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: Swashbuckle.AspNetCore
+    versions:
+    - 5.6.3
+    - 6.0.2
+    - 6.0.4
+    - 6.0.5
+    - 6.0.7
+    - 6.1.0
+    - 6.1.1
+    - 6.1.2
+  - dependency-name: Newtonsoft.Json
+    versions:
+    - 13.0.1
+  - dependency-name: Microsoft.Extensions.Configuration.Abstractions
+    versions:
+    - 5.0.0
+  - dependency-name: Microsoft.Extensions.DependencyInjection.Abstractions
+    versions:
+    - 5.0.0
+  - dependency-name: Microsoft.VisualStudio.Azure.Containers.Tools.Targets
+    versions:
+    - 1.10.8
