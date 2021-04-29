@@ -1,9 +1,9 @@
 name: Heroku Scheduler 
 
 on:
-  push:
-    branches:
-      - 'master'
+#  push:
+#    branches:
+#      - 'master'
   schedule:
     - cron: '*/5 * * * *' #'0 12 * * 5'
 
@@ -13,10 +13,10 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - name: Merge master -> heroko
+      - name: Merge master -> heroku
         uses: devmasx/merge-branch@v1.3.1
         with:
           type: now
           from_branch: master
-          target_branch: heroko
+          target_branch: heroku
           github_token: ${{ secrets.GITHUB_TOKEN }}
