@@ -21,9 +21,9 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ./Bowling.Application.PainelOnBlazor/
-          file: ./Dockerfile
+          file: ./Bowling.Application.PainelOnBlazor/Dockerfile
           push: true
-          tags: bengotch/simplewhale:latest
+          tags: ervinnotari/bowling:latest
           
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
