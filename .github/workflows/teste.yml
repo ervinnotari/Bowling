@@ -20,7 +20,8 @@ jobs:
         run: dotnet restore Bowling.sln
 
       - name: Build Bowling
-        run: dotnet build Bowling.sln --no-restore --configuration Release
+        run: dotnet build Bowling.sln --configuration Release
+        
       - name: Login to DockerHub
         uses: docker/login-action@v1 
         with:
