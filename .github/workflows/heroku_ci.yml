@@ -4,25 +4,36 @@ on:
   push:
     branches:
       - heroku
+  schedule:
+    - cron: "0 12 * * 5"
 
-jobs: 
-
-  deploy:
+jobs:
+  sync-branch:
+    if: github.event.pull_request.merged != 'true'
+    name: "Branch Merge"
     runs-on: ubuntu-latest
-    name: "PainelOnBlazor - CD: Automated Heroku publish"
+    steps:
+      - uses: actions/checkout@master
+      - name: master -> heroku
+        uses: devmasx/merge-branch@v1.3.1
+        with:
+          type: now
+          from_branch: master
+          target_branch: heroku
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+  panel-heroku-deploy:
+    runs-on: ubuntu-latest
+    name: "Painel: Heroku"
+    needs: [sync-branch]
     steps: 
 
       - uses: actions/checkout@v2
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v1.7.2
-        with:
-          dotnet-version: 3.1.x
-
-      - name: Install dependencies
-        run: dotnet restore Bowling.sln
-
-      - name: Build Bowling
-        run: dotnet build Bowling.sln --configuration Release
+      - uses: actions/setup-dotnet@v1.7.2
+      - name: Process begin
+        run: |
+          dotnet restore Bowling.sln
+          dotnet build Bowling.sln -c Release --no-restore
 
       - name: Heroku container publish
         if: success()
@@ -37,11 +48,32 @@ jobs:
           docker push registry.heroku.com/bowling-painel-on-blazor/web
           heroku container:release web -a bowling-painel-on-blazor
 
-      - name: Telegram Notify
-        uses: appleboy/telegram-action@master
+  panel-dockerhub-deploy:
+    runs-on: ubuntu-latest
+    name: "Painel: Docker Hub"
+    needs: [sync-branch]
+    steps: 
+      - uses: actions/checkout@v2
+      - uses: actions/setup-dotnet@v1.7.2
+      - name: Process begin
+        run: |
+          dotnet restore Bowling.sln
+          dotnet build Bowling.sln -c Release --no-restore
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
         with:
-          to: ${{ secrets.TELEGRAM_TO }}
-          token: ${{ secrets.TELEGRAM_TOKEN }} 
-          message: "Bowling new version runing on Heroku\n-> http://bowling-painel-on-blazor.herokuapp.com/"
-          photo: tests/github.png
-          document: tests/gophercolor.png
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_KEY }}
+
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: Bowling.Application.PainelOnBlazor/Dockerfile
+          push: true
+          tags: ervinnotari/bowling:latest
+          
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}

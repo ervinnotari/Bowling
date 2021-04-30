@@ -3,6 +3,8 @@ name: Build
 on:
   push:
     branches: [master, dev]
+    paths-ignore: 
+      - '.github/**'
   pull_request:
     branches: ["**"]
 
