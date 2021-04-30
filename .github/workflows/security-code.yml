@@ -3,10 +3,12 @@ name: Security
 on:
   push:
     branches: [ master, dev ]
+    paths-ignore:
+      - '.github/**'
   pull_request:
     branches: [ master, dev ]
   schedule:
-    - cron: '25 13 * * 5'
+    - cron: '0 12,0 * * *'
 
 jobs:
 
