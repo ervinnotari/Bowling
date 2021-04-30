@@ -4,9 +4,9 @@
 <h1>AMQP Configurations</h1>
 <hr>
 
-<EditForm EditContext="@Model.Context" OnValidSubmit="@Model.OnSubmit">
+<EditForm EditContext="@Context" OnValidSubmit="@OnSubmit">
 
-    <div class="alert alert-warning pl-5" hidden="@Model.Context.Validate()">
+    <div class="alert alert-warning pl-5" hidden="@Context.Validate()">
         <DataAnnotationsValidator />
         <ValidationSummary />
     </div>
@@ -31,11 +31,14 @@
 
     <div class="row content">
         <div class="col-md-2">
-            <button type="submit" class="form-control btn btn-primary" disabled="@Model.SubmitIsDisable">Submit</button>
+            <button type="submit" class="form-control btn btn-primary" disabled="@SubmitIsDisable">Submit</button>
         </div>
         <div class="col-md-1">
-            <button type="button" class="form-control btn btn-info" disabled="@Model.Tested" @onclick="Model.TestOnclick">Test</button>
+            <button type="button" class="form-control btn btn-info" disabled="@TestIsDisable" @onclick="TestOnclick">Test</button>
+        </div>
+        <div class="col-md-7 m-2">
+            <InputCheckbox @bind-Value="@Model.Tested"/>
+            <ValidationMessage For="@(() => Model.Tested)" />
         </div>
     </div>
-
 </EditForm>

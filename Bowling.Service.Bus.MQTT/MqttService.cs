@@ -137,14 +137,8 @@ namespace Bowling.Service.Bus.MQTT
 
         public void Dispose()
         {
-            Dispose(true);
+            ConnectionStop();
             GC.SuppressFinalize(this);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (disposing)
-                ConnectionStop();
         }
 
         public void ConnectionStop()
