@@ -27,9 +27,9 @@ namespace Bowling.Infra.Utilities
         {
             get
             {
-                var val = Environment.GetEnvironmentVariable(nameof(Port).ToUpper());
-                if (string.IsNullOrEmpty(val)) val = Configuration[nameof(Port)];
-                return int.Parse(val ?? "1883");
+                //var val = Environment.GetEnvironmentVariable(nameof(Port).ToUpper());
+                //if (string.IsNullOrEmpty(val)) val = Configuration[nameof(Port)];
+                return 1883;//int.Parse(val ?? "1883");
             }
         }
 
