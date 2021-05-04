@@ -16,8 +16,7 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
             _configuration = new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
-                    {"Host", "broker.mqttdashboard.com"},
-                    {"Topic", "bowling/MQTT_xUnitTests"},
+                    {"BrokerUri", "tcp://user:pass@broker.mqttdashboard.com:1883/topic/bowling/MQTT_xUnitTests"}
                 }).Build();
         }
 
@@ -26,45 +25,47 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
         {
             Task.Run(async () =>
             {
+
                 IBusService.ConnectionStatus value;
-                using (var mqtt = new MqttService(_configuration))
+                using var mqtt = new MqttService();
+                var builder = new Uri("tcp://user:pass@broker.mqttdashboard.com:1883/topic/bowling/MQTT_xUnitTests");
+
+                await mqtt.ConnectionStopAsync();
+                mqtt.OnMessageReciver += Mqtt_OnMessageReciver;
+                mqtt.OnConnection += Mqtt_OnConnection;
+                mqtt.OnStatusChange += (IBusService.ConnectionStatus arg1, IBusService.ConnectionInfo arg2) =>
                 {
-                    await mqtt.ConnectionStopAsync();
-                    mqtt.OnConnection += Mqtt_OnConnection;
-                    mqtt.OnStatusChange += Mqtt_OnStatusChange;
-                    value = mqtt.GetConnectionStatus();
-                    Assert.Equal(IBusService.ConnectionStatus.Disabled, value);
+                    Assert.Equal(arg2.BrokerUri, builder);
+                };
 
-                    await mqtt.ConnectionStartAsync();
-                    value = mqtt.GetConnectionStatus();
-                    Assert.Equal(IBusService.ConnectionStatus.Connected, value);
-                    Assert.Null(mqtt.GetError());
-                    InternalConfigurationTest(mqtt);
+                value = mqtt.GetConnectionStatus();
+                Assert.Equal(IBusService.ConnectionStatus.Disabled, value);
 
-                    await mqtt.ConnectionStopAsync();
-                    await Task.Delay(1000);
-                    value = mqtt.GetConnectionStatus();
-                    Assert.Equal(IBusService.ConnectionStatus.Disabled, value);
-                }
+                await mqtt.ConnectionStartAsync(builder);
+                value = mqtt.GetConnectionStatus();
+                Assert.Equal(IBusService.ConnectionStatus.Connected, value);
+                Assert.Null(mqtt.GetError());
+                InternalConfigurationTest(mqtt);
 
-                var bkp = _configuration["Host"];
+                await mqtt.ConnectionStopAsync();
+                await Task.Delay(1000);
+                value = mqtt.GetConnectionStatus();
+                Assert.Equal(IBusService.ConnectionStatus.Disabled, value);
+
                 try
                 {
-                    _configuration["Host"] = "****.***";
-                    using var mqtt = new MqttService(_configuration);
-                    mqtt.OnConnection += Mqtt_OnConnection;
-                    mqtt.OnStatusChange += Mqtt_OnStatusChange;
+                    builder = new Uri("tcp://user:pass@0.0.0.0:1883/topic/bowling/MQTT_xUnitTests");
                     value = mqtt.GetConnectionStatus();
                     Assert.Equal(IBusService.ConnectionStatus.Disabled, value);
 
-                    await mqtt.ConnectionStartAsync();
+                    await mqtt.ConnectionStartAsync(builder);
                     value = mqtt.GetConnectionStatus();
                     Assert.Equal(IBusService.ConnectionStatus.Error, value);
                     Assert.NotNull(mqtt.GetError());
                 }
                 finally
                 {
-                    _configuration["Host"] = bkp;
+                    //ignore
                 }
             }).GetAwaiter().GetResult();
         }
@@ -78,8 +79,9 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
                 var test2 = new Version(1, 0, 0);
                 var result = default(Version);
                 using var mqtt = new MqttService(_configuration);
-                mqtt.OnMessageReciver += Mqtt_OnMessageReciver;
                 await mqtt.ConnectionStartAsync();
+                var value = mqtt.GetConnectionStatus();
+                Assert.Equal(IBusService.ConnectionStatus.Connected, value);
                 mqtt.OnObjectReciver<Version>((o) => { Assert.Equal(test2, o); });
                 mqtt.SendObject(test1);
                 await Task.Delay(2000);
@@ -90,18 +92,16 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
         }
 
         [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        [InlineData(true, "", "")]
-        [InlineData(true, "TESTE", "TESTE")]
-        public void ConfigurationTest(bool login, string user = null, string pass = null)
+        [InlineData("tcp://user:pass@broker.mqttdashboard.com:1883/topic/bowling/MQTT_xUnitTests")]
+        [InlineData("tcp://broker.mqttdashboard.com:1883/topic/bowling/MQTT_xUnitTests")]
+        [InlineData("tcp://broker.mqttdashboard.com:1883/bowling/MQTT_xUnitTests")]
+        [InlineData("tcp://broker.mqttdashboard.com:1883")]
+        public void ConfigurationTest(string login)
         {
-            int port = 1883;
-            string host = "broker.mqttdashboard.com";
-            var mqtt = new MqttService("bowling/MQTT_xUnitTests");
+            var builder = new UriBuilder(login);
+            var mqtt = new MqttService();
+            mqtt.ConnectionStart(builder.Uri);
             mqtt.OnMessageReciver += Mqtt_OnMessageReciver;
-            if (login) mqtt.ConnectionStart(host, port, user, pass);
-            else mqtt.ConnectionStart(host, port);
             InternalConfigurationTest(mqtt);
             Assert.NotNull(mqtt);
         }
@@ -121,8 +121,6 @@ namespace Bowling.Service.Bus.MQTT.xUnitTests
             mqtt.SendObject(156.5);
             mqtt.SendText("test");
         }
-
-        private void Mqtt_OnStatusChange(IBusService.ConnectionStatus arg1, object arg2) => Assert.NotNull(arg2);
 
         private void Mqtt_OnMessageReciver(object obj) => Assert.NotNull(obj);
 
