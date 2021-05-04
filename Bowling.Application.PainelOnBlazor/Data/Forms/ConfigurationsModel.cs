@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System;
-using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.AspNetCore.Components.Web
 {
@@ -17,13 +16,6 @@ namespace Microsoft.AspNetCore.Components.Web
 
         [Range(typeof(bool), "true", "true", ErrorMessage = "Configurations does not tested.")]
         public bool Tested { get; set; } = false;
-
-        public ConfigurationsModel(IConfiguration configuration)
-        {
-            Host = configuration["Host"];
-            Port = int.Parse(configuration["Port"]);
-            Topic = configuration["Topic"];
-        }
 
     }
 }

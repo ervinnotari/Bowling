@@ -2,6 +2,9 @@
 using Bowling.Domain.Game.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Components.Forms;
+using Bowling.Infra.Utilities;
+using System;
+using System.Threading.Tasks;
 
 namespace Microsoft.AspNetCore.Components.Web
 {
@@ -17,10 +20,17 @@ namespace Microsoft.AspNetCore.Components.Web
 
         protected bool SubmitIsDisable => !(Model.Tested && Context.Validate());
         protected bool TestIsDisable { get; set; } = false;
+        private TestBusConfigurations BusConfigurations;
 
         protected override void OnInitialized()
         {
-            Model = new ConfigurationsModel(Configuration);
+            BusConfigurations = new TestBusConfigurations(Configuration);
+            Model = new ConfigurationsModel()
+            {
+                Host = BusConfigurations.BrokerUri.Host,
+                Port = BusConfigurations.BrokerUri.Port,
+                Topic = BusConfigurations.Topic,
+            };
             Context = new EditContext(Model);
             Context.OnFieldChanged += Context_OnFieldChanged;
         }
@@ -35,18 +45,18 @@ namespace Microsoft.AspNetCore.Components.Web
             StateHasChanged();
         }
 
-        public async void TestOnclick()
+        public async Task TestOnclick()
         {
             if (TestIsDisable) return;
-
             TestIsDisable = true;
             await BusService.ConnectionStopAsync();
             BusService.OnStatusChange += BusService_OnStatusChange;
-            await BusService.ConnectionStartAsync(Model.Host, Model.Port);
+            var builder = new UriBuilder(BusConfigurations.BrokerUri);
+            await BusService.ConnectionStartAsync(builder.Uri);
             StateHasChanged();
         }
 
-        private void BusService_OnStatusChange(IBusService.ConnectionStatus arg1, object arg2)
+        private void BusService_OnStatusChange(IBusService.ConnectionStatus arg1, IBusService.ConnectionInfo arg2)
         {
             Model.Tested = arg1 == IBusService.ConnectionStatus.Connected;
             BusService.OnStatusChange -= BusService_OnStatusChange;
@@ -56,6 +66,11 @@ namespace Microsoft.AspNetCore.Components.Web
         {
             Model.Tested = false;
             TestIsDisable = false;
+        }
+
+        private class TestBusConfigurations : AbstractBusConfigurations
+        {
+            public TestBusConfigurations(IConfiguration configuration) : base(configuration) { }
         }
 
     }
