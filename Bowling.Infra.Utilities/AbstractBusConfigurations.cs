@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using Microsoft.Extensions.Configuration;
 
 namespace Bowling.Infra.Utilities
@@ -13,43 +14,16 @@ namespace Bowling.Infra.Utilities
             Configuration = configuration;
         }
 
-        public string Host
+        public Uri BrokerUri
         {
             get
             {
-                var val = Environment.GetEnvironmentVariable(nameof(Host).ToUpper());
-                if (string.IsNullOrEmpty(val)) val = Configuration[nameof(Host)];
-                return val;
-            }
-        }
-
-        public int Port
-        {
-            get
-            {
-                //var val = Environment.GetEnvironmentVariable(nameof(Port).ToUpper());
-                //if (string.IsNullOrEmpty(val)) val = Configuration[nameof(Port)];
-                return 1883;//int.Parse(val ?? "1883");
-            }
-        }
-
-        public string BusUsername
-        {
-            get
-            {
-                var val = Environment.GetEnvironmentVariable(nameof(BusUsername).ToUpper());
-                if (string.IsNullOrEmpty(val)) val = Configuration["BusUsername"];
-                return val;
-            }
-        }
-
-        public string Password
-        {
-            get
-            {
-                var val = Environment.GetEnvironmentVariable(nameof(Password).ToUpper());
-                if (string.IsNullOrEmpty(val)) val = Configuration[nameof(Password)];
-                return val;
+                string val = Environment.GetEnvironmentVariable(nameof(BrokerUri).ToUpper());
+                if (string.IsNullOrEmpty(val)) val = Configuration[nameof(BrokerUri)];
+                if (string.IsNullOrEmpty(val)) return null;
+                UriBuilder builder = new UriBuilder(val);
+                builder.Path = $"topic/{TopicMatcher(builder.Uri)}";
+                return builder.Uri;
             }
         }
 
@@ -57,12 +31,18 @@ namespace Bowling.Infra.Utilities
         {
             get
             {
-                var val = Environment.GetEnvironmentVariable(nameof(Topic).ToUpper());
-                if (string.IsNullOrEmpty(val)) val = Configuration[nameof(Topic)];
-                return val ?? DefaultTopic;
+                return TopicMatcher(BrokerUri);
             }
         }
 
-        public abstract bool IsEnabled();
+        public static string TopicMatcher(Uri uri)
+        {
+            string pattern = @"/(?:topic/)?(?<topic>(?:\w+/\w*)+)$";
+            var mt = Regex.Match(uri.LocalPath, pattern, RegexOptions.IgnoreCase);
+            if (!mt.Success) return DefaultTopic;
+            mt.Groups.TryGetValue("topic", out Group e);
+            return e.Value;
+        }
+
     }
 }

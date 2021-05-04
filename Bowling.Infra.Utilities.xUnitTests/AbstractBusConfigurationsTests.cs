@@ -7,21 +7,21 @@ namespace Bowling.Infra.Utilities.xUnitTests
 {
     public class AbstractBusConfigurationsTests
     {
+        private const string URI_A = "tcp://user:pass@broker.mqttdashboard.com:1883/topic/bowling/MQTT_xUnitTests";
+        private const string URI_B = "tcp://user:pass@broker.mqttdashboard.com:1883/topic/bowling/play";
 
-        private readonly string TOPIC = "bowling/xUnitTests";
-        private readonly string BUSUSERNAME = "teste";
-        private readonly string PASSWORD = "123456";
-
-        [Fact]
-        public void ValuesTest()
+        [Theory]
+        [InlineData(URI_A, URI_A)]
+        [InlineData("tcp://user:pass@broker.mqttdashboard.com:1883/", URI_B)]
+        [InlineData("tcp://user:pass@broker.mqttdashboard.com:1883", URI_B)]
+        public void ValuesTest(string uri, string result)
         {
             IConfiguration _configuration = new ConfigurationBuilder()
-                .AddInMemoryCollection(new Dictionary<string, string> { { "Topic", TOPIC }, { "BusUsername", BUSUSERNAME }, { "Password", PASSWORD } })
+                .AddInMemoryCollection(new Dictionary<string, string> { { "BrokerUri", uri } })
                 .Build();
             var t = new TestBusConfigurationsClass(_configuration);
-            Assert.Equal(t.BusUsername, BUSUSERNAME);
-            Assert.Equal(t.Password, PASSWORD);
-            Assert.Equal(t.Topic, TOPIC);
+            Assert.Equal(t.BrokerUri.AbsoluteUri, result);
+            Assert.Equal(t.Topic, TestBusConfigurationsClass.TopicMatcher(new Uri(uri)));
         }
 
         [Fact]
@@ -31,15 +31,9 @@ namespace Bowling.Infra.Utilities.xUnitTests
                 .AddInMemoryCollection(new Dictionary<string, string> { })
                 .Build();
             var t = new TestBusConfigurationsClass(_configuration);
-            Environment.SetEnvironmentVariable(nameof(t.Topic), null);
-            Environment.SetEnvironmentVariable(nameof(t.BusUsername), null);
-            Environment.SetEnvironmentVariable(nameof(t.Password), null);
-            Assert.Null(Environment.GetEnvironmentVariable(nameof(t.Topic)));
-            Assert.Null(Environment.GetEnvironmentVariable(nameof(t.Password)));
-            Assert.Null(Environment.GetEnvironmentVariable(nameof(t.BusUsername)));
-            Assert.Equal(t.Topic, AbstractBusConfigurations.DefaultTopic);
-            Assert.Null(t.BusUsername);
-            Assert.Null(t.Password);
+            Environment.SetEnvironmentVariable(nameof(t.BrokerUri), null);
+            Assert.Null(Environment.GetEnvironmentVariable(nameof(t.BrokerUri)));
+            Assert.Null(t.BrokerUri);
         }
 
         [Fact]
@@ -50,21 +44,9 @@ namespace Bowling.Infra.Utilities.xUnitTests
             Assert.Equal(AbstractBusConfigurations.DefaultTopic, str);
         }
 
-        [Fact]
-        public void IsEnabledTest()
-        {
-            IConfiguration _configuration = new ConfigurationBuilder()
-                .AddInMemoryCollection(new Dictionary<string, string> { })
-                .Build();
-            var t = new TestBusConfigurationsClass(_configuration);
-            Assert.True(t.IsEnabled());
-        }
-
         public class TestBusConfigurationsClass : AbstractBusConfigurations
         {
             public TestBusConfigurationsClass(IConfiguration configuration) : base(configuration) { }
-
-            public override bool IsEnabled() => true;
         }
     }
 }

@@ -39,8 +39,7 @@
     {
         form = new ConfigForm(ToastService);
         var conf = new MqttConfiguration(Configuration);
-        form.Host = conf.Host;
-        form.Port = conf.Port;
+        form.Host = conf.BrokerUri.AbsolutePath;
     }
 
     private void HandleValidSubmit()
@@ -55,7 +54,7 @@
         StateHasChanged();
     }
 
-    private void Mqtt_OnStatusChange(IBusService.ConnectionStatus arg1, object arg2)
+    private void Mqtt_OnStatusChange(IBusService.ConnectionStatus arg1, IBusService.ConnectionInfo arg2)
     {
         switch (arg1)
         {
@@ -93,7 +92,7 @@
 
         private ToastService toastService;
 
-        public async void TestConection(Action<IBusService.ConnectionStatus, object> ac)
+        public async void TestConection(Action<IBusService.ConnectionStatus, IBusService.ConnectionInfo> ac)
         {
             var conf = new ConfigurationBuilder()
             .AddInMemoryCollection(new Dictionary<string, string>
