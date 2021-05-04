@@ -9,6 +9,5 @@ namespace Bowling.Service.Bus.MQTT
 
         public MqttConfiguration(IConfiguration configuration) : base(configuration) { }
 
-        public override bool IsEnabled() => Host != null;
     }
 }
