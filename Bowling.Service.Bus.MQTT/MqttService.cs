@@ -4,7 +4,6 @@ using M2Mqtt.Messages;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,16 +13,14 @@ namespace Bowling.Service.Bus.MQTT
     {
         public event Action<object> OnMessageReciver;
         public event Action<object> OnConnection;
-        public event Action<IBusService.ConnectionStatus, object> OnStatusChange;
+        public event Action<IBusService.ConnectionStatus, IBusService.ConnectionInfo> OnStatusChange;
+
+        private IBusService.ConnectionInfo _info;
         private MqttClient _client;
         private Exception _error;
         private readonly MqttConfiguration _configuration;
 
-        public MqttService(string topic)
-        {
-            var iconfg = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string> { { "Topic", topic } }).Build();
-            _configuration = new MqttConfiguration(iconfg);
-        }
+        public MqttService() { }
 
         public MqttService(IConfiguration configuration)
         {
@@ -62,7 +59,7 @@ namespace Bowling.Service.Bus.MQTT
         {
             var payload = Encoding.UTF8.GetBytes(message);
             const byte qos = MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE;
-            _client.Publish(_configuration.Topic, payload, qos, false);
+            _client.Publish(_info.Topic, payload, qos, false);
         }
 
         public void SendObject(object obj)
@@ -73,47 +70,39 @@ namespace Bowling.Service.Bus.MQTT
 
         public void ConnectionStart()
         {
-            ConnectionStart(_configuration.Host, _configuration.Port, _configuration.BusUsername, _configuration.Password);
+            ConnectionStart(_configuration.BrokerUri);
         }
 
-        public void ConnectionStart(string host, int port)
+        public void ConnectionStart(Uri uri)
         {
-            ConnectionStartAsync(host, port).Wait();
-        }
-
-        public void ConnectionStart(string host, int port, string username, string password)
-        {
-            ConnectionStartAsync(host, port, username, password).Wait();
+            ConnectionStartAsync(uri).Wait();
         }
 
         public async Task ConnectionStartAsync()
         {
-            await ConnectionStartAsync(_configuration.Host, _configuration.Port, _configuration.BusUsername, _configuration.Password);
+            await ConnectionStartAsync(_configuration.BrokerUri);
         }
 
-        public async Task ConnectionStartAsync(string host, int port)
-        {
-            await ConnectionStartAsync(host, port, null, null);
-        }
-
-        public async Task ConnectionStartAsync(string host, int port, string username, string password)
+        public async Task ConnectionStartAsync(Uri uri)
         {
             await Task.Run(() =>
             {
                 try
                 {
+                    _info = new IBusService.ConnectionInfo(uri, MqttConfiguration.TopicMatcher(uri));
                     _error = null;
-                    _client = new MqttClient(host, port, false, null, null, MqttSslProtocols.None) { ProtocolVersion = MqttProtocolVersion.Version_3_1 };
+                    _client = new MqttClient(uri.Host, uri.Port, false, null, null, MqttSslProtocols.None) { ProtocolVersion = MqttProtocolVersion.Version_3_1 };
                     var code = default(byte);
-                    if (string.IsNullOrEmpty(username + password))
+                    if (string.IsNullOrEmpty(uri.UserInfo))
                     {
                         code = _client.Connect(Guid.NewGuid().ToString());
                     }
                     else
                     {
-                        code = _client.Connect(Guid.NewGuid().ToString(), username, password);
+                        var bUri = new UriBuilder(uri);
+                        code = _client.Connect(Guid.NewGuid().ToString(), bUri.UserName, bUri.Password);
                     }
-                    _client.Subscribe(new[] { _configuration.Topic }, new[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+                    _client.Subscribe(new[] { _info.Topic }, new[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
                     _client.MqttMsgPublishReceived += DefaultClient_MqttMsgPublishReceived;
                     OnConnection?.Invoke(code);
                 }
@@ -123,7 +112,7 @@ namespace Bowling.Service.Bus.MQTT
                 }
                 finally
                 {
-                    OnStatusChange?.Invoke(GetConnectionStatus(), _configuration);
+                    OnStatusChange?.Invoke(GetConnectionStatus(), _info);
                 }
             });
         }
@@ -159,7 +148,7 @@ namespace Bowling.Service.Bus.MQTT
                 if (_client != null && _client.IsConnected)
                 {
                     _client.Disconnect();
-                    OnStatusChange?.Invoke(GetConnectionStatus(), _configuration);
+                    OnStatusChange?.Invoke(GetConnectionStatus(), _info);
                 }
             });
         }

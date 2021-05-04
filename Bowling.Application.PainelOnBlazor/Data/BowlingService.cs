@@ -47,9 +47,9 @@ namespace BowlingPainelOnBlazor.Data
             }
         }
 
-        private void AmqpService_OnStatusChange(IBusService.ConnectionStatus obj, dynamic info)
+        private void AmqpService_OnStatusChange(IBusService.ConnectionStatus obj, IBusService.ConnectionInfo info)
         {
-            Info = $"mqtt://{info.Host}:{info.Port}/topic/{info.Topic}";
+            Info = info.BrokerUri.AbsoluteUri;
             if (obj.Equals(IBusService.ConnectionStatus.Error))
                 ToastService.ShowToast($"Erro: {GetError().Message}", Microsoft.AspNetCore.Components.Web.ToastLevel.Error);
             OnAmqpStatusChange?.Invoke(obj);
