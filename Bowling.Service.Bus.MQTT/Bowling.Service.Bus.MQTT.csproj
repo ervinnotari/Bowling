@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="M2MqttClientDotnetCore" Version="1.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0-preview.3.21201.4" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
